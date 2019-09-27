@@ -1,14 +1,17 @@
 import React from 'react';
-import { Router } from 'react-router';
-import { Route, Switch } from 'react-router-dom'
+import { HashRouter, Route, Switch } from 'react-router-dom'
 import history from './history';
 import Profile from './Profile/Profile.container';
 import Login from './Login/Login.container';
 import EditProfile from './Profile/Edit-profile.container';
+import SideMenu from './SideMenu/SideMenu.container';
+import About from './About';
+import AddChecklists from './AddChecklists/AddChecklists.container';
 
 const Root = () => {
 	return (
-		<Router history={history}>
+		<HashRouter history={history}>
+			<SideMenu />
 			<Switch>
 				<Route
 					exact
@@ -31,8 +34,22 @@ const Root = () => {
 						EditProfile
 					}
 				/>
+				<Route
+					exact
+					path="/about"
+					component={
+						About
+					}
+				/>
+				<Route
+					exact
+					path="/add-checklists"
+					component={
+						AddChecklists
+					}
+				/>
 			</Switch>
-		</Router>
+		</HashRouter>
 	);
 };
 

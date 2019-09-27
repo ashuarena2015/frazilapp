@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
-// import history from '../history';
-import CameraPhoto, { FACING_MODES } from 'jslib-html5-camera-photo';
+import Cropper from 'react-cropper';
+import history from '../history';
 
 export default class Profile extends Component {
 
@@ -18,7 +18,8 @@ export default class Profile extends Component {
       photCaptured: false
     }
     this.cancelImgUpload = this.cancelImgUpload.bind(this);
-    this.onStartCamera = this.onStartCamera.bind(this);
+    this.cropImage = this.cropImage.bind(this);
+    this.onChangeCrop = this.onChangeCrop.bind(this);
   }
 
   componentDidMount(){
@@ -28,64 +29,45 @@ export default class Profile extends Component {
       loginId
     }
     this.props.getProfileInfo(profileData);
-    this.cameraPhoto = new CameraPhoto(this.videoRef.current);
   }
 
-  startCamera (idealFacingMode, idealResolution) {
-    this.cameraPhoto.startCamera(idealFacingMode, idealResolution)
-      .then(() => {
-        console.log('camera is started !');
-      })
-      .catch((error) => {
-        console.error('Camera not started!', error);
-      });
-  }
- 
-  startCameraMaxResolution (idealFacingMode) {
-    this.cameraPhoto.startCameraMaxResolution(idealFacingMode)
-      .then(() => {
-        console.log('camera is started !');
-      })
-      .catch((error) => {
-        console.error('Camera not started!', error);
-      });
-  }
- 
-  takePhoto() {
-    const config = {
-      sizeFactor: 1
-    };
- 
-    let dataUri = this.cameraPhoto.getDataUri(config);
+  onChangeCrop(e) {
     this.setState({
-      dataUri,
-      photCaptured: true,
-      isCapture: false,
-      imagePreviewUrl: dataUri,
-      uploadImgBtn: true,
-      cancelImg: true,
-      uploadImgMsg: false,
-      openImageSelector: false
-    });
+      isCapture: true
+    })
+    e.preventDefault();
+    let files;
+    if (e.dataTransfer) {
+      files = e.dataTransfer.files;
+    } else if (e.target) {
+      files = e.target.files;
+    }
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.setState({ src: reader.result });
+    };
+    reader.readAsDataURL(files[0]);
   }
- 
-  stopCamera () {
-    this.cameraPhoto.stopCamera()
-      .then(() => {
-        console.log('Camera stoped!');
-        this.setState({
-          isCapture: false,
-          photCaptured: false
-        })
+
+  cropImage() {
+    if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
+      return;
+    }
+    this.setState({
+      cropResult: this.cropper.getCroppedCanvas().toDataURL(),
+      isCapture: false
+    }, () => {
+      this.setState({
+        imagePreviewUrl: this.cropper.getCroppedCanvas().toDataURL(),
+        uploadImgBtn: true,
+        cancelImg: true,
+        uploadImgMsg: false
       })
-      .catch((error) => {
-        console.log('No camera to stop!:', error);
-      });
+    });
   }
 
   _handleImageChange(e) {
     e.preventDefault();
-    console.log('e.target', e.target);
     let reader = new FileReader();
     let file = e.target.files[0];
 
@@ -105,13 +87,15 @@ export default class Profile extends Component {
 
   _handleSubmit(e) {
     e.preventDefault();
+    const profileImage = this.state.imagePreviewUrl;
+    const userId = this.props.profileInfo.id;
     if(this.state.imagePreviewUrl){	
-          fetch('http://ideaweaver.in/frazil-php/profile-image.php', {
+          fetch(`${APP_URL}/profile-image.php`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded'
           },
-          body: 'profile-image='+this.state.imagePreviewUrl+'&user-id='+this.props.profileInfo.user_id,
+          body: 'profile-image='+profileImage+'&user-id='+userId,
           }).then(response => {
             return response.json();
           }).then(json => {
@@ -122,7 +106,7 @@ export default class Profile extends Component {
                     uploadImgMsg: true,
                     changePicOption: true,
                     openImageSelector: false,
-                    currentUploadedImg: 'http://ideaweaver.in/frazil-php/'+json
+                    currentUploadedImg: `${APP_URL}/json`
                   })
                 }
           });
@@ -139,22 +123,14 @@ export default class Profile extends Component {
       });
   }
 
-  onStartCamera(){
-    this.setState({
-      isCapture: true,
-      photCaptured: false
-    })
-  }
-
   render() {
-    const { name, email, mobile, profile_img, user_id,
-      imageCamp, smsCamp, designCamp } = this.props.profileInfo || {};
+    const { name, email, mobile, profile_img, user_id } = this.props.profileInfo || {};
 
-    const { uploadImgMsg, isCapture, photCaptured } = this.state;
+    const { uploadImgMsg, isCapture } = this.state;
 
     let imagePreview;
     const { imagePreviewUrl } = this.state;
-    const imagePath = 'http://ideaweaver.in/frazil-php/';
+    const imagePath = `${APP_URL}/`;
     let prevProfileImg  = profile_img;
     if (imagePreviewUrl) {
       imagePreview = <img src={imagePreviewUrl} />;
@@ -162,28 +138,26 @@ export default class Profile extends Component {
       imagePreview = <img src={`${imagePath}${prevProfileImg}`} />;
     }
 
+    if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
+			history.push('/');
+		}
+
     return(
-      <div className="profile__section"> 
+      <div className="profile__section">
         <div id="takePhotoByCamera" className={isCapture && 'cameraOn'}>
-          <button className="take_photo_button btn btn-purple-o" onClick={ () => {
-            this.takePhoto();
-          }}> Take photo </button>
-  
-          <button className="stop_photo_button btn btn-ghost-o" onClick={ () => {
-            this.stopCamera();
-          }}> Stop </button>
-  
-          <video
-            className={photCaptured && 'videoOff'}
-            ref={this.videoRef}
-            autoPlay="true"
+          <Cropper
+            style={{ height: '100%', width: '100%' }}
+            aspectRatio={1 / 1}
+            preview=".img-preview"
+            guides={false}
+            src={this.state.src}
+            ref={cropper => { this.cropper = cropper; }}
           />
-          <img
-            id="capturedImage"
-            className={photCaptured && 'imageOn'}
-            alt="imgCamera"
-            src={this.state.dataUri}
-          />
+          <div style={{ margin: '2rem auto', position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)' }}>
+            <button onClick={this.cropImage} className="btn btn-purple-o" style={{ float: 'right' }}>
+              Crop Image
+            </button>
+          </div>
         </div>
         <div className="container vertical-center-box">
           <div className="panel panel-default transparent-bg-box profile-page">
@@ -196,19 +170,8 @@ export default class Profile extends Component {
                   {imagePreview}
                   <div className="photo-edit">
                     <span className="fa fa-camera"></span>
-                    <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} />
-                  </div>
-                  <div className="photo-camera">
-                    <span className="fa fa-camera"></span>
-                    <button
-                      onClick={ () => {
-                        let facingMode = FACING_MODES.USER;
-                        this.startCamera(facingMode, {});
-                        this.onStartCamera();
-                      }}
-                      className="camerOnButton"
-                    >
-                    </button>
+                    {/* <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} /> */}
+                    <input type="file" onChange={this.onChangeCrop} />
                   </div>
                 </div>
                 <div className="previewComponent text-center">
@@ -245,30 +208,21 @@ export default class Profile extends Component {
               <div className="panel_section">
 		    			<div className="panel-row panel-row-group m-t-rg m-b-rg">
 			    			<div onClick="" className="row-item" style={{'background':'#66a430', 'color': '#fff','border':'none'}}>
-			    				<span className="fa fa-user fa-envelope fa-stack label"></span>
-			    				<span className="label-value">Image campaigns</span>
-			    				<div className="counts">{imageCamp}</div>
+			    				<span className="label-value">Report Submitted</span>
+			    				<div className="counts">4</div>
 			    				<span className="fa fa-stack fa-arrow-right goto-link"></span>
 		    				</div>
 		    				<div onClick="" className="row-item" style={{'background':'#3065a4', 'color': '#fff','border':'none'}}>
-			    				<span className="fa fa-comment fa-stack label"></span>
-			    				<span className="label-value">SMS campaigns</span>
-			    				<div className="counts">{smsCamp}</div>
-			    				<span className="fa fa-stack fa-arrow-right goto-link"></span>
-		    				</div>
-		    				<div onClick="" className="row-item" style={{'background':'#e66730', 'color': '#fff','border':'none'}}>
-			    				<span className="fa fa-paint-brush fa-stack label"></span>
-			    				<span className="label-value">Design campaigns</span>
-			    				<div className="counts">{designCamp}</div>
+			    				<span className="label-value">Site Visited</span>
+			    				<div className="counts">5</div>
 			    				<span className="fa fa-stack fa-arrow-right goto-link"></span>
 		    				</div>
 		    			</div>
-
-							</div>
-              </div>
-              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      </div>
+    </div>
     )
   }
 }

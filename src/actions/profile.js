@@ -89,7 +89,6 @@ function verifyOTPSuccess(response){
 }
 
 export function verifyOTP(userData) {
-  console.log('userData', userData);
 	return (dispatch) => {
 		dispatch(fetchingStart());
     return axios.post('/update-mobile.php', {

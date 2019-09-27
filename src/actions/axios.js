@@ -1,8 +1,7 @@
 import { create } from 'axios';
 
 export const config = {
-	baseURL: 'http://ideaweaver.in/frazil-php',
-	//baseURL: 'http://localhost/frazil-php'
+	baseURL: APP_URL,
 };
 const axiosInstance = create(config);
 

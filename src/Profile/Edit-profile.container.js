@@ -1,7 +1,6 @@
 import { connect } from 'react-redux';
-import EditProfile from './Edit-profile';
+import EditProfile from './Edit-profile.jsx';
 import { sendOTP, verifyOTP } from '../actions/profile';
-import { stat } from 'fs';
 
 function mapStateToProps(state) {
 	return {

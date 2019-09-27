@@ -1,7 +1,11 @@
 import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
-  fetching: false
+  fetching: false,
+  logoutSuccess: true,
+  loginEmail: '',
+  loginId: '',
+  role: '',
 }
 
 const loginInfo = (state = initialState, action) => {
@@ -12,13 +16,15 @@ const loginInfo = (state = initialState, action) => {
         fetching: true
       };
     case ActionTypes.LOGIN_SUCCESS:
-      const { email, user_id } = action.response[0]
+      const { email, user_id, role } = action.response[0]
       return {
         ...state,
         fetching: false,
         loginEmail: email,
         loginId: user_id,
-        loginFailed: false
+        role: role,
+        loginFailed: false,
+        logoutSuccess: false
       };
     case ActionTypes.LOGIN_FAILED:
       return {
@@ -26,6 +32,14 @@ const loginInfo = (state = initialState, action) => {
         fetching: false,
         loginFailed: true
       };
+    case ActionTypes.LOGOUT_SUCCESS:
+      return {
+        ...state,
+        loginEmail: '',
+        loginId: '',
+        role: '',
+        logoutSuccess: true
+      }
     default:
       return state;
   }

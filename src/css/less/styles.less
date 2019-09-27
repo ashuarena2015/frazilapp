@@ -24,6 +24,7 @@ body {
 	width: 100%;
 	z-index: 9;
 	box-shadow: -1px 1px 4px #e2e2e2;
+	top: 0;
 }
 .content-section {
 	padding-top: 50px;
@@ -85,11 +86,14 @@ body {
   		left: -110%;
 	}
 	ul{
-		padding: 15px;
-		width: calc(100% - 52px);
+		width: 100%;
 		list-style: none;
+		padding: 0;
+		margin-top: 2rem;
 		li{
-			width: calc(100% - 15px);
+			width: calc(100% - 2rem);
+    	border-bottom: 1px solid #f8f8f8;
+    	padding: 0.5rem 1rem;
 			a {
 				.dis-block;
 				.text-snow;
@@ -367,4 +371,23 @@ body {
 	position: absolute;
 	z-index: 9;
 	left: 0;
+}
+
+.ReactTags__selected {
+	.ReactTags__tag {
+		display: block;
+		padding: 10px;
+		background: #e2e2e2;
+		border: 1px solid #cccc;
+		border-radius: 3px;
+		margin-bottom: 0.5rem;
+		position: relative;
+		a {
+			padding: 10px;
+    	position: absolute;
+    	right: 0;
+    	top: 0;
+    	font-size: 2rem;
+		}
+	}
 }

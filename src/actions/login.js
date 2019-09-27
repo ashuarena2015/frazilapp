@@ -38,3 +38,16 @@ export function getLoginInfo(userData) {
     });
 	};
 }
+
+function logoutSuccess() {
+  return {
+    type: ActionTypes.LOGOUT_SUCCESS,
+	};
+}
+
+export function logout() {
+  console.log('logout');
+	return (dispatch) => {
+    dispatch(logoutSuccess());
+	};
+}
