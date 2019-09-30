@@ -2,27 +2,61 @@ import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
   fetching: false,
-  frazilProjects: {}
+  frazilProjects: {},
+  saveDataSuccessFully: '',
 }
 
 const projects = (state = initialState, action) => {
 	switch (action.type) {
+    case ActionTypes.FETCHING_START:
+      return {
+        ...state,
+        fetching: true,
+      };
+    case ActionTypes.FETCHING_STOP:
+      return {
+        ...state,
+        fetching: false
+      };
+    case ActionTypes.FETCHING_FAILED:
+      return {
+        ...state,
+        fetching: false
+      };
     case ActionTypes.FETCH_PROJECT_REQUEST:
       return {
         ...state,
-        fetching: true
+        fetching: true,
+        projectChecklists: ''
       };
     case ActionTypes.FETCH_PROJECT_SUCCESS:
       return {
         ...state,
         fetching: false,
-        frazilProjects: action.response
+        frazilProjects: action.response,
       };
     case ActionTypes.FETCH_PROJECT_FAILED:
       return {
         ...state,
         fetching: false,
-        gettingProjectsFailed: true
+        gettingProjectsFailed: true        
+      };
+    case ActionTypes.SAVE_SUCCESSFULLY:
+      return {
+        ...state,
+        fetching: false,
+        saveDataSuccessFully: 1
+      }
+    case ActionTypes.PROJECT_CHECKLISTS:
+      return {
+        ...state,
+        fetching: false,
+        projectChecklists: action.response
+      }
+    case ActionTypes.DATA_RESET:
+      return {
+        ...state,
+        saveDataSuccessFully: ''
       };
     default:
       return state;

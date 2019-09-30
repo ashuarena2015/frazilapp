@@ -442,6 +442,33 @@
 .btn-purple-o:hover {
   background: #b027c4;
 }
+.btn-dark-o {
+  border-radius: 30px;
+  background: #333;
+  color: #fff;
+  border: none;
+}
+.btn-dark-o:hover {
+  background: #000;
+}
+.btn-edit-o {
+  border-radius: 30px;
+  background: #62a513;
+  color: #fff;
+  border: none;
+}
+.btn-edit-o:hover {
+  background: #508b0b;
+}
+.btn-redirect-o {
+  border-radius: 30px;
+  background: #ffd200;
+  color: #333;
+  border: none;
+}
+.btn-redirect-o:hover {
+  background: #e1bb0a;
+}
 .btn-ghost-o {
   border-radius: 30px;
   background: #fff;

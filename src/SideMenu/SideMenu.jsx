@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import history from '../history';
 
 class SideMenu extends Component {
 
@@ -18,7 +19,7 @@ class SideMenu extends Component {
 	}
 
 	render(){
-		const { loginEmail, role } = this.props.loginInfo;
+		const { loginEmail, role, logoutSuccess } = this.props.loginInfo;
 
 		return(
 			<div className="header">
@@ -28,7 +29,13 @@ class SideMenu extends Component {
 				        <ul onClick={this.openSideMenu}>
 				            <li><Link to='/profile'>My Profile</Link></li>
 				            <li><Link to='/about'>About Us</Link></li>
-										{role === 1 && (<li><Link to='/add-checklists'>Add Checklist</Link></li>)}
+										{role === 1 && (
+											<React.Fragment>
+												<li><Link to='/add-checklists'>Add Checklist</Link></li>
+												<li><Link to='/add-project'>Add Project</Link></li>
+												<li><Link to='/see-checklists'>See Checklists</Link></li>
+											</React.Fragment>
+										)}
 										{loginEmail ? (
 											<li><Link onClick={this.props.logout}>Logout</Link></li>
 										)

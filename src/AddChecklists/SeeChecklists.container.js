@@ -1,13 +1,14 @@
 import { connect } from 'react-redux';
-import AddChecklists from './AddChecklists';
-import { getProjects, addChecklists, dataReset } from '../actions/addchecklists';
+import SeeChecklists from './SeeChecklists';
+import { seeChecklists, getProjects, dataReset } from '../actions/addchecklists';
 
 function mapStateToProps(state) {
 	return {
 		profileInfo: state.userProfile.profileInfo,
 		loginInfo: state.loginInfo,
 		frazilProjects: state.projects.frazilProjects,
-		saveDataSuccessFully: state.projects.saveDataSuccessFully
+		fetching: state.projects.fetching,
+		projectChecklists: state.projects.projectChecklists
 	};
 }
 
@@ -16,8 +17,8 @@ function mapDispatchToProps(dispatch) {
 		getProjects: () => {
 			dispatch(getProjects());
 		},
-		addChecklists: (payload) => {
-			dispatch(addChecklists(payload));
+		seeChecklists: (payload) => {
+			dispatch(seeChecklists(payload));
 		},
 		dataReset: () => {
 			dispatch(dataReset());
@@ -25,4 +26,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddChecklists);
+export default connect(mapStateToProps, mapDispatchToProps)(SeeChecklists);

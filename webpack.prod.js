@@ -1,4 +1,4 @@
-const ENV = process.env.ENV || 'production';
+const ENV = 'production';
 const merge = require('webpack-merge');
 const path = require('path');
 const webpack = require('webpack');
@@ -11,7 +11,7 @@ const PATHS = {
 };
 
 
-console.log(ENV);
+console.log('Environment', ENV);
 
 const common = {
   entry: PATHS.src,
@@ -52,7 +52,7 @@ const common = {
   }
 };
 
-if (ENV === 'development') {
+if (ENV === 'production') {
   // Get the root path (assuming your webpack config is in the root of your project!)
   const currentPath = path.join(__dirname);
   

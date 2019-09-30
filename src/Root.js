@@ -7,6 +7,9 @@ import EditProfile from './Profile/Edit-profile.container';
 import SideMenu from './SideMenu/SideMenu.container';
 import About from './About';
 import AddChecklists from './AddChecklists/AddChecklists.container';
+import AddProject from './AddProject/AddProject.container';
+import SeeChecklists from './AddChecklists/SeeChecklists.container';
+import EditChecklists from './AddChecklists/EditChecklists.container';
 
 const Root = () => {
 	return (
@@ -46,6 +49,27 @@ const Root = () => {
 					path="/add-checklists"
 					component={
 						AddChecklists
+					}
+				/>
+				<Route
+					exact
+					path="/add-project"
+					component={
+						AddProject
+					}
+				/>
+				<Route
+					exact
+					path="/see-checklists"
+					component={
+						SeeChecklists
+					}
+				/>
+				<Route
+					exact
+					path="/edit-checklists/:projectId"
+					component={
+						EditChecklists
 					}
 				/>
 			</Switch>

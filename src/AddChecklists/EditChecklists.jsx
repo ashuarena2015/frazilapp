@@ -10,17 +10,16 @@ const KeyCodes = {
  
 const delimiters = [KeyCodes.comma, KeyCodes.enter];
 
-export default class AddChecklists extends Component {
+export default class EditChecklists extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      projects: '',
+      user_id: props.profileInfo.id,
+      projectSelected: '',
+      projectChecklists: props.projectChecklists,
       tags: [],
       suggestions: [],
-      projectSelected: '',
-      projectSelectedEmpty: false,
-      saveDataSuccessFully: ''
     }
     this.handleDelete = this.handleDelete.bind(this);
     this.handleAddition = this.handleAddition.bind(this);
@@ -29,28 +28,24 @@ export default class AddChecklists extends Component {
   componentDidMount() {
     this.props.getProjects();
     this.props.dataReset();
-  }
-
-  componentDidUpdate(prevProps) {
-    prevProps.frazilProjects !== this.props.frazilProjects && this.setState({
-      projects: this.props.frazilProjects
+    const { user_id } = this.state;
+    this.setState({
+      projectSelected: this.props.match.params.projectId
+    }, () => {
+      const { projectSelected, projectChecklists } = this.state;
+      const payload = {
+        user_id,
+        projectSelected
+      }
+      !projectChecklists && this.props.seeChecklists(payload);
     })
   }
 
-  checklistInputFieldsAdd() {
-    const { tags, projectSelected } = this.state;
-    const { addChecklists, profileInfo: { id } = {} } = this.props;
-      const payload = {
-        tags,
-        projectSelected,
-        user_id: id
-      }
-    if(projectSelected && tags.length) {
-      addChecklists(payload);
-      this.setState({ projectSelectedEmpty: false })
-    } else {
-      this.setState({ projectSelectedEmpty: true })
-    }
+  onChange(e) {
+    const { target: { value, name } = { } } = e;
+		this.setState({
+			[name]: value
+		});
   }
 
   handleDelete(i) {
@@ -75,20 +70,35 @@ export default class AddChecklists extends Component {
       this.setState({ tags: newTags });
   }
 
-  onChange(e) {
-    const { target: { value, name } = { } } = e;
-		this.setState({
-			[name]: value
-		});
+  checklistInputFieldsAdd() {
+    const { tags, projectSelected } = this.state;
+    const { editChecklists, profileInfo: { id } = {} } = this.props;
+      const payload = {
+        tags,
+        projectSelected,
+        user_id: id
+      }
+    if(projectSelected && tags.length) {
+      editChecklists(payload);
+      this.setState({ projectSelectedEmpty: false })
+    } else {
+      this.setState({ projectSelectedEmpty: true })
+    }
   }
 
   render(){
-    const { projects, tags, suggestions, projectSelectedEmpty } = this.state;
-    const allProjects = [];
-    projects && projects.map((project) => {
-      return allProjects.push(<option value={project.id}>{project.name}</option>);
+    const { fetching, frazilProjects, projectChecklists, saveDataSuccessFully } = this.props;
+    const { projectSelected, tags, suggestions } = this.state;
+    const projectName = [];
+    frazilProjects.length && frazilProjects.map((project) => {
+      return projectName.push( project.id === projectSelected && project.name );
     })
-    const { saveDataSuccessFully } = this.props;
+
+    projectChecklists && projectChecklists.map((item) => {
+      return tags.push(
+        { id:item.checklist, text: item.checklist }
+      );
+    });
 
     if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
 			history.push('/');
@@ -99,29 +109,23 @@ export default class AddChecklists extends Component {
         <div className="container m-t-50">
 		    	<div className="panel panel-default">
 		    		<div className="panel-body">
-              <h3>Add Checklists</h3>
+              <h3>Checklists</h3>
                 { saveDataSuccessFully && (
                   <div style={{ marginBottom: '2rem' }}>
-                    <p className="text-success">Checklists addedd successfully!</p>
+                    <p className="text-success">Checklists updated successfully!</p>
                     <p><Link to="/see-checklists" className="btn btn-redirect-o" >See checklists</Link></p>
                   </div>
                 )}
               <div className="form-group m-b-rg">
-                <label>Select Project</label>
-                <select name="projectSelected" className="form-control" style={{ height: '40px' }} onChange={(e) => this.onChange(e)}>
-                  <option value="">Select project</option>
-                  { allProjects }
-                  <Link to="/add-project" className="btn btn-redirect-o">Add Project</Link>
-                </select>
-                { projectSelectedEmpty && (
-                  <div>
-                    <small className="text-error">Please enter project name</small>
-                  </div>
-                )}
+                <label>Project</label>
+                <div><b>{ projectName }</b></div>
               </div>
               <div className="form-group m-b-rg">
-                <label>Enter Checklists</label>
-                <div id="all_checklists" className="checklist_input_section">
+                <h3 style={{ display: 'flex', alignItems: 'center' }}>
+                  <span style={{ flex:1, marginRight: '1rem' }}>{tags.length} Saved checklists</span>
+                  <Link to='/see-checklists' className="btn btn-redirect-o">Back to checklists</Link>
+                </h3>
+                <div id="all_checklists" class="checklist_input_section">
                   <ReactTags tags={tags}
                     suggestions={suggestions}
                     handleDelete={this.handleDelete}
@@ -132,7 +136,7 @@ export default class AddChecklists extends Component {
                 </div>
               </div>
               <div className="form-group m-b-rg">
-                <button type="button" className="btn btn-purple-o" onClick={() => this.checklistInputFieldsAdd()}>Submit</button>
+                <button type="button" className="btn btn-purple-o" onClick={() => this.checklistInputFieldsAdd()}>Save Checklists</button>
               </div>
             </div>
           </div>

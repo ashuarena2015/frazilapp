@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Cropper from 'react-cropper';
+import 'cropperjs/dist/cropper.css';
 import history from '../history';
 
 export default class Profile extends Component {
@@ -148,7 +149,6 @@ export default class Profile extends Component {
           <Cropper
             style={{ height: '100%', width: '100%' }}
             aspectRatio={1 / 1}
-            preview=".img-preview"
             guides={false}
             src={this.state.src}
             ref={cropper => { this.cropper = cropper; }}

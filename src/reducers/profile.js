@@ -9,7 +9,7 @@ const userProfile = (state = initialState, action) => {
     case ActionTypes.PROFILE_REQUEST || ActionTypes.FETCHING_START:
       return {
         ...state,
-        fetching: true
+        fetching: true,
       };
     case ActionTypes.PROFILE_SUCCESS:
       return {

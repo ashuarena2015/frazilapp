@@ -1,5 +1,6 @@
 import ActionTypes from '../constants/ActionTypes';
 import axios from './axios';
+import history from '../history';
 
 function loginRequest() {
 	return {
@@ -46,8 +47,8 @@ function logoutSuccess() {
 }
 
 export function logout() {
-  console.log('logout');
 	return (dispatch) => {
     dispatch(logoutSuccess());
+    history.push('/login')
 	};
 }
