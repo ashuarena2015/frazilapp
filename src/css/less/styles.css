@@ -1134,3 +1134,130 @@ body {
   top: 0;
   font-size: 2rem;
 }
+.users_list {
+  display: flex;
+  align-items: center;
+  border: 1px solid #e2e2e2;
+  border-radius: 3px;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+}
+.users_list .user_img {
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+  border: 2px solid #e2e2e2;
+}
+.users_list .user_img img {
+  width: 100%;
+}
+.users_list .user_info p {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+.users_list .user_info .name {
+  font-size: 1rem;
+  font-weight: 700;
+}
+.assign_to_user {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 3px;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+}
+.assign_to_user .user_img {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 1rem;
+  border: 2px solid #e2e2e2;
+  margin-bottom: 2rem;
+}
+.assign_to_user .user_img img {
+  width: 100%;
+}
+.assign_to_user .user_info p {
+  margin: 0;
+  margin-bottom: 0.5rem;
+}
+.assign_to_user .user_info .name {
+  font-size: 1.25rem;
+  font-weight: 700;
+  text-align: center;
+}
+@keyframes loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.loader_wrapper {
+  display: inline-flex;
+  height: 2rem;
+  align-items: center;
+}
+.loader_wrapper .loader {
+  min-height: inherit !important;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 1.5rem;
+}
+.loader-fixed {
+  position: fixed;
+  z-index: 999;
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+}
+.loader.loader_left {
+  margin-right: 0.5rem;
+}
+.loader.loader_right {
+  margin-left: 0.5rem;
+}
+.loader_large {
+  min-height: 25rem;
+}
+.loader__icon {
+  animation: loader-spin 1.3s cubic-bezier(0.46, 0.35, 0.39, 0.85) infinite;
+}
+.loader__icon_large svg {
+  height: 3rem;
+  width: 3rem;
+}
+.loader__icon_small svg {
+  height: 2rem;
+  width: 2rem;
+}
+.loader__icon_extra-small svg {
+  height: 1rem;
+  width: 1rem;
+}
+.project_inspection_checklists label {
+  border: 1px solid #e2e2e2;
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+.project_inspection_checklists label input[type="checkbox"] {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  height: 100%;
+  top: 0;
+  opacity: 0;
+}

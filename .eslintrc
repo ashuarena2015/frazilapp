@@ -68,6 +68,9 @@
     "no-mixed-operators": 0,
     "consistent-return": 0,
     "react/no-did-update-set-state": 0,
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "jsx-a11y/alt-text": "off",
+    "import/no-extraneous-dependencies": "off",
+    "no-script-url": "off"
   }
 }

@@ -7,7 +7,8 @@ function mapStateToProps(state) {
 		profileInfo: state.userProfile.profileInfo,
 		loginInfo: state.loginInfo,
 		frazilProjects: state.projects.frazilProjects,
-		saveDataSuccessFully: state.projects.saveDataSuccessFully
+		saveDataSuccessFully: state.projects.saveDataSuccessFully,
+		fetching: state.projects.fetching
 	};
 }
 
@@ -22,7 +23,7 @@ function mapDispatchToProps(dispatch) {
 		dataReset: () => {
 			dispatch(dataReset());
 		}
-  }
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddChecklists);

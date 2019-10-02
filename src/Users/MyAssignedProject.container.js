@@ -1,21 +1,21 @@
 import { connect } from 'react-redux';
-import AddProject from './AddProject';
-import { addProject, dataReset } from '../actions/addchecklists';
+import MyAssignedProject from './MyAssignedProject';
+import { getMyAssignedProjects, dataReset } from '../actions/addchecklists';
 
 function mapStateToProps(state) {
 	return {
 		loginInfo: state.loginInfo,
 		profileInfo: state.userProfile.profileInfo,
 		frazilProjects: state.projects.frazilProjects,
-		saveDataSuccessFully: state.projects.saveDataSuccessFully,
 		fetching: state.projects.fetching,
+		myAssignedProject: state.projects.myAssignedProject
 	};
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		addProject: (payload) => {
-			dispatch(addProject(payload));
+		getMyAssignedProjects: (id) => {
+			dispatch(getMyAssignedProjects(id));
 		},
 		dataReset: () => {
 			dispatch(dataReset());
@@ -23,4 +23,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddProject);
+export default connect(mapStateToProps, mapDispatchToProps)(MyAssignedProject);

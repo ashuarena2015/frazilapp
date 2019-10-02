@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "581e7b3708e68deb8d7b"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "c5c4d1a431ac5ba4616a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -621,7 +621,7 @@
 
 	var _Root2 = _interopRequireDefault(_Root);
 
-	__webpack_require__(541);
+	__webpack_require__(545);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -43440,7 +43440,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -43452,51 +43452,57 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var initialState = {
-	  fetching: false,
-	  logoutSuccess: true,
-	  loginEmail: '',
-	  loginId: '',
-	  role: ''
+		fetching: false,
+		logoutSuccess: true,
+		loginEmail: '',
+		loginId: '',
+		role: ''
 	};
 
 	var loginInfo = function loginInfo() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
 
-	  switch (action.type) {
-	    case _ActionTypes2.default.LOGIN_REQUEST:
-	      return _extends({}, state, {
-	        fetching: true
-	      });
-	    case _ActionTypes2.default.LOGIN_SUCCESS:
-	      var _action$response$ = action.response[0],
-	          email = _action$response$.email,
-	          user_id = _action$response$.user_id,
-	          role = _action$response$.role;
+		switch (action.type) {
+			case _ActionTypes2.default.LOGIN_REQUEST:
+				return _extends({}, state, {
+					fetching: true
+				});
+			case _ActionTypes2.default.LOGIN_SUCCESS:
+				{
+					var _action$response$ = action.response[0],
+					    email = _action$response$.email,
+					    user_id = _action$response$.user_id,
+					    role = _action$response$.role;
 
-	      return _extends({}, state, {
-	        fetching: false,
-	        loginEmail: email,
-	        loginId: user_id,
-	        role: role,
-	        loginFailed: false,
-	        logoutSuccess: false
-	      });
-	    case _ActionTypes2.default.LOGIN_FAILED:
-	      return _extends({}, state, {
-	        fetching: false,
-	        loginFailed: true
-	      });
-	    case _ActionTypes2.default.LOGOUT_SUCCESS:
-	      return _extends({}, state, {
-	        loginEmail: '',
-	        loginId: '',
-	        role: '',
-	        logoutSuccess: true
-	      });
-	    default:
-	      return state;
-	  }
+					return _extends({}, state, {
+						fetching: false,
+						loginEmail: email,
+						loginId: user_id,
+						role: role,
+						loginFailed: false,
+						logoutSuccess: false
+					});
+				}
+			case _ActionTypes2.default.LOGIN_FAILED:
+				return _extends({}, state, {
+					fetching: false,
+					loginFailed: true
+				});
+			case _ActionTypes2.default.LOGOUT_SUCCESS:
+				return _extends({}, state, {
+					loginEmail: '',
+					loginId: '',
+					role: '',
+					logoutSuccess: true
+				});
+			case _ActionTypes2.default.GET_ALL_USERS:
+				return _extends({}, state, {
+					allUsers: action.response
+				});
+			default:
+				return state;
+		}
 	};
 
 	exports.default = loginInfo;
@@ -43508,47 +43514,51 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.default = {
-	  LOGIN_REQUEST: 'LOGIN_REQUEST',
-	  LOGIN_SUCCESS: 'LOGIN_SUCCESS',
-	  LOGIN_FAILED: 'LOGIN_FAILED',
+		// Login
+		LOGIN_REQUEST: 'LOGIN_REQUEST',
+		LOGIN_SUCCESS: 'LOGIN_SUCCESS',
+		LOGIN_FAILED: 'LOGIN_FAILED',
+		// Profile
+		PROFILE_REQUEST: 'PROFILE_REQUEST',
+		PROFILE_SUCCESS: 'PROFILE_SUCCESS',
+		PROFILE_FAILED: 'PROFILE_FAILED',
+		SELECTED_USER_PROFILE: 'SELECTED_USER_PROFILE',
 
-	  // Profile
-	  PROFILE_REQUEST: 'PROFILE_REQUEST',
-	  PROFILE_SUCCESS: 'PROFILE_SUCCESS',
-	  PROFILE_FAILED: 'PROFILE_FAILED',
+		// Edit profile
+		EDIT_PROFILE_OTP_REQUEST: 'EDIT_PROFILE_OTP_REQUEST',
+		EDIT_PROFILE_OTP_SUCCESS: 'EDIT_PROFILE_OTP_SUCCESS',
+		EDIT_PROFILE_OTP_FAILED: 'EDIT_PROFILE_OTP_FAILED',
 
-	  // Edit profile
-	  EDIT_PROFILE_OTP_REQUEST: 'EDIT_PROFILE_OTP_REQUEST',
-	  EDIT_PROFILE_OTP_SUCCESS: 'EDIT_PROFILE_OTP_SUCCESS',
-	  EDIT_PROFILE_OTP_FAILED: 'EDIT_PROFILE_OTP_FAILED',
+		// Fetching
+		FETCHING_START: 'FETCHING_START',
+		FETCHING_STOP: 'FETCHING_STOP',
+		FETCHING_FAILED: 'FETCHING_FAILED',
 
-	  // Fetching
-	  FETCHING_START: 'FETCHING_START',
-	  FETCHING_STOP: 'FETCHING_STOP',
-	  FETCHING_FAILED: 'FETCHING_FAILED',
+		// Verify OTP
+		VERIFY_OTP_SUCCESS: 'VERIFY_OTP_SUCCESS',
 
-	  // Verify OTP
-	  VERIFY_OTP_SUCCESS: 'VERIFY_OTP_SUCCESS',
+		// Logout
+		LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
 
-	  // Logout
-	  LOGOUT_SUCCESS: 'LOGOUT_SUCCESS',
+		// Getting Projects
+		FETCH_PROJECT_REQUEST: 'FETCH_PROJECT_REQUEST',
+		FETCH_PROJECT_SUCCESS: 'FETCH_PROJECT_SUCCESS',
+		FETCH_PROJECT_FAILED: 'FETCH_PROJECT_FAILED',
 
-	  // Getting Projects
-	  FETCH_PROJECT_REQUEST: 'FETCH_PROJECT_REQUEST',
-	  FETCH_PROJECT_SUCCESS: 'FETCH_PROJECT_SUCCESS',
-	  FETCH_PROJECT_FAILED: 'FETCH_PROJECT_FAILED',
+		// SAVE
+		SAVE_SUCCESSFULLY: 'SAVE_SUCCESSFULLY',
 
-	  // SAVE
-	  SAVE_SUCCESSFULLY: 'SAVE_SUCCESSFULLY',
+		// Project Checklists
+		PROJECT_CHECKLISTS: 'PROJECT_CHECKLISTS',
 
-	  // Project Checklists
-	  PROJECT_CHECKLISTS: 'PROJECT_CHECKLISTS',
+		// Data Reset
+		DATA_RESET: 'DATA_RESET',
 
-	  // Data Reset
-	  DATA_RESET: 'DATA_RESET'
+		// Users
+		GET_ALL_USERS: 'GET_ALL_USERS'
 
 	};
 
@@ -43559,7 +43569,7 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
@@ -43571,52 +43581,56 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var initialState = {
-	  fetching: false
+		fetching: false
 	};
 
 	var userProfile = function userProfile() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
-	  var action = arguments[1];
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
+		var action = arguments[1];
 
-	  switch (action.type) {
-	    case _ActionTypes2.default.PROFILE_REQUEST || _ActionTypes2.default.FETCHING_START:
-	      return _extends({}, state, {
-	        fetching: true
-	      });
-	    case _ActionTypes2.default.PROFILE_SUCCESS:
-	      return _extends({}, state, {
-	        fetching: false,
-	        profileInfo: action.response[0]
-	      });
-	    case _ActionTypes2.default.PROFILE_FAILED:
-	      return _extends({}, state, {
-	        fetching: false,
-	        profileFailed: true
-	      });
-	    case _ActionTypes2.default.EDIT_PROFILE_OTP_REQUEST:
-	      return _extends({}, state, {
-	        fetching: true
-	      });
-	    case _ActionTypes2.default.EDIT_PROFILE_OTP_SUCCESS:
-	      return _extends({}, state, {
-	        fetching: false,
-	        otpResponse: action.response,
-	        verifyOtpResponse: {}
-	      });
-	    case _ActionTypes2.default.EDIT_PROFILE_OTP_FAILED:
-	      return _extends({}, state, {
-	        fetching: false,
-	        otpFailed: true
-	      });
-	    case _ActionTypes2.default.VERIFY_OTP_SUCCESS:
-	      return _extends({}, state, {
-	        fetching: false,
-	        verifyOtpResponse: action.response,
-	        otpResponse: {}
-	      });
-	    default:
-	      return state;
-	  }
+		switch (action.type) {
+			case _ActionTypes2.default.PROFILE_REQUEST || _ActionTypes2.default.FETCHING_START:
+				return _extends({}, state, {
+					fetching: true
+				});
+			case _ActionTypes2.default.PROFILE_SUCCESS:
+				return _extends({}, state, {
+					fetching: false,
+					profileInfo: action.response[0]
+				});
+			case _ActionTypes2.default.PROFILE_FAILED:
+				return _extends({}, state, {
+					fetching: false,
+					profileFailed: true
+				});
+			case _ActionTypes2.default.EDIT_PROFILE_OTP_REQUEST:
+				return _extends({}, state, {
+					fetching: true
+				});
+			case _ActionTypes2.default.EDIT_PROFILE_OTP_SUCCESS:
+				return _extends({}, state, {
+					fetching: false,
+					otpResponse: action.response,
+					verifyOtpResponse: {}
+				});
+			case _ActionTypes2.default.EDIT_PROFILE_OTP_FAILED:
+				return _extends({}, state, {
+					fetching: false,
+					otpFailed: true
+				});
+			case _ActionTypes2.default.VERIFY_OTP_SUCCESS:
+				return _extends({}, state, {
+					fetching: false,
+					verifyOtpResponse: action.response,
+					otpResponse: {}
+				});
+			case _ActionTypes2.default.SELECTED_USER_PROFILE:
+				return _extends({}, state, {
+					selectedUserProfile: action.response
+				});
+			default:
+				return state;
+		}
 	};
 
 	exports.default = userProfile;
@@ -43754,6 +43768,14 @@
 
 	var _EditChecklists2 = _interopRequireDefault(_EditChecklists);
 
+	var _Users = __webpack_require__(541);
+
+	var _Users2 = _interopRequireDefault(_Users);
+
+	var _AssignProject = __webpack_require__(543);
+
+	var _AssignProject2 = _interopRequireDefault(_AssignProject);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var Root = function Root() {
@@ -43803,6 +43825,16 @@
 					exact: true,
 					path: '/edit-checklists/:projectId',
 					component: _EditChecklists2.default
+				}),
+				_react2.default.createElement(_reactRouterDom.Route, {
+					exact: true,
+					path: '/users',
+					component: _Users2.default
+				}),
+				_react2.default.createElement(_reactRouterDom.Route, {
+					exact: true,
+					path: '/assign-project/:userId/:userEmail',
+					component: _AssignProject2.default
 				})
 			)
 		);
@@ -46953,7 +46985,7 @@
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _index = __webpack_require__(2);
@@ -46995,377 +47027,378 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _components = {
-	  Profile: {
-	    displayName: 'Profile'
-	  }
+		Profile: {
+			displayName: 'Profile'
+		}
 	};
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
-	  components: _components,
-	  locals: [module],
-	  imports: [_react3.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
 	});
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
-	  components: _components,
-	  locals: [],
-	  imports: [_react3.default, _index2.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
 	});
 
 	function _wrapComponent(id) {
-	  return function (Component) {
-	    return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-	  };
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
 	}
 
 	var Profile = _wrapComponent('Profile')(function (_Component) {
-	  _inherits(Profile, _Component);
+		_inherits(Profile, _Component);
 
-	  function Profile(props) {
-	    _classCallCheck(this, Profile);
+		function Profile(props) {
+			_classCallCheck(this, Profile);
 
-	    var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
 
-	    _this.cameraPhoto = null;
-	    _this.videoRef = _react3.default.createRef();
-	    _this.state = {
-	      imagePreviewUrl: '',
-	      uploadImgMsg: false,
-	      currentUploadedImg: '',
-	      dataUri: '',
-	      isCapture: false,
-	      photCaptured: false
-	    };
-	    _this.cancelImgUpload = _this.cancelImgUpload.bind(_this);
-	    _this.cropImage = _this.cropImage.bind(_this);
-	    _this.onChangeCrop = _this.onChangeCrop.bind(_this);
-	    return _this;
-	  }
+			_this.cameraPhoto = null;
+			_this.videoRef = _react3.default.createRef();
+			_this.state = {
+				imagePreviewUrl: '',
+				uploadImgMsg: false,
+				currentUploadedImg: '',
+				isCapture: false
+			};
+			_this.cancelImgUpload = _this.cancelImgUpload.bind(_this);
+			_this.cropImage = _this.cropImage.bind(_this);
+			_this.onChangeCrop = _this.onChangeCrop.bind(_this);
+			return _this;
+		}
 
-	  _createClass(Profile, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      var _props$loginInfo = this.props.loginInfo,
-	          loginEmail = _props$loginInfo.loginEmail,
-	          loginId = _props$loginInfo.loginId;
+		_createClass(Profile, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var _props$loginInfo = this.props.loginInfo,
+				    loginEmail = _props$loginInfo.loginEmail,
+				    loginId = _props$loginInfo.loginId;
 
-	      var profileData = {
-	        loginEmail: loginEmail,
-	        loginId: loginId
-	      };
-	      this.props.getProfileInfo(profileData);
-	    }
-	  }, {
-	    key: 'onChangeCrop',
-	    value: function onChangeCrop(e) {
-	      var _this2 = this;
+				var profileData = {
+					loginEmail: loginEmail,
+					loginId: loginId
+				};
+				this.props.getProfileInfo(profileData);
+			}
+		}, {
+			key: 'onChangeCrop',
+			value: function onChangeCrop(e) {
+				var _this2 = this;
 
-	      this.setState({
-	        isCapture: true
-	      });
-	      e.preventDefault();
-	      var files = void 0;
-	      if (e.dataTransfer) {
-	        files = e.dataTransfer.files;
-	      } else if (e.target) {
-	        files = e.target.files;
-	      }
-	      var reader = new FileReader();
-	      reader.onload = function () {
-	        _this2.setState({ src: reader.result });
-	      };
-	      reader.readAsDataURL(files[0]);
-	    }
-	  }, {
-	    key: 'cropImage',
-	    value: function cropImage() {
-	      var _this3 = this;
+				this.setState({
+					isCapture: true
+				});
+				e.preventDefault();
+				var files = void 0;
+				var dataTransfer = e.dataTransfer,
+				    _e$dataTransfer = e.dataTransfer;
+				_e$dataTransfer = _e$dataTransfer === undefined ? {} : _e$dataTransfer;
+				var FilesDataTransfer = _e$dataTransfer.files,
+				    target = e.target,
+				    filesTarget = e.target.files;
 
-	      if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
-	        return;
-	      }
-	      this.setState({
-	        cropResult: this.cropper.getCroppedCanvas().toDataURL(),
-	        isCapture: false
-	      }, function () {
-	        _this3.setState({
-	          imagePreviewUrl: _this3.cropper.getCroppedCanvas().toDataURL(),
-	          uploadImgBtn: true,
-	          cancelImg: true,
-	          uploadImgMsg: false
-	        });
-	      });
-	    }
-	  }, {
-	    key: '_handleImageChange',
-	    value: function _handleImageChange(e) {
-	      var _this4 = this;
+				if (dataTransfer) {
+					files = FilesDataTransfer;
+				} else if (target) {
+					files = filesTarget;
+				}
+				var reader = new FileReader();
+				reader.onload = function () {
+					_this2.setState({ src: reader.result });
+				};
+				reader.readAsDataURL(files[0]);
+			}
+		}, {
+			key: 'cropImage',
+			value: function cropImage() {
+				var _this3 = this;
 
-	      e.preventDefault();
-	      var reader = new FileReader();
-	      var file = e.target.files[0];
+				if (typeof this.cropper.getCroppedCanvas() === 'undefined') {
+					return;
+				}
+				this.setState({
+					isCapture: false
+				}, function () {
+					_this3.setState({
+						imagePreviewUrl: _this3.cropper.getCroppedCanvas().toDataURL(),
+						uploadImgBtn: true,
+						cancelImg: true,
+						uploadImgMsg: false
+					});
+				});
+			}
+		}, {
+			key: '_handleImageChange',
+			value: function _handleImageChange(e) {
+				var _this4 = this;
 
-	      reader.onloadend = function () {
-	        _this4.setState({
-	          file: file,
-	          imagePreviewUrl: reader.result,
-	          uploadImgBtn: true,
-	          cancelImg: true,
-	          uploadImgMsg: false,
-	          openImageSelector: false
-	        });
-	      };
+				e.preventDefault();
+				var reader = new FileReader();
+				var file = e.target.files[0];
 
-	      reader.readAsDataURL(file);
-	    }
-	  }, {
-	    key: '_handleSubmit',
-	    value: function _handleSubmit(e) {
-	      var _this5 = this;
+				reader.onloadend = function () {
+					_this4.setState({
+						imagePreviewUrl: reader.result,
+						uploadImgBtn: true,
+						cancelImg: true,
+						uploadImgMsg: false
+					});
+				};
 
-	      e.preventDefault();
-	      var profileImage = this.state.imagePreviewUrl;
-	      var userId = this.props.profileInfo.id;
-	      if (this.state.imagePreviewUrl) {
-	        fetch(("http://ideaweaver.in/frazil-php") + '/profile-image.php', {
-	          method: 'POST',
-	          headers: {
-	            'Content-Type': 'application/x-www-form-urlencoded'
-	          },
-	          body: 'profile-image=' + profileImage + '&user-id=' + userId
-	        }).then(function (response) {
-	          return response.json();
-	        }).then(function (json) {
-	          if (json) {
-	            _this5.setState({
-	              uploadImgBtn: false,
-	              cancelImg: false,
-	              uploadImgMsg: true,
-	              changePicOption: true,
-	              openImageSelector: false,
-	              currentUploadedImg: ("http://ideaweaver.in/frazil-php") + '/json'
-	            });
-	          }
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'cancelImgUpload',
-	    value: function cancelImgUpload() {
-	      this.setState({
-	        imagePreviewUrl: this.state.currentUploadedImg,
-	        uploadImgBtn: false,
-	        cancelImg: false,
-	        changePicOption: true,
-	        uploadImgMsg: false
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this6 = this;
+				reader.readAsDataURL(file);
+			}
+		}, {
+			key: '_handleSubmit',
+			value: function _handleSubmit(e) {
+				var _this5 = this;
 
-	      var _ref = this.props.profileInfo || {},
-	          name = _ref.name,
-	          email = _ref.email,
-	          mobile = _ref.mobile,
-	          profile_img = _ref.profile_img,
-	          user_id = _ref.user_id;
+				e.preventDefault();
+				var profileImage = this.state.imagePreviewUrl;
+				var userId = this.props.profileInfo.id;
+				if (this.state.imagePreviewUrl) {
+					fetch(("http://ideaweaver.in/frazil-php") + '/profile-image.php', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/x-www-form-urlencoded'
+						},
+						body: 'profile-image=' + profileImage + '&user-id=' + userId
+					}).then(function (response) {
+						return response.json();
+					}).then(function (json) {
+						if (json) {
+							_this5.setState({
+								uploadImgBtn: false,
+								cancelImg: false,
+								uploadImgMsg: true,
+								currentUploadedImg: ("http://ideaweaver.in/frazil-php") + '/json'
+							});
+						}
+					});
+				}
+			}
+		}, {
+			key: 'cancelImgUpload',
+			value: function cancelImgUpload() {
+				var currentUploadedImg = this.state.currentUploadedImg;
 
-	      var _state = this.state,
-	          uploadImgMsg = _state.uploadImgMsg,
-	          isCapture = _state.isCapture;
+				this.setState({
+					imagePreviewUrl: currentUploadedImg,
+					uploadImgBtn: false,
+					cancelImg: false,
+					uploadImgMsg: false
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this6 = this;
+
+				var _ref = this.props.profileInfo || {},
+				    name = _ref.name,
+				    email = _ref.email,
+				    mobile = _ref.mobile,
+				    profile_img = _ref.profile_img,
+				    user_id = _ref.user_id;
+
+				var _state = this.state,
+				    uploadImgMsg = _state.uploadImgMsg,
+				    isCapture = _state.isCapture;
 
 
-	      var imagePreview = void 0;
-	      var imagePreviewUrl = this.state.imagePreviewUrl;
+				var imagePreview = void 0;
+				var imagePreviewUrl = this.state.imagePreviewUrl;
 
-	      var imagePath = ("http://ideaweaver.in/frazil-php") + '/';
-	      var prevProfileImg = profile_img;
-	      if (imagePreviewUrl) {
-	        imagePreview = _react3.default.createElement('img', { src: imagePreviewUrl });
-	      } else {
-	        imagePreview = _react3.default.createElement('img', { src: '' + imagePath + prevProfileImg });
-	      }
+				var imagePath = ("http://ideaweaver.in/frazil-php") + '/';
+				var prevProfileImg = profile_img;
+				if (imagePreviewUrl) {
+					imagePreview = _react3.default.createElement('img', { src: imagePreviewUrl });
+				} else {
+					imagePreview = _react3.default.createElement('img', { src: '' + imagePath + prevProfileImg });
+				}
 
-	      if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
-	        _history2.default.push('/');
-	      }
+				if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
+					_history2.default.push('/');
+				}
 
-	      return _react3.default.createElement(
-	        'div',
-	        { className: 'profile__section' },
-	        _react3.default.createElement(
-	          'div',
-	          { id: 'takePhotoByCamera', className: isCapture && 'cameraOn' },
-	          _react3.default.createElement(_reactCropper2.default, {
-	            style: { height: '100%', width: '100%' },
-	            aspectRatio: 1 / 1,
-	            guides: false,
-	            src: this.state.src,
-	            ref: function ref(cropper) {
-	              _this6.cropper = cropper;
-	            }
-	          }),
-	          _react3.default.createElement(
-	            'div',
-	            { style: { margin: '2rem auto', position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)' } },
-	            _react3.default.createElement(
-	              'button',
-	              { onClick: this.cropImage, className: 'btn btn-purple-o', style: { float: 'right' } },
-	              'Crop Image'
-	            )
-	          )
-	        ),
-	        _react3.default.createElement(
-	          'div',
-	          { className: 'container vertical-center-box' },
-	          _react3.default.createElement(
-	            'div',
-	            { className: 'panel panel-default transparent-bg-box profile-page' },
-	            _react3.default.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              !name && _react3.default.createElement(
-	                'div',
-	                { className: 'text-center' },
-	                _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-3x m-t-rg' })
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'panel_section' },
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'profile-img' },
-	                  imagePreview,
-	                  _react3.default.createElement(
-	                    'div',
-	                    { className: 'photo-edit' },
-	                    _react3.default.createElement('span', { className: 'fa fa-camera' }),
-	                    _react3.default.createElement('input', { type: 'file', onChange: this.onChangeCrop })
-	                  )
-	                ),
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'previewComponent text-center' },
-	                  _react3.default.createElement(
-	                    'form',
-	                    { onSubmit: function onSubmit(e) {
-	                        return _this6._handleSubmit(e);
-	                      } },
-	                    uploadImgMsg && _react3.default.createElement(
-	                      'p',
-	                      { className: 'show' },
-	                      'Profile picture upload successfully!'
-	                    ),
-	                    _react3.default.createElement(
-	                      'div',
-	                      { className: 'btn-group', style: { 'margin-top': '5px' } },
-	                      _react3.default.createElement(
-	                        'button',
-	                        { className: this.state.uploadImgBtn ? "btn btn-sm btn-success" : "hide", type: 'submit', onClick: '' },
-	                        'Upload'
-	                      ),
-	                      _react3.default.createElement(
-	                        'button',
-	                        { onClick: this.cancelImgUpload, className: this.state.cancelImg ? "btn btn-sm btn-danger" : "hide" },
-	                        'Cancel'
-	                      )
-	                    )
-	                  )
-	                ),
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'panel-row panel-row-group m-t-rg m-b-rg' },
-	                  _react3.default.createElement(
-	                    'div',
-	                    { className: 'row-item' },
-	                    _react3.default.createElement('span', { className: 'fa fa-user fa-stack label' }),
-	                    _react3.default.createElement(
-	                      'span',
-	                      { className: 'label-value' },
-	                      name
-	                    )
-	                  ),
-	                  _react3.default.createElement(
-	                    'div',
-	                    { className: 'row-item' },
-	                    _react3.default.createElement('span', { className: 'fa fa-envelope fa-stack label' }),
-	                    _react3.default.createElement(
-	                      'span',
-	                      { className: 'label-value' },
-	                      email
-	                    )
-	                  ),
-	                  _react3.default.createElement(
-	                    'div',
-	                    { className: 'row-item' },
-	                    _react3.default.createElement('span', { className: 'fa fa-phone fa-stack label' }),
-	                    _react3.default.createElement(
-	                      'span',
-	                      { className: 'label-value' },
-	                      mobile
-	                    )
-	                  )
-	                ),
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'text-center m-b-lg' },
-	                  _react3.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/edit-profile/' + user_id + '/', className: 'btn btn-purple-o' },
-	                    'Edit profile'
-	                  )
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'panel_section' },
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'panel-row panel-row-group m-t-rg m-b-rg' },
-	                  _react3.default.createElement(
-	                    'div',
-	                    { onClick: '', className: 'row-item', style: { 'background': '#66a430', 'color': '#fff', 'border': 'none' } },
-	                    _react3.default.createElement(
-	                      'span',
-	                      { className: 'label-value' },
-	                      'Report Submitted'
-	                    ),
-	                    _react3.default.createElement(
-	                      'div',
-	                      { className: 'counts' },
-	                      '4'
-	                    ),
-	                    _react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
-	                  ),
-	                  _react3.default.createElement(
-	                    'div',
-	                    { onClick: '', className: 'row-item', style: { 'background': '#3065a4', 'color': '#fff', 'border': 'none' } },
-	                    _react3.default.createElement(
-	                      'span',
-	                      { className: 'label-value' },
-	                      'Site Visited'
-	                    ),
-	                    _react3.default.createElement(
-	                      'div',
-	                      { className: 'counts' },
-	                      '5'
-	                    ),
-	                    _react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react3.default.createElement(
+					'div',
+					{ className: 'profile__section' },
+					_react3.default.createElement(
+						'div',
+						{ id: 'takePhotoByCamera', className: isCapture && 'cameraOn' },
+						_react3.default.createElement(_reactCropper2.default, {
+							style: { height: '100%', width: '100%' },
+							aspectRatio: 1 / 1,
+							guides: false,
+							src: this.state.src,
+							ref: function ref(cropper) {
+								_this6.cropper = cropper;
+							}
+						}),
+						_react3.default.createElement(
+							'div',
+							{ style: { margin: '2rem auto', position: 'absolute', bottom: 0, left: '50%', transform: 'translateX(-50%)' } },
+							_react3.default.createElement(
+								'button',
+								{ type: 'button', onClick: this.cropImage, className: 'btn btn-purple-o', style: { float: 'right' } },
+								'Crop Image'
+							)
+						)
+					),
+					_react3.default.createElement(
+						'div',
+						{ className: 'container vertical-center-box' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel panel-default transparent-bg-box profile-page' },
+							_react3.default.createElement(
+								'div',
+								{ className: 'panel-body' },
+								!name && _react3.default.createElement(
+									'div',
+									{ className: 'text-center' },
+									_react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-3x m-t-rg' })
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'panel_section' },
+									_react3.default.createElement(
+										'div',
+										{ className: 'profile-img' },
+										imagePreview,
+										_react3.default.createElement(
+											'div',
+											{ className: 'photo-edit' },
+											_react3.default.createElement('span', { className: 'fa fa-camera' }),
+											_react3.default.createElement('input', { type: 'file', onChange: this.onChangeCrop })
+										)
+									),
+									_react3.default.createElement(
+										'div',
+										{ className: 'previewComponent text-center' },
+										_react3.default.createElement(
+											'form',
+											{ onSubmit: function onSubmit(e) {
+													return _this6._handleSubmit(e);
+												} },
+											uploadImgMsg && _react3.default.createElement(
+												'p',
+												{ className: 'show' },
+												'Profile picture upload successfully!'
+											),
+											_react3.default.createElement(
+												'div',
+												{ className: 'btn-group', style: { 'margin-top': '5px' } },
+												_react3.default.createElement(
+													'button',
+													{ className: this.state.uploadImgBtn ? 'btn btn-sm btn-success' : 'hide', type: 'submit', onClick: '' },
+													'Upload'
+												),
+												_react3.default.createElement(
+													'button',
+													{ type: 'button', onClick: this.cancelImgUpload, className: this.state.cancelImg ? 'btn btn-sm btn-danger' : 'hide' },
+													'Cancel'
+												)
+											)
+										)
+									),
+									_react3.default.createElement(
+										'div',
+										{ className: 'panel-row panel-row-group m-t-rg m-b-rg' },
+										_react3.default.createElement(
+											'div',
+											{ className: 'row-item' },
+											_react3.default.createElement('span', { className: 'fa fa-user fa-stack label' }),
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												name
+											)
+										),
+										_react3.default.createElement(
+											'div',
+											{ className: 'row-item' },
+											_react3.default.createElement('span', { className: 'fa fa-envelope fa-stack label' }),
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												email
+											)
+										),
+										_react3.default.createElement(
+											'div',
+											{ className: 'row-item' },
+											_react3.default.createElement('span', { className: 'fa fa-phone fa-stack label' }),
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												mobile
+											)
+										)
+									),
+									_react3.default.createElement(
+										'div',
+										{ className: 'text-center m-b-lg' },
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/edit-profile/' + user_id + '/', className: 'btn btn-purple-o' },
+											'Edit profile'
+										)
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'panel_section' },
+									_react3.default.createElement(
+										'div',
+										{ className: 'panel-row panel-row-group m-t-rg m-b-rg' },
+										_react3.default.createElement(
+											'div',
+											{ onClick: '', className: 'row-item', style: { background: '#66a430', color: '#fff', border: 'none' } },
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												'Report Submitted'
+											),
+											_react3.default.createElement(
+												'div',
+												{ className: 'counts' },
+												'4'
+											),
+											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
+										),
+										_react3.default.createElement(
+											'div',
+											{ onClick: '', className: 'row-item', style: { background: '#3065a4', color: '#fff', border: 'none' } },
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												'Site Visited'
+											),
+											_react3.default.createElement(
+												'div',
+												{ className: 'counts' },
+												'5'
+											),
+											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
+										)
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return Profile;
+		return Profile;
 	}(_react2.Component));
 
 	exports.default = Profile;
@@ -51730,9 +51763,10 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.getProfileInfo = getProfileInfo;
+	exports.getSelectedProfileInfo = getSelectedProfileInfo;
 	exports.sendOTP = sendOTP;
 	exports.verifyOTP = verifyOTP;
 
@@ -51747,103 +51781,124 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function fetchingStart() {
-	  return {
-	    type: _ActionTypes2.default.FETCHING_START
-	  };
+		return {
+			type: _ActionTypes2.default.FETCHING_START
+		};
 	}
 
 	function fetchingStop() {
-	  return {
-	    type: _ActionTypes2.default.FETCHING_STOP
-	  };
+		return {
+			type: _ActionTypes2.default.FETCHING_STOP
+		};
 	}
 
 	function profileRequest() {
-	  return {
-	    type: _ActionTypes2.default.PROFILE_REQUEST
-	  };
+		return {
+			type: _ActionTypes2.default.PROFILE_REQUEST
+		};
 	}
 
 	function profileSuccess(response) {
-	  return {
-	    type: _ActionTypes2.default.PROFILE_SUCCESS,
-	    response: response
-	  };
+		return {
+			type: _ActionTypes2.default.PROFILE_SUCCESS,
+			response: response
+		};
 	}
 
 	function profileFailed() {
-	  return {
-	    type: _ActionTypes2.default.PROFILE_FAILED
-	  };
+		return {
+			type: _ActionTypes2.default.PROFILE_FAILED
+		};
 	}
 
 	function getProfileInfo(userData) {
-	  return function (dispatch) {
-	    dispatch(profileRequest());
-	    return _axios2.default.post('/profile.php', {
-	      email: userData.loginEmail,
-	      user_id: userData.loginId
-	    }).then(function (res) {
-	      dispatch(profileSuccess(res.data));
-	    }).catch(function () {
-	      dispatch(profileFailed(true));
-	    });
-	  };
+		return function (dispatch) {
+			dispatch(profileRequest());
+			return _axios2.default.post('/profile.php', {
+				email: userData.loginEmail,
+				user_id: userData.loginId
+			}).then(function (res) {
+				dispatch(profileSuccess(res.data));
+			}).catch(function () {
+				dispatch(profileFailed(true));
+			});
+		};
+	}
+
+	function selectedProfileSuccess(response) {
+		return {
+			type: _ActionTypes2.default.SELECTED_USER_PROFILE,
+			response: response
+		};
+	}
+
+	function getSelectedProfileInfo(userData) {
+		return function (dispatch) {
+			dispatch(profileRequest());
+			return _axios2.default.post('/profile.php', {
+				email: userData.loginEmail,
+				user_id: userData.loginId
+			}).then(function (res) {
+				dispatch(selectedProfileSuccess(res.data));
+			}).catch(function () {
+				dispatch(profileFailed(true));
+			});
+		};
 	}
 
 	function editProfileOTPRequest() {
-	  return {
-	    type: _ActionTypes2.default.EDIT_PROFILE_OTP_REQUEST
-	  };
+		return {
+			type: _ActionTypes2.default.EDIT_PROFILE_OTP_REQUEST
+		};
 	}
 
 	function editProfileOTPSuccess(response) {
-	  return {
-	    type: _ActionTypes2.default.EDIT_PROFILE_OTP_SUCCESS,
-	    response: response
-	  };
+		return {
+			type: _ActionTypes2.default.EDIT_PROFILE_OTP_SUCCESS,
+			response: response
+		};
 	}
 
 	function editProfileOTPFailed() {
-	  return {
-	    type: _ActionTypes2.default.EDIT_PROFILE_OTP_FAILED
-	  };
+		return {
+			type: _ActionTypes2.default.EDIT_PROFILE_OTP_FAILED
+		};
 	}
 
 	function sendOTP(userData) {
-	  return function (dispatch) {
-	    dispatch(editProfileOTPRequest());
-	    return _axios2.default.post('/send-otp-mobile-verify.php', {
-	      userId: userData.userId,
-	      mobile: userData.mobile
-	    }).then(function (res) {
-	      dispatch(editProfileOTPSuccess(res.data));
-	    }).catch(function () {
-	      dispatch(editProfileOTPFailed(true));
-	    });
-	  };
+		return function (dispatch) {
+			dispatch(editProfileOTPRequest());
+			return _axios2.default.post('/send-otp-mobile-verify.php', {
+				userId: userData.userId,
+				mobile: userData.mobile
+			}).then(function (res) {
+				dispatch(editProfileOTPSuccess(res.data));
+			}).catch(function () {
+				dispatch(editProfileOTPFailed(true));
+			});
+		};
 	}
 
 	function verifyOTPSuccess(response) {
-	  return {
-	    type: _ActionTypes2.default.VERIFY_OTP_SUCCESS,
-	    response: response
-	  };
+		return {
+			type: _ActionTypes2.default.VERIFY_OTP_SUCCESS,
+			response: response
+		};
 	}
 
 	function verifyOTP(userData) {
-	  return function (dispatch) {
-	    dispatch(fetchingStart());
-	    return _axios2.default.post('/update-mobile.php', {
-	      userId: userData.userId,
-	      mobile: userData.mobile,
-	      otp: userData.otp
-	    }).then(function (res) {
-	      dispatch(verifyOTPSuccess(res.data));
-	    }).catch(function () {
-	      dispatch(fetchingStop(true));
-	    });
-	  };
+		return function (dispatch) {
+			dispatch(fetchingStart());
+			return _axios2.default.post('/update-mobile.php', {
+				userId: userData.userId,
+				mobile: userData.mobile,
+				otp: userData.otp
+			}).then(function (res) {
+				dispatch(verifyOTPSuccess(res.data));
+			}).catch(function () {
+				dispatch(fetchingStop(true));
+			});
+		};
 	}
 
 /***/ }),
@@ -53520,7 +53575,7 @@
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 
 	var _index = __webpack_require__(2);
@@ -53556,265 +53611,264 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _components = {
-	    Login: {
-	        displayName: 'Login'
-	    }
+		Login: {
+			displayName: 'Login'
+		}
 	};
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	    filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
-	    components: _components,
-	    locals: [module],
-	    imports: [_react3.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
 	});
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	    filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
-	    components: _components,
-	    locals: [],
-	    imports: [_react3.default, _index2.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
 	});
 
 	function _wrapComponent(id) {
-	    return function (Component) {
-	        return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-	    };
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
 	}
 
 	var Login = _wrapComponent('Login')(function (_Component) {
-	    _inherits(Login, _Component);
+		_inherits(Login, _Component);
 
-	    function Login(props) {
-	        _classCallCheck(this, Login);
+		function Login(props) {
+			_classCallCheck(this, Login);
 
-	        var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (Login.__proto__ || Object.getPrototypeOf(Login)).call(this, props));
 
-	        _this.state = {
-	            loginEmail: '',
-	            loginPassword: '',
-	            redirectToReferrer: '',
-	            showSignupForm: false,
-	            showForgotPasswordForm: false
-	        };
-	        _this.handleSubmit = _this.handleSubmit.bind(_this);
-	        _this.getLoginInfo = _this.getLoginInfo.bind(_this);
-	        return _this;
-	    }
+			_this.state = {
+				loginEmail: '',
+				loginPassword: '',
+				showSignupForm: false,
+				showForgotPasswordForm: false
+			};
+			_this.handleSubmit = _this.handleSubmit.bind(_this);
+			_this.getLoginInfo = _this.getLoginInfo.bind(_this);
+			return _this;
+		}
 
-	    _createClass(Login, [{
-	        key: 'componentDidUpdate',
-	        value: function componentDidUpdate(prevProps) {
-	            if (prevProps.loginInfo.loginEmail !== this.props.loginInfo.loginEmail) {
-	                _history2.default.replace('/profile');
-	            }
-	        }
-	    }, {
-	        key: 'handleSubmit',
-	        value: function handleSubmit(event) {
-	            var _event$target = event.target,
-	                fieldName = _event$target.name,
-	                value = _event$target.value;
+		_createClass(Login, [{
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate(prevProps) {
+				if (prevProps.loginInfo.loginEmail !== this.props.loginInfo.loginEmail) {
+					_history2.default.replace('/profile');
+				}
+			}
+		}, {
+			key: 'getLoginInfo',
+			value: function getLoginInfo() {
+				var _state = this.state,
+				    loginEmail = _state.loginEmail,
+				    loginPassword = _state.loginPassword;
 
-	            this.setState(_defineProperty({}, fieldName, value));
-	        }
-	    }, {
-	        key: 'getLoginInfo',
-	        value: function getLoginInfo() {
-	            var _state = this.state,
-	                loginEmail = _state.loginEmail,
-	                loginPassword = _state.loginPassword;
+				var loginData = {
+					loginEmail: loginEmail,
+					loginPassword: loginPassword
+				};
+				this.props.getLoginInfo(loginData);
+			}
+		}, {
+			key: 'handleSubmit',
+			value: function handleSubmit(event) {
+				var _event$target = event.target,
+				    fieldName = _event$target.name,
+				    value = _event$target.value;
 
-	            var loginData = {
-	                loginEmail: loginEmail,
-	                loginPassword: loginPassword
-	            };
-	            this.props.getLoginInfo(loginData);
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var _state2 = this.state,
-	                showSignupForm = _state2.showSignupForm,
-	                showForgotPasswordForm = _state2.showForgotPasswordForm;
-	            var fetching = this.props.loginInfo.fetching;
+				this.setState(_defineProperty({}, fieldName, value));
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _state2 = this.state,
+				    showSignupForm = _state2.showSignupForm,
+				    showForgotPasswordForm = _state2.showForgotPasswordForm;
+				var fetching = this.props.loginInfo.fetching;
 
-	            return _react3.default.createElement(
-	                _react3.default.Fragment,
-	                null,
-	                _react3.default.createElement(
-	                    'div',
-	                    { className: 'panel' },
-	                    _react3.default.createElement(
-	                        'div',
-	                        { className: 'panel-body' },
-	                        _react3.default.createElement(
-	                            'h3',
-	                            null,
-	                            'Login here'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Email'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'text', id: 'loginEmail', name: 'loginEmail', value: this.state.loginEmail, onChange: this.handleSubmit, className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Password'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'password', id: 'loginPassword', name: 'loginPassword', value: this.state.loginPassword, onChange: this.handleSubmit, className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'button',
-	                            { type: 'button', onClick: this.getLoginInfo, className: 'btn btn-login btn-block' },
-	                            fetching && _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
-	                            ' Submit'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'group-anchor m-t-rg text-center' },
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Signup here'
-	                            ),
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Forgot password?'
-	                            )
-	                        )
-	                    )
-	                ),
-	                showSignupForm && _react3.default.createElement(
-	                    'div',
-	                    { className: 'panel' },
-	                    _react3.default.createElement(
-	                        'div',
-	                        { className: 'panel-body' },
-	                        _react3.default.createElement(
-	                            'h3',
-	                            null,
-	                            'New user, register here'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Name'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'text', id: 'userNameReg', className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Email'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'text', id: 'userEmailReg', className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Password'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'password', id: 'userPassReg', className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'button',
-	                            { type: 'button', onClick: '', className: 'btn btn-login btn-block' },
-	                            _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
-	                            ' Submit'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'group-anchor m-t-rg text-center' },
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Login here'
-	                            ),
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Forgot password?'
-	                            )
-	                        )
-	                    )
-	                ),
-	                showForgotPasswordForm && _react3.default.createElement(
-	                    'div',
-	                    { className: 'panel' },
-	                    _react3.default.createElement(
-	                        'div',
-	                        { className: 'panel-body' },
-	                        _react3.default.createElement(
-	                            'h3',
-	                            null,
-	                            'Forgot password?'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Email'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'text', id: 'userEmailForPass', className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'form-group m-b-rg' },
-	                            _react3.default.createElement(
-	                                'label',
-	                                null,
-	                                'Mobile (Registered)'
-	                            ),
-	                            _react3.default.createElement('input', { type: 'text', id: 'userMobForPass', className: 'form-control' })
-	                        ),
-	                        _react3.default.createElement(
-	                            'button',
-	                            { type: 'button', onClick: '', className: 'btn btn-login btn-block' },
-	                            _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
-	                            ' Submit'
-	                        ),
-	                        _react3.default.createElement(
-	                            'div',
-	                            { className: 'group-anchor m-t-rg text-center' },
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Login here'
-	                            ),
-	                            _react3.default.createElement(
-	                                'a',
-	                                { href: 'javascript:void(0)', onClick: '' },
-	                                'Forgot password?'
-	                            )
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
+				return _react3.default.createElement(
+					_react3.default.Fragment,
+					null,
+					_react3.default.createElement(
+						'div',
+						{ className: 'panel' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel-body' },
+							_react3.default.createElement(
+								'h3',
+								null,
+								'Login here'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Email'
+								),
+								_react3.default.createElement('input', { type: 'text', id: 'loginEmail', name: 'loginEmail', value: this.state.loginEmail, onChange: this.handleSubmit, className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Password'
+								),
+								_react3.default.createElement('input', { type: 'password', id: 'loginPassword', name: 'loginPassword', value: this.state.loginPassword, onChange: this.handleSubmit, className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'button',
+								{ type: 'button', onClick: this.getLoginInfo, className: 'btn btn-login btn-block' },
+								fetching && _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
+								' Submit'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'group-anchor m-t-rg text-center' },
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Signup here'
+								),
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Forgot password?'
+								)
+							)
+						)
+					),
+					showSignupForm && _react3.default.createElement(
+						'div',
+						{ className: 'panel' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel-body' },
+							_react3.default.createElement(
+								'h3',
+								null,
+								'New user, register here'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Name'
+								),
+								_react3.default.createElement('input', { type: 'text', id: 'userNameReg', className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Email'
+								),
+								_react3.default.createElement('input', { type: 'text', id: 'userEmailReg', className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Password'
+								),
+								_react3.default.createElement('input', { type: 'password', id: 'userPassReg', className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'button',
+								{ type: 'button', onClick: '', className: 'btn btn-login btn-block' },
+								_react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
+								' Submit'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'group-anchor m-t-rg text-center' },
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Login here'
+								),
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Forgot password?'
+								)
+							)
+						)
+					),
+					showForgotPasswordForm && _react3.default.createElement(
+						'div',
+						{ className: 'panel' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel-body' },
+							_react3.default.createElement(
+								'h3',
+								null,
+								'Forgot password?'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Email'
+								),
+								_react3.default.createElement('input', { type: 'text', id: 'userEmailForPass', className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'form-group m-b-rg' },
+								_react3.default.createElement(
+									'label',
+									null,
+									'Mobile (Registered)'
+								),
+								_react3.default.createElement('input', { type: 'text', id: 'userMobForPass', className: 'form-control' })
+							),
+							_react3.default.createElement(
+								'button',
+								{ type: 'button', onClick: '', className: 'btn btn-login btn-block' },
+								_react3.default.createElement('span', { className: 'fa fa-spin fa-spinner' }),
+								' Submit'
+							),
+							_react3.default.createElement(
+								'div',
+								{ className: 'group-anchor m-t-rg text-center' },
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Login here'
+								),
+								_react3.default.createElement(
+									'a',
+									{ href: 'javascript:void(0)', onClick: '' },
+									'Forgot password?'
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	    return Login;
+		return Login;
 	}(_react2.Component));
 
 	exports.default = Login;
@@ -53827,10 +53881,11 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 	exports.getLoginInfo = getLoginInfo;
 	exports.logout = logout;
+	exports.allUsers = allUsers;
 
 	var _ActionTypes = __webpack_require__(221);
 
@@ -53847,53 +53902,75 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function loginRequest() {
-	  return {
-	    type: _ActionTypes2.default.LOGIN_REQUEST
-	  };
+		return {
+			type: _ActionTypes2.default.LOGIN_REQUEST
+		};
 	}
 
 	function loginSuccess(response) {
-	  return {
-	    type: _ActionTypes2.default.LOGIN_SUCCESS,
-	    response: response
-	  };
+		return {
+			type: _ActionTypes2.default.LOGIN_SUCCESS,
+			response: response
+		};
 	}
 
 	function loginFailed() {
-	  return {
-	    type: _ActionTypes2.default.LOGIN_FAILED
-	  };
+		return {
+			type: _ActionTypes2.default.LOGIN_FAILED
+		};
 	}
 
 	function getLoginInfo(userData) {
-	  return function (dispatch) {
-	    dispatch(loginRequest());
-	    return _axios2.default.post('/login.php', {
-	      email: userData.loginEmail,
-	      password: userData.loginPassword
-	    }).then(function (res) {
-	      if (res.data[0].email) {
-	        dispatch(loginSuccess(res.data));
-	      } else {
-	        dispatch(loginFailed(true));
-	      }
-	    }).catch(function () {
-	      dispatch(loginFailed(true));
-	    });
-	  };
+		return function (dispatch) {
+			dispatch(loginRequest());
+			return _axios2.default.post('/login.php', {
+				email: userData.loginEmail,
+				password: userData.loginPassword
+			}).then(function (res) {
+				if (res.data[0].email) {
+					dispatch(loginSuccess(res.data));
+				} else {
+					dispatch(loginFailed(true));
+				}
+			}).catch(function () {
+				dispatch(loginFailed(true));
+			});
+		};
 	}
 
 	function logoutSuccess() {
-	  return {
-	    type: _ActionTypes2.default.LOGOUT_SUCCESS
-	  };
+		return {
+			type: _ActionTypes2.default.LOGOUT_SUCCESS
+		};
 	}
 
 	function logout() {
-	  return function (dispatch) {
-	    dispatch(logoutSuccess());
-	    _history2.default.push('/login');
-	  };
+		return function (dispatch) {
+			dispatch(logoutSuccess());
+			_history2.default.push('/login');
+		};
+	}
+
+	function getAllUsers(response) {
+		return {
+			type: _ActionTypes2.default.GET_ALL_USERS,
+			response: response
+		};
+	}
+
+	function allUsers() {
+		return function (dispatch) {
+			dispatch(loginRequest());
+			return _axios2.default.post('/users.php', {}).then(function (res) {
+				if (res.data[0].email) {
+					dispatch(getAllUsers(res.data));
+				} else {
+					dispatch(loginFailed(true));
+				}
+			}).catch(function () {
+				dispatch(loginFailed(true));
+			});
+		};
 	}
 
 /***/ }),
@@ -54388,12 +54465,12 @@
 						{ id: 'sidemenu' },
 						_react3.default.createElement(
 							'div',
-							{ className: !this.state.sideMenuOpen ? "menu-opener" : "menu-opener menu-opener-active", onClick: this.openSideMenu },
-							_react3.default.createElement('span', { className: !this.state.sideMenuOpen ? "fa fa-bars fa-2x" : "fa fa-arrow-left" })
+							{ className: !this.state.sideMenuOpen ? 'menu-opener' : 'menu-opener menu-opener-active', onClick: this.openSideMenu },
+							_react3.default.createElement('span', { className: !this.state.sideMenuOpen ? 'fa fa-bars fa-2x' : 'fa fa-arrow-left' })
 						),
 						_react3.default.createElement(
 							'div',
-							{ className: !this.state.sideMenuOpen ? "side-menu side-menu-hide" : "side-menu side-menu-open" },
+							{ className: !this.state.sideMenuOpen ? 'side-menu side-menu-hide' : 'side-menu side-menu-open' },
 							_react3.default.createElement(
 								'ul',
 								{ onClick: this.openSideMenu },
@@ -54443,6 +54520,15 @@
 											_reactRouterDom.Link,
 											{ to: '/see-checklists' },
 											'See Checklists'
+										)
+									),
+									_react3.default.createElement(
+										'li',
+										null,
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/users' },
+											'Users'
 										)
 									)
 								),
@@ -54633,7 +54719,7 @@
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _index = __webpack_require__(2);
@@ -54664,9 +54750,9 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -54675,272 +54761,272 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _components = {
-	  AddChecklists: {
-	    displayName: 'AddChecklists'
-	  }
+		AddChecklists: {
+			displayName: 'AddChecklists'
+		}
 	};
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
-	  components: _components,
-	  locals: [module],
-	  imports: [_react3.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
 	});
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
-	  components: _components,
-	  locals: [],
-	  imports: [_react3.default, _index2.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
 	});
 
 	function _wrapComponent(id) {
-	  return function (Component) {
-	    return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-	  };
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
 	}
 
 	var KeyCodes = {
-	  comma: 188,
-	  enter: 13
+		comma: 188,
+		enter: 13
 	};
 
 	var delimiters = [KeyCodes.comma, KeyCodes.enter];
 
 	var AddChecklists = _wrapComponent('AddChecklists')(function (_Component) {
-	  _inherits(AddChecklists, _Component);
+		_inherits(AddChecklists, _Component);
 
-	  function AddChecklists(props) {
-	    _classCallCheck(this, AddChecklists);
+		function AddChecklists(props) {
+			_classCallCheck(this, AddChecklists);
 
-	    var _this = _possibleConstructorReturn(this, (AddChecklists.__proto__ || Object.getPrototypeOf(AddChecklists)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (AddChecklists.__proto__ || Object.getPrototypeOf(AddChecklists)).call(this, props));
 
-	    _this.state = {
-	      projects: '',
-	      tags: [],
-	      suggestions: [],
-	      projectSelected: '',
-	      projectSelectedEmpty: false,
-	      saveDataSuccessFully: ''
-	    };
-	    _this.handleDelete = _this.handleDelete.bind(_this);
-	    _this.handleAddition = _this.handleAddition.bind(_this);
-	    _this.handleDrag = _this.handleDrag.bind(_this);
-	    return _this;
-	  }
+			_this.state = {
+				projects: '',
+				tags: [],
+				suggestions: [],
+				projectSelected: '',
+				projectSelectedEmpty: false
+			};
+			_this.handleDelete = _this.handleDelete.bind(_this);
+			_this.handleAddition = _this.handleAddition.bind(_this);
+			_this.handleDrag = _this.handleDrag.bind(_this);
+			return _this;
+		}
 
-	  _createClass(AddChecklists, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.getProjects();
-	      this.props.dataReset();
-	    }
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate(prevProps) {
-	      prevProps.frazilProjects !== this.props.frazilProjects && this.setState({
-	        projects: this.props.frazilProjects
-	      });
-	    }
-	  }, {
-	    key: 'checklistInputFieldsAdd',
-	    value: function checklistInputFieldsAdd() {
-	      var _state = this.state,
-	          tags = _state.tags,
-	          projectSelected = _state.projectSelected;
-	      var _props = this.props,
-	          addChecklists = _props.addChecklists,
-	          _props$profileInfo = _props.profileInfo;
-	      _props$profileInfo = _props$profileInfo === undefined ? {} : _props$profileInfo;
-	      var id = _props$profileInfo.id;
+		_createClass(AddChecklists, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getProjects();
+				this.props.dataReset();
+			}
+		}, {
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate(prevProps) {
+				prevProps.frazilProjects !== this.props.frazilProjects && this.setState({
+					projects: this.props.frazilProjects
+				});
+			}
+		}, {
+			key: 'onChange',
+			value: function onChange(e) {
+				var _e$target = e.target;
+				_e$target = _e$target === undefined ? {} : _e$target;
+				var value = _e$target.value,
+				    name = _e$target.name;
 
-	      var payload = {
-	        tags: tags,
-	        projectSelected: projectSelected,
-	        user_id: id
-	      };
-	      if (projectSelected && tags.length) {
-	        addChecklists(payload);
-	        this.setState({ projectSelectedEmpty: false });
-	      } else {
-	        this.setState({ projectSelectedEmpty: true });
-	      }
-	    }
-	  }, {
-	    key: 'handleDelete',
-	    value: function handleDelete(i) {
-	      var tags = this.state.tags;
+				this.setState(_defineProperty({}, name, value));
+			}
+		}, {
+			key: 'handleDelete',
+			value: function handleDelete(i) {
+				var tags = this.state.tags;
 
-	      this.setState({
-	        tags: tags.filter(function (tag, index) {
-	          return index !== i;
-	        })
-	      });
-	    }
-	  }, {
-	    key: 'handleAddition',
-	    value: function handleAddition(tag) {
-	      this.setState(function (state) {
-	        return { tags: [].concat(_toConsumableArray(state.tags), [tag]) };
-	      });
-	    }
-	  }, {
-	    key: 'handleDrag',
-	    value: function handleDrag(tag, currPos, newPos) {
-	      var tags = [].concat(_toConsumableArray(this.state.tags));
-	      var newTags = tags.slice();
+				this.setState({
+					tags: tags.filter(function (tag, index) {
+						return index !== i;
+					})
+				});
+			}
+		}, {
+			key: 'handleAddition',
+			value: function handleAddition(tag) {
+				this.setState(function (state) {
+					return { tags: [].concat(_toConsumableArray(state.tags), [tag]) };
+				});
+			}
+		}, {
+			key: 'handleDrag',
+			value: function handleDrag(tag, currPos, newPos) {
+				var tags = [].concat(_toConsumableArray(this.state.tags));
+				var newTags = tags.slice();
 
-	      newTags.splice(currPos, 1);
-	      newTags.splice(newPos, 0, tag);
+				newTags.splice(currPos, 1);
+				newTags.splice(newPos, 0, tag);
 
-	      // re-render
-	      this.setState({ tags: newTags });
-	    }
-	  }, {
-	    key: 'onChange',
-	    value: function onChange(e) {
-	      var _e$target = e.target;
-	      _e$target = _e$target === undefined ? {} : _e$target;
-	      var value = _e$target.value,
-	          name = _e$target.name;
+				// re-render
+				this.setState({ tags: newTags });
+			}
+		}, {
+			key: 'checklistInputFieldsAdd',
+			value: function checklistInputFieldsAdd() {
+				var _state = this.state,
+				    tags = _state.tags,
+				    projectSelected = _state.projectSelected;
+				var _props = this.props,
+				    addChecklists = _props.addChecklists,
+				    _props$profileInfo = _props.profileInfo;
+				_props$profileInfo = _props$profileInfo === undefined ? {} : _props$profileInfo;
+				var id = _props$profileInfo.id;
 
-	      this.setState(_defineProperty({}, name, value));
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this2 = this;
+				var payload = {
+					tags: tags,
+					projectSelected: projectSelected,
+					user_id: id
+				};
+				if (projectSelected && tags.length) {
+					addChecklists(payload);
+					this.setState({ projectSelectedEmpty: false });
+				} else {
+					this.setState({ projectSelectedEmpty: true });
+				}
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
 
-	      var _state2 = this.state,
-	          projects = _state2.projects,
-	          tags = _state2.tags,
-	          suggestions = _state2.suggestions,
-	          projectSelectedEmpty = _state2.projectSelectedEmpty;
+				var _state2 = this.state,
+				    projects = _state2.projects,
+				    tags = _state2.tags,
+				    suggestions = _state2.suggestions,
+				    projectSelectedEmpty = _state2.projectSelectedEmpty;
 
-	      var allProjects = [];
-	      projects && projects.map(function (project) {
-	        return allProjects.push(_react3.default.createElement(
-	          'option',
-	          { value: project.id },
-	          project.name
-	        ));
-	      });
-	      var saveDataSuccessFully = this.props.saveDataSuccessFully;
+				var allProjects = [];
+				projects && projects.map(function (project) {
+					return allProjects.push(_react3.default.createElement(
+						'option',
+						{ value: project.id },
+						project.name
+					));
+				});
+				var saveDataSuccessFully = this.props.saveDataSuccessFully;
 
 
-	      if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
-	        _history2.default.push('/');
-	      }
+				if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
+					_history2.default.push('/');
+				}
 
-	      return _react3.default.createElement(
-	        _react3.default.Fragment,
-	        null,
-	        _react3.default.createElement(
-	          'div',
-	          { className: 'container m-t-50' },
-	          _react3.default.createElement(
-	            'div',
-	            { className: 'panel panel-default' },
-	            _react3.default.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              _react3.default.createElement(
-	                'h3',
-	                null,
-	                'Add Checklists'
-	              ),
-	              saveDataSuccessFully && _react3.default.createElement(
-	                'div',
-	                { style: { marginBottom: '2rem' } },
-	                _react3.default.createElement(
-	                  'p',
-	                  { className: 'text-success' },
-	                  'Checklists addedd successfully!'
-	                ),
-	                _react3.default.createElement(
-	                  'p',
-	                  null,
-	                  _react3.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/see-checklists', className: 'btn btn-redirect-o' },
-	                    'See checklists'
-	                  )
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'form-group m-b-rg' },
-	                _react3.default.createElement(
-	                  'label',
-	                  null,
-	                  'Select Project'
-	                ),
-	                _react3.default.createElement(
-	                  'select',
-	                  { name: 'projectSelected', className: 'form-control', style: { height: '40px' }, onChange: function onChange(e) {
-	                      return _this2.onChange(e);
-	                    } },
-	                  _react3.default.createElement(
-	                    'option',
-	                    { value: '' },
-	                    'Select project'
-	                  ),
-	                  allProjects,
-	                  _react3.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/add-project', className: 'btn btn-redirect-o' },
-	                    'Add Project'
-	                  )
-	                ),
-	                projectSelectedEmpty && _react3.default.createElement(
-	                  'div',
-	                  null,
-	                  _react3.default.createElement(
-	                    'small',
-	                    { className: 'text-error' },
-	                    'Please enter project name'
-	                  )
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'form-group m-b-rg' },
-	                _react3.default.createElement(
-	                  'label',
-	                  null,
-	                  'Enter Checklists'
-	                ),
-	                _react3.default.createElement(
-	                  'div',
-	                  { id: 'all_checklists', className: 'checklist_input_section' },
-	                  _react3.default.createElement(_reactTagInput.WithContext, { tags: tags,
-	                    suggestions: suggestions,
-	                    handleDelete: this.handleDelete,
-	                    handleAddition: this.handleAddition,
-	                    handleDrag: this.handleDrag,
-	                    delimiters: delimiters
-	                  })
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'form-group m-b-rg' },
-	                _react3.default.createElement(
-	                  'button',
-	                  { type: 'button', className: 'btn btn-purple-o', onClick: function onClick() {
-	                      return _this2.checklistInputFieldsAdd();
-	                    } },
-	                  'Submit'
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react3.default.createElement(
+					_react3.default.Fragment,
+					null,
+					_react3.default.createElement(
+						'div',
+						{ className: 'container m-t-50' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel panel-default' },
+							_react3.default.createElement(
+								'div',
+								{ className: 'panel-body' },
+								_react3.default.createElement(
+									'h3',
+									null,
+									'Add Checklists'
+								),
+								saveDataSuccessFully && _react3.default.createElement(
+									'div',
+									{ style: { marginBottom: '2rem' } },
+									_react3.default.createElement(
+										'p',
+										{ className: 'text-success' },
+										'Checklists addedd successfully!'
+									),
+									_react3.default.createElement(
+										'p',
+										null,
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/see-checklists', className: 'btn btn-redirect-o' },
+											'See checklists'
+										)
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'form-group m-b-rg' },
+									_react3.default.createElement(
+										'label',
+										null,
+										'Select Project'
+									),
+									_react3.default.createElement(
+										'select',
+										{ name: 'projectSelected', className: 'form-control', style: { height: '40px' }, onChange: function onChange(e) {
+												return _this2.onChange(e);
+											} },
+										_react3.default.createElement(
+											'option',
+											{ value: '' },
+											'Select project'
+										),
+										allProjects,
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/add-project', className: 'btn btn-redirect-o' },
+											'Add Project'
+										)
+									),
+									projectSelectedEmpty && _react3.default.createElement(
+										'div',
+										null,
+										_react3.default.createElement(
+											'small',
+											{ className: 'text-error' },
+											'Please enter project name'
+										)
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'form-group m-b-rg' },
+									_react3.default.createElement(
+										'label',
+										null,
+										'Enter Checklists'
+									),
+									_react3.default.createElement(
+										'div',
+										{ id: 'all_checklists', className: 'checklist_input_section' },
+										_react3.default.createElement(_reactTagInput.WithContext, {
+											tags: tags,
+											suggestions: suggestions,
+											handleDelete: this.handleDelete,
+											handleAddition: this.handleAddition,
+											handleDrag: this.handleDrag,
+											delimiters: delimiters
+										})
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'form-group m-b-rg' },
+									_react3.default.createElement(
+										'button',
+										{ type: 'button', className: 'btn btn-purple-o', onClick: function onClick() {
+												return _this2.checklistInputFieldsAdd();
+											} },
+										'Submit'
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return AddChecklists;
+		return AddChecklists;
 	}(_react2.Component));
 
 	exports.default = AddChecklists;
@@ -85398,16 +85484,17 @@
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+		value: true
 	});
 	exports.getProjects = getProjects;
+	exports.saveSuccessfully = saveSuccessfully;
 	exports.addChecklists = addChecklists;
 	exports.editChecklists = editChecklists;
-	exports.saveSuccessfully = saveSuccessfully;
 	exports.addProject = addProject;
 	exports.projectChecklists = projectChecklists;
 	exports.seeChecklists = seeChecklists;
 	exports.dataReset = dataReset;
+	exports.assignProject = assignProject;
 
 	var _ActionTypes = __webpack_require__(221);
 
@@ -85420,159 +85507,180 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function fetchProjectRequest() {
-	    return {
-	        type: _ActionTypes2.default.FETCH_PROJECT_REQUEST
-	    };
+		return {
+			type: _ActionTypes2.default.FETCH_PROJECT_REQUEST
+		};
 	}
 
 	function fetchProjectSuccess(response) {
-	    return {
-	        type: _ActionTypes2.default.FETCH_PROJECT_SUCCESS,
-	        response: response
-	    };
+		return {
+			type: _ActionTypes2.default.FETCH_PROJECT_SUCCESS,
+			response: response
+		};
 	}
 
 	function fetchProjectFailed(error) {
-	    return {
-	        type: _ActionTypes2.default.FETCH_PROJECT_FAILED,
-	        error: error
-	    };
+		return {
+			type: _ActionTypes2.default.FETCH_PROJECT_FAILED,
+			error: error
+		};
 	}
 
 	function fetchStart() {
-	    return {
-	        type: _ActionTypes2.default.FETCHING_START
-	    };
+		return {
+			type: _ActionTypes2.default.FETCHING_START
+		};
 	}
 
 	function fetchStop(response) {
-	    return {
-	        type: _ActionTypes2.default.FETCHING_STOP,
-	        response: response
-	    };
+		return {
+			type: _ActionTypes2.default.FETCHING_STOP,
+			response: response
+		};
 	}
 
 	function fetchFailed(error) {
-	    return {
-	        type: _ActionTypes2.default.FETCHING_FAILED,
-	        error: error
-	    };
+		return {
+			type: _ActionTypes2.default.FETCHING_FAILED,
+			error: error
+		};
 	}
 
 	function getProjects() {
-	    return function (dispatch) {
-	        dispatch(fetchProjectRequest());
-	        return _axios2.default.post('/projects.php', {}).then(function (res) {
-	            dispatch(fetchProjectSuccess(res.data));
-	        }).catch(function () {
-	            dispatch(fetchProjectFailed(true));
-	        });
-	    };
-	}
-
-	function addChecklists(payload) {
-	    return function (dispatch) {
-	        dispatch(fetchStart());
-	        return _axios2.default.post('/add-checklists.php', {
-	            project: payload.projectSelected,
-	            checklists: payload.tags,
-	            userId: payload.user_id
-	        }).then(function (res) {
-	            if (res.data.success === 1) {
-	                dispatch(fetchStop());
-	                dispatch(saveSuccessfully(res.data.success));
-	            } else {
-	                dispatch(fetchFailed(true));
-	            }
-	        }).catch(function () {
-	            dispatch(fetchFailed(true));
-	        });
-	    };
-	}
-
-	function editChecklists(payload) {
-	    return function (dispatch) {
-	        dispatch(fetchStart());
-	        return _axios2.default.post('/edit-checklists.php', {
-	            project: payload.projectSelected,
-	            checklists: payload.tags,
-	            userId: payload.user_id
-	        }).then(function (res) {
-	            if (res.data.success === 1) {
-	                dispatch(fetchStop());
-	                dispatch(saveSuccessfully(res.data.success));
-	            } else {
-	                dispatch(fetchFailed(true));
-	            }
-	        }).catch(function () {
-	            dispatch(fetchFailed(true));
-	        });
-	    };
+		return function (dispatch) {
+			dispatch(fetchProjectRequest());
+			return _axios2.default.post('/projects.php', {}).then(function (res) {
+				dispatch(fetchProjectSuccess(res.data));
+			}).catch(function () {
+				dispatch(fetchProjectFailed(true));
+			});
+		};
 	}
 
 	function saveSuccessfully(response) {
-	    return {
-	        type: _ActionTypes2.default.SAVE_SUCCESSFULLY,
-	        response: response
-	    };
+		return {
+			type: _ActionTypes2.default.SAVE_SUCCESSFULLY,
+			response: response
+		};
+	}
+
+	function addChecklists(payload) {
+		return function (dispatch) {
+			dispatch(fetchStart());
+			return _axios2.default.post('/add-checklists.php', {
+				project: payload.projectSelected,
+				checklists: payload.tags,
+				userId: payload.user_id
+			}).then(function (res) {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+				}
+			}).catch(function () {
+				dispatch(fetchFailed(true));
+			});
+		};
+	}
+
+	function editChecklists(payload) {
+		return function (dispatch) {
+			dispatch(fetchStart());
+			return _axios2.default.post('/edit-checklists.php', {
+				project: payload.projectSelected,
+				checklists: payload.tags,
+				userId: payload.user_id
+			}).then(function (res) {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+				}
+			}).catch(function () {
+				dispatch(fetchFailed(true));
+			});
+		};
 	}
 
 	function addProject(payload) {
-	    return function (dispatch) {
-	        dispatch(fetchStart());
-	        return _axios2.default.post('/add-project.php', {
-	            project: payload.projectName,
-	            userId: payload.user_id
-	        }).then(function (res) {
-	            if (res.data.success === 1) {
-	                dispatch(fetchStop());
-	                dispatch(saveSuccessfully(res.data.success));
-	            } else {
-	                dispatch(fetchFailed(true));
-	            }
-	        }).catch(function () {
-	            dispatch(fetchFailed(true));
-	        });
-	    };
+		return function (dispatch) {
+			dispatch(fetchStart());
+			return _axios2.default.post('/add-project.php', {
+				project: payload.projectName,
+				userId: payload.user_id
+			}).then(function (res) {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+				}
+			}).catch(function () {
+				dispatch(fetchFailed(true));
+			});
+		};
 	}
 
 	function projectChecklists(response) {
-	    return {
-	        type: _ActionTypes2.default.PROJECT_CHECKLISTS,
-	        response: response
-	    };
+		return {
+			type: _ActionTypes2.default.PROJECT_CHECKLISTS,
+			response: response
+		};
 	}
 
 	function seeChecklists(payload) {
-	    return function (dispatch) {
-	        dispatch(fetchStart());
-	        return _axios2.default.post('/see-checklists.php', {
-	            project: payload.projectSelected,
-	            userId: payload.user_id
-	        }).then(function (res) {
-	            if (res.data.length) {
-	                dispatch(fetchStop());
-	                dispatch(projectChecklists(res.data));
-	            } else {
-	                dispatch(fetchFailed(true));
-	                dispatch(projectChecklists(res.data));
-	            }
-	        }).catch(function () {
-	            dispatch(fetchFailed(true));
-	        });
-	    };
+		return function (dispatch) {
+			dispatch(fetchStart());
+			return _axios2.default.post('/see-checklists.php', {
+				project: payload.projectSelected,
+				userId: payload.user_id
+			}).then(function (res) {
+				if (res.data.length) {
+					dispatch(fetchStop());
+					dispatch(projectChecklists(res.data));
+				} else {
+					dispatch(fetchFailed(true));
+					dispatch(projectChecklists(res.data));
+				}
+			}).catch(function () {
+				dispatch(fetchFailed(true));
+			});
+		};
 	}
 
 	function dataResetRequest() {
-	    return {
-	        type: _ActionTypes2.default.DATA_RESET
-	    };
+		return {
+			type: _ActionTypes2.default.DATA_RESET
+		};
 	}
 
 	function dataReset() {
-	    return function (dispatch) {
-	        dispatch(dataResetRequest());
-	    };
+		return function (dispatch) {
+			dispatch(dataResetRequest());
+		};
+	}
+
+	function assignProject(payload) {
+		console.log('in action', payload);
+		return function (dispatch) {
+			dispatch(fetchStart());
+			return _axios2.default.post('/assign-project.php', {
+				assigned_by: payload.assigned_by,
+				user_id: payload.user_id,
+				project_id: payload.project_id
+			}).then(function (res) {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+				}
+			}).catch(function () {
+				dispatch(fetchFailed(true));
+			});
+		};
 	}
 
 /***/ }),
@@ -85885,7 +85993,7 @@
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _index = __webpack_require__(2);
@@ -85923,191 +86031,190 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _components = {
-	  SeeChecklists: {
-	    displayName: 'SeeChecklists'
-	  }
+		SeeChecklists: {
+			displayName: 'SeeChecklists'
+		}
 	};
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
-	  components: _components,
-	  locals: [module],
-	  imports: [_react3.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
 	});
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
-	  components: _components,
-	  locals: [],
-	  imports: [_react3.default, _index2.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
 	});
 
 	function _wrapComponent(id) {
-	  return function (Component) {
-	    return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-	  };
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
 	}
 
 	var SeeChecklists = _wrapComponent('SeeChecklists')(function (_Component) {
-	  _inherits(SeeChecklists, _Component);
+		_inherits(SeeChecklists, _Component);
 
-	  function SeeChecklists(props) {
-	    _classCallCheck(this, SeeChecklists);
+		function SeeChecklists(props) {
+			_classCallCheck(this, SeeChecklists);
 
-	    var _this = _possibleConstructorReturn(this, (SeeChecklists.__proto__ || Object.getPrototypeOf(SeeChecklists)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (SeeChecklists.__proto__ || Object.getPrototypeOf(SeeChecklists)).call(this, props));
 
-	    _this.state = {
-	      user_id: props.profileInfo.id,
-	      projectSelected: '',
-	      projectChecklists: {},
-	      displayChecklists: false
-	    };
-	    return _this;
-	  }
+			_this.state = {
+				user_id: props.profileInfo.id,
+				projectSelected: '',
+				displayChecklists: false
+			};
+			return _this;
+		}
 
-	  _createClass(SeeChecklists, [{
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      this.props.getProjects();
-	      this.props.dataReset();
-	    }
-	  }, {
-	    key: 'onChange',
-	    value: function onChange(e) {
-	      var _this2 = this;
+		_createClass(SeeChecklists, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.getProjects();
+				this.props.dataReset();
+			}
+		}, {
+			key: 'onChange',
+			value: function onChange(e) {
+				var _this2 = this;
 
-	      var _e$target = e.target;
-	      _e$target = _e$target === undefined ? {} : _e$target;
-	      var value = _e$target.value,
-	          name = _e$target.name;
+				var _e$target = e.target;
+				_e$target = _e$target === undefined ? {} : _e$target;
+				var value = _e$target.value,
+				    name = _e$target.name;
 
-	      this.setState(_defineProperty({}, name, value), function () {
-	        var _state = _this2.state,
-	            user_id = _state.user_id,
-	            projectSelected = _state.projectSelected;
+				this.setState(_defineProperty({}, name, value), function () {
+					var _state = _this2.state,
+					    user_id = _state.user_id,
+					    projectSelected = _state.projectSelected;
 
-	        var payload = {
-	          user_id: user_id,
-	          projectSelected: projectSelected
-	        };
-	        _this2.props.seeChecklists(payload);
-	        _this2.setState({ displayChecklists: true });
-	      });
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _this3 = this;
+					var payload = {
+						user_id: user_id,
+						projectSelected: projectSelected
+					};
+					_this2.props.seeChecklists(payload);
+					_this2.setState({ displayChecklists: true });
+				});
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this3 = this;
 
-	      var _props = this.props,
-	          fetching = _props.fetching,
-	          frazilProjects = _props.frazilProjects,
-	          projectChecklists = _props.projectChecklists;
-	      var _state2 = this.state,
-	          projectSelected = _state2.projectSelected,
-	          displayChecklists = _state2.displayChecklists;
+				var _props = this.props,
+				    fetching = _props.fetching,
+				    frazilProjects = _props.frazilProjects,
+				    projectChecklists = _props.projectChecklists;
+				var _state2 = this.state,
+				    projectSelected = _state2.projectSelected,
+				    displayChecklists = _state2.displayChecklists;
 
-	      var allProjects = [];
-	      frazilProjects.length && frazilProjects.map(function (project) {
-	        return allProjects.push(_react3.default.createElement(
-	          'option',
-	          { value: project.id },
-	          project.name
-	        ));
-	      });
+				var allProjects = [];
+				frazilProjects.length && frazilProjects.map(function (project) {
+					return allProjects.push(_react3.default.createElement(
+						'option',
+						{ value: project.id },
+						project.name
+					));
+				});
 
-	      var allChecklists = [];
-	      projectChecklists && projectChecklists.map(function (item) {
-	        return allChecklists.push(_react3.default.createElement(
-	          'li',
-	          { key: item.id },
-	          item.checklist
-	        ));
-	      });
+				var allChecklists = [];
+				projectChecklists && projectChecklists.map(function (item) {
+					return allChecklists.push(_react3.default.createElement(
+						'li',
+						{ key: item.id },
+						item.checklist
+					));
+				});
 
-	      if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
-	        _history2.default.push('/');
-	      }
+				if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
+					_history2.default.push('/');
+				}
 
-	      return _react3.default.createElement(
-	        _react3.default.Fragment,
-	        null,
-	        _react3.default.createElement(
-	          'div',
-	          { className: 'container m-t-50' },
-	          _react3.default.createElement(
-	            'div',
-	            { className: 'panel panel-default' },
-	            _react3.default.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              _react3.default.createElement(
-	                'h3',
-	                null,
-	                'Checklists'
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'form-group m-b-rg' },
-	                _react3.default.createElement(
-	                  'label',
-	                  null,
-	                  'Select Project'
-	                ),
-	                _react3.default.createElement(
-	                  'select',
-	                  { name: 'projectSelected', className: 'form-control', style: { height: '40px' }, onChange: function onChange(e) {
-	                      return _this3.onChange(e);
-	                    } },
-	                  _react3.default.createElement(
-	                    'option',
-	                    { value: '' },
-	                    'Select project'
-	                  ),
-	                  allProjects,
-	                  _react3.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/add-project', className: 'btn btn-redirect-o' },
-	                    'Add Project'
-	                  )
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                null,
-	                _react3.default.createElement(
-	                  'h3',
-	                  { style: { display: 'flex', alignItems: 'center' } },
-	                  displayChecklists ? allChecklists ? _react3.default.createElement(
-	                    'span',
-	                    { style: { flex: 1, marginRight: '1rem' } },
-	                    allChecklists.length,
-	                    ' checklists found'
-	                  ) : _react3.default.createElement(
-	                    'span',
-	                    { style: { flex: 1, marginRight: '1rem' } },
-	                    'No checklists found!'
-	                  ) : '',
-	                  allChecklists.length ? _react3.default.createElement(
-	                    _reactRouterDom.Link,
-	                    { to: '/edit-checklists/' + projectSelected, className: 'btn btn-edit-o' },
-	                    'Edit'
-	                  ) : ''
-	                ),
-	                fetching ? _react3.default.createElement(
-	                  'div',
-	                  { style: { display: 'flex', justifyContent: 'center' } },
-	                  _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-2x' })
-	                ) : allChecklists
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				return _react3.default.createElement(
+					_react3.default.Fragment,
+					null,
+					_react3.default.createElement(
+						'div',
+						{ className: 'container m-t-50' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel panel-default' },
+							_react3.default.createElement(
+								'div',
+								{ className: 'panel-body' },
+								_react3.default.createElement(
+									'h3',
+									null,
+									'Checklists'
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'form-group m-b-rg' },
+									_react3.default.createElement(
+										'label',
+										null,
+										'Select Project'
+									),
+									_react3.default.createElement(
+										'select',
+										{ name: 'projectSelected', className: 'form-control', style: { height: '40px' }, onChange: function onChange(e) {
+												return _this3.onChange(e);
+											} },
+										_react3.default.createElement(
+											'option',
+											{ value: '' },
+											'Select project'
+										),
+										allProjects,
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/add-project', className: 'btn btn-redirect-o' },
+											'Add Project'
+										)
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									null,
+									_react3.default.createElement(
+										'h3',
+										{ style: { display: 'flex', alignItems: 'center' } },
+										displayChecklists ? allChecklists ? _react3.default.createElement(
+											'span',
+											{ style: { flex: 1, marginRight: '1rem' } },
+											allChecklists.length,
+											' checklists found'
+										) : _react3.default.createElement(
+											'span',
+											{ style: { flex: 1, marginRight: '1rem' } },
+											'No checklists found!'
+										) : '',
+										allChecklists.length ? _react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/edit-checklists/' + projectSelected, className: 'btn btn-edit-o' },
+											'Edit'
+										) : ''
+									),
+									fetching ? _react3.default.createElement(
+										'div',
+										{ style: { display: 'flex', justifyContent: 'center' } },
+										_react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-2x' })
+									) : allChecklists
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
 
-	  return SeeChecklists;
+		return SeeChecklists;
 	}(_react2.Component));
 
 	exports.default = SeeChecklists;
@@ -86491,10 +86598,458 @@
 /* 541 */
 /***/ (function(module, exports, __webpack_require__) {
 
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _reactRedux = __webpack_require__(185);
+
+	var _Users = __webpack_require__(542);
+
+	var _Users2 = _interopRequireDefault(_Users);
+
+	var _login = __webpack_require__(288);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+		return {
+			loginInfo: state.loginInfo
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return {
+			allUsers: function allUsers() {
+				dispatch((0, _login.allUsers)());
+			}
+		};
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_Users2.default);
+
+/***/ }),
+/* 542 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _index = __webpack_require__(2);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	var _index3 = __webpack_require__(30);
+
+	var _index4 = _interopRequireDefault(_index3);
+
+	var _react2 = __webpack_require__(13);
+
+	var _react3 = _interopRequireDefault(_react2);
+
+	var _index5 = __webpack_require__(31);
+
+	var _index6 = _interopRequireDefault(_index5);
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _reactRouterDom = __webpack_require__(225);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _components = {
+		Users: {
+			displayName: 'Users'
+		}
+	};
+
+	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/Users.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
+	});
+
+	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/Users.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
+	});
+
+	function _wrapComponent(id) {
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
+	}
+
+	// import history from '../history';
+
+	var Users = _wrapComponent('Users')(function (_Component) {
+		_inherits(Users, _Component);
+
+		function Users() {
+			_classCallCheck(this, Users);
+
+			return _possibleConstructorReturn(this, (Users.__proto__ || Object.getPrototypeOf(Users)).apply(this, arguments));
+		}
+
+		_createClass(Users, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				this.props.allUsers();
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var allUsers = this.props.loginInfo.allUsers;
+
+
+				return _react3.default.createElement(
+					'div',
+					{ className: 'panel' },
+					_react3.default.createElement(
+						'div',
+						{ className: 'panel-body' },
+						_react3.default.createElement(
+							'h3',
+							null,
+							'All users'
+						),
+						allUsers && allUsers.filter(function (user) {
+							return user.role !== 1;
+						}).map(function (user) {
+							return _react3.default.createElement(
+								'div',
+								{ className: 'users_list' },
+								_react3.default.createElement(
+									'div',
+									{ className: 'user_img' },
+									_react3.default.createElement('img', { src: ("http://ideaweaver.in/frazil-php") + '/' + user.profile_img })
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'user_info' },
+									_react3.default.createElement(
+										'p',
+										{ className: 'name' },
+										user.name
+									),
+									_react3.default.createElement(
+										'p',
+										null,
+										'Mob: ',
+										user.mobile
+									),
+									_react3.default.createElement(
+										'p',
+										null,
+										_react3.default.createElement(
+											_reactRouterDom.Link,
+											{ to: '/assign-project/' + user.id + '/' + user.email, className: 'btn btn-sm btn-redirect-o' },
+											'Assign project'
+										)
+									)
+								)
+							);
+						})
+					)
+				);
+			}
+		}]);
+
+		return Users;
+	}(_react2.Component));
+
+	exports.default = Users;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
+
+/***/ }),
+/* 543 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _reactRedux = __webpack_require__(185);
+
+	var _AssignProject = __webpack_require__(544);
+
+	var _AssignProject2 = _interopRequireDefault(_AssignProject);
+
+	var _profile = __webpack_require__(258);
+
+	var _addchecklists = __webpack_require__(534);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function mapStateToProps(state) {
+		return {
+			loginInfo: state.loginInfo,
+			selectedUserProfile: state.userProfile.selectedUserProfile,
+			frazilProjects: state.projects.frazilProjects,
+			saveDataSuccessFully: state.projects.saveDataSuccessFully
+		};
+	}
+
+	function mapDispatchToProps(dispatch) {
+		return {
+			getSelectedProfileInfo: function getSelectedProfileInfo(payload) {
+				dispatch((0, _profile.getSelectedProfileInfo)(payload));
+			},
+			getProjects: function getProjects() {
+				dispatch((0, _addchecklists.getProjects)());
+			},
+			assignProject: function assignProject(payload) {
+				dispatch((0, _addchecklists.assignProject)(payload));
+			},
+			dataReset: function dataReset() {
+				dispatch((0, _addchecklists.dataReset)());
+			}
+		};
+	}
+
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(_AssignProject2.default);
+
+/***/ }),
+/* 544 */
+/***/ (function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+
+	var _index = __webpack_require__(2);
+
+	var _index2 = _interopRequireDefault(_index);
+
+	var _index3 = __webpack_require__(30);
+
+	var _index4 = _interopRequireDefault(_index3);
+
+	var _react2 = __webpack_require__(13);
+
+	var _react3 = _interopRequireDefault(_react2);
+
+	var _index5 = __webpack_require__(31);
+
+	var _index6 = _interopRequireDefault(_index5);
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _reactRouterDom = __webpack_require__(225);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var _components = {
+		AssignProject: {
+			displayName: 'AssignProject'
+		}
+	};
+
+	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/AssignProject.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
+	});
+
+	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/AssignProject.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
+	});
+
+	function _wrapComponent(id) {
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
+	}
+
+	// import history from '../history';
+
+	var AssignProject = _wrapComponent('AssignProject')(function (_Component) {
+		_inherits(AssignProject, _Component);
+
+		function AssignProject(props) {
+			_classCallCheck(this, AssignProject);
+
+			var _this = _possibleConstructorReturn(this, (AssignProject.__proto__ || Object.getPrototypeOf(AssignProject)).call(this, props));
+
+			_this.state = {
+				assigned_by: props.loginInfo.loginId,
+				user_id: props.match.params.userId,
+				projectSelected: ''
+			};
+			return _this;
+		}
+
+		_createClass(AssignProject, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var _props = this.props,
+				    dataReset = _props.dataReset,
+				    getSelectedProfileInfo = _props.getSelectedProfileInfo,
+				    getProjects = _props.getProjects,
+				    _props$match$params = _props.match.params;
+				_props$match$params = _props$match$params === undefined ? {} : _props$match$params;
+				var userEmail = _props$match$params.userEmail,
+				    userId = _props$match$params.userId;
+
+				var profileData = {
+					loginEmail: userEmail,
+					loginId: userId
+				};
+				getSelectedProfileInfo(profileData);
+				getProjects();
+				dataReset();
+			}
+		}, {
+			key: 'onChange',
+			value: function onChange(e) {
+				var _e$target = e.target;
+				_e$target = _e$target === undefined ? {} : _e$target;
+				var value = _e$target.value,
+				    name = _e$target.name;
+
+				this.setState(_defineProperty({}, name, value));
+			}
+		}, {
+			key: 'assignProject',
+			value: function assignProject() {
+				var _state = this.state,
+				    projectSelected = _state.projectSelected,
+				    assigned_by = _state.assigned_by,
+				    user_id = _state.user_id;
+
+				var payload = {
+					project_id: projectSelected,
+					user_id: user_id,
+					assigned_by: assigned_by
+				};
+				this.props.assignProject(payload);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _this2 = this;
+
+				var _props2 = this.props,
+				    saveDataSuccessFully = _props2.saveDataSuccessFully,
+				    frazilProjects = _props2.frazilProjects,
+				    name = _props2.selectedUserProfile[0].name;
+
+				var allProjects = [];
+				frazilProjects.length && frazilProjects.map(function (project) {
+					return allProjects.push(_react3.default.createElement(
+						'option',
+						{ value: project.id },
+						project.name
+					));
+				});
+
+				return _react3.default.createElement(
+					'div',
+					{ className: 'panel' },
+					_react3.default.createElement(
+						'div',
+						{ className: 'panel-body' },
+						_react3.default.createElement(
+							'h3',
+							null,
+							'Assign project to ',
+							name
+						),
+						saveDataSuccessFully && _react3.default.createElement(
+							'div',
+							{ style: { marginBottom: '2rem' } },
+							_react3.default.createElement(
+								'p',
+								{ className: 'text-success' },
+								'Checklists addedd successfully!'
+							)
+						),
+						_react3.default.createElement(
+							'div',
+							{ className: 'form-group m-b-rg' },
+							_react3.default.createElement(
+								'label',
+								null,
+								'Select Project'
+							),
+							_react3.default.createElement(
+								'select',
+								{ name: 'projectSelected', className: 'form-control', style: { height: '40px' }, onChange: function onChange(e) {
+										return _this2.onChange(e);
+									} },
+								_react3.default.createElement(
+									'option',
+									{ value: '' },
+									'Select project'
+								),
+								allProjects
+							)
+						),
+						_react3.default.createElement(
+							'div',
+							{ className: 'form-group m-b-rg' },
+							_react3.default.createElement(
+								'button',
+								{ type: 'button', onClick: function onClick() {
+										return _this2.assignProject();
+									}, className: 'btn btn-purple-o' },
+								'Assign'
+							),
+							_react3.default.createElement(
+								_reactRouterDom.Link,
+								{ style: { marginLeft: '1rem' }, to: '/users', className: 'btn btn-redirect-o' },
+								'Back to users'
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return AssignProject;
+	}(_react2.Component));
+
+	exports.default = AssignProject;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(1)(module)))
+
+/***/ }),
+/* 545 */
+/***/ (function(module, exports, __webpack_require__) {
+
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 
 	// load the styles
-	var content = __webpack_require__(542);
+	var content = __webpack_require__(546);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(257)(content, {});
@@ -86503,8 +87058,8 @@
 	if(true) {
 		// When the styles change, update the <style> tags
 		if(!content.locals) {
-			module.hot.accept(542, function() {
-				var newContent = __webpack_require__(542);
+			module.hot.accept(546, function() {
+				var newContent = __webpack_require__(546);
 				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
 				update(newContent);
 			});
@@ -86514,7 +87069,7 @@
 	}
 
 /***/ }),
-/* 542 */
+/* 546 */
 /***/ (function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(256)(false);
@@ -86522,7 +87077,7 @@
 
 
 	// module
-	exports.push([module.id, ".pos-rel {\n  position: relative;\n}\n.pos-fix {\n  position: fixed;\n}\n.pos-abs {\n  position: absolute;\n}\n.dis-block {\n  display: block;\n}\n.dis-inline-block {\n  display: inline-block;\n}\n.dis-inline {\n  display: inline;\n}\n.dis-none {\n  display: none;\n}\n.text-xxlg {\n  font-size: 2.813rem;\n}\n.text-xlg {\n  font-size: 2.125rem;\n}\n.text-lg {\n  font-size: 1.5rem;\n}\n.text-md {\n  font-size: 1.25rem;\n}\n.text-rg {\n  font-size: 1rem;\n}\n.text-sm {\n  font-size: 0.875rem;\n}\n.text-xs {\n  font-size: 0.75rem;\n}\n.text-decoration-underline {\n  text-decoration: underline;\n}\n.text-decoration-none {\n  text-decoration: none;\n}\n.text-black {\n  color: #3c4858;\n}\n.text-silver {\n  color: #687484;\n}\n.text-steel {\n  color: #8492a6;\n}\n.text-slate {\n  color: #c0ccda;\n}\n.text-smoke {\n  color: #eff2f7;\n}\n.text-snow {\n  color: #f9fafc;\n}\n.text-success {\n  color: #75b654;\n}\n.text-error {\n  color: #e71e1e;\n}\n.text-info {\n  color: #1ea1e7;\n}\n.text-center {\n  text-align: center;\n}\n.text-left {\n  text-align: left;\n}\n.text-right {\n  text-align: right;\n}\n.m-t-0 {\n  margin-top: 0px;\n}\n.m-l-0 {\n  margin-left: 0px;\n}\n.m-r-0 {\n  margin-right: 0px;\n}\n.m-b-0 {\n  margin-bottom: 0px;\n}\n.p-t-0 {\n  padding-top: 0px;\n}\n.p-l-0 {\n  padding-left: 0px;\n}\n.p-r-0 {\n  padding-right: 0px;\n}\n.p-b-0 {\n  padding-bottom: 0px;\n}\n.m-t-xxs {\n  margin-top: 5px;\n}\n.m-t-xs {\n  margin-top: 10px;\n}\n.m-t-sm {\n  margin-top: 15px;\n}\n.m-t-rg {\n  margin-top: 20px;\n}\n.m-t-md {\n  margin-top: 25px;\n}\n.m-t-lg {\n  margin-top: 30px;\n}\n.m-t-xlg {\n  margin-top: 35px;\n}\n.m-t-xxlg {\n  margin-top: 40px;\n}\n.m-b-xxs {\n  margin-bottom: 5px;\n}\n.m-b-xs {\n  margin-bottom: 10px;\n}\n.m-b-sm {\n  margin-bottom: 15px;\n}\n.m-b-rg {\n  margin-bottom: 20px;\n}\n.m-b-md {\n  margin-bottom: 25px;\n}\n.m-b-lg {\n  margin-bottom: 30px;\n}\n.m-b-xlg {\n  margin-bottom: 35px;\n}\n.m-b-xxlg {\n  margin-bottom: 40px;\n}\n.m-l-xxs {\n  margin-left: 5px;\n}\n.m-l-xs {\n  margin-left: 10px;\n}\n.m-l-sm {\n  margin-left: 15px;\n}\n.m-l-rg {\n  margin-left: 20px;\n}\n.m-l-md {\n  margin-left: 25px;\n}\n.m-l-lg {\n  margin-left: 30px;\n}\n.m-l-xlg {\n  margin-left: 35px;\n}\n.m-l-xxlg {\n  margin-left: 40px;\n}\n.m-r-xxs {\n  margin-right: 5px;\n}\n.m-r-xs {\n  margin-right: 10px;\n}\n.m-r-sm {\n  margin-right: 15px;\n}\n.m-r-rg {\n  margin-right: 20px;\n}\n.m-r-md {\n  margin-right: 25px;\n}\n.m-r-lg {\n  margin-right: 30px;\n}\n.m-r-xlg {\n  margin-right: 35px;\n}\n.m-r-xxlg {\n  margin-right: 40px;\n}\n.p-t-xxs {\n  padding-top: 5px;\n}\n.p-t-xs {\n  padding-top: 10px;\n}\n.p-t-sm {\n  padding-top: 15px;\n}\n.p-t-rg {\n  padding-top: 20px;\n}\n.p-t-md {\n  padding-top: 25px;\n}\n.p-t-lg {\n  padding-top: 30px;\n}\n.p-t-xlg {\n  padding-top: 35px;\n}\n.p-t-xxlg {\n  padding-top: 40px;\n}\n.p-b-xxs {\n  padding-bottom: 5px;\n}\n.p-b-xs {\n  padding-bottom: 10px;\n}\n.p-b-sm {\n  padding-bottom: 15px;\n}\n.p-b-rg {\n  padding-bottom: 20px;\n}\n.p-b-md {\n  padding-bottom: 25px;\n}\n.p-b-lg {\n  padding-bottom: 30px;\n}\n.p-b-xlg {\n  padding-bottom: 35px;\n}\n.p-b-xxlg {\n  padding-bottom: 40px;\n}\n.p-l-xxs {\n  padding-left: 5px;\n}\n.p-l-xs {\n  padding-left: 10px;\n}\n.p-l-sm {\n  padding-left: 15px;\n}\n.p-l-rg {\n  padding-left: 20px;\n}\n.p-l-md {\n  padding-left: 25px;\n}\n.p-l-lg {\n  padding-left: 30px;\n}\n.p-l-xlg {\n  padding-left: 35px;\n}\n.p-l-xxlg {\n  padding-left: 40px;\n}\n.p-r-xxs {\n  padding-right: 5px;\n}\n.p-r-xs {\n  padding-right: 10px;\n}\n.p-r-sm {\n  padding-right: 15px;\n}\n.p-r-rg {\n  padding-right: 20px;\n}\n.p-r-md {\n  padding-right: 25px;\n}\n.p-r-lg {\n  padding-right: 30px;\n}\n.p-r-xlg {\n  padding-right: 35px;\n}\n.p-r-xxlg {\n  padding-right: 40px;\n}\n.show {\n  display: block !important;\n}\n.hide {\n  display: none !important;\n}\n.width-100 {\n  width: 100% !important;\n}\n.width-100px {\n  width: 100px !important;\n}\n.overflow-hidden {\n  overflow: hidden;\n}\n.overflow-auto {\n  overflow: auto;\n}\n.clearfix {\n  width: 100%;\n  clear: both;\n}\n.panel {\n  padding: 15px;\n}\n.panel .panel-body {\n  padding: 0 15px 30px;\n}\n.panel .panel-row {\n  box-shadow: 0px 0px 3px #c0ccda;\n}\n.panel .panel-row .row-item {\n  position: relative;\n  background: #fff;\n  padding: 0.5rem 0.8rem;\n  border-left: 1px solid #c0ccda;\n  border-right: 1px solid #c0ccda;\n  color: #687484;\n}\n.panel .panel-row .row-item:not(:first-child),\n.panel .panel-row .row-item:not(:last-child) {\n  border-radius: 0;\n  border-top: none;\n  border-bottom: none;\n}\n.panel .panel-row .row-item:first-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item:last-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item .label {\n  display: inline-block;\n}\n.panel .panel-row .row-item .label-value {\n  display: inline-block;\n}\n.panel .panel-row .row-item .counts {\n  margin: 10px 10px 10px 28px;\n  font-size: 42px;\n}\n.panel .panel-row .row-item .goto-link {\n  position: absolute;\n  top: 50%;\n  margin-top: -1em;\n  right: 0px;\n  cursor: pointer;\n}\n.form-control {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.btn {\n  padding: 10px 15px;\n  border: 1px solid;\n  background: none;\n  border-radius: 2px;\n  font-size: 0.875rem;\n  transition: ease-in 0.5s;\n  text-decoration: none;\n  text-align: center;\n  transition: ease-in-out 0.5s;\n}\n.btn-block {\n  width: calc(100% + 2px);\n  display: block;\n  box-sizing: border-box;\n}\n.btn-sm {\n  padding: 5px 10px;\n  box-sizing: border-box;\n}\n.btn-default {\n  background: #eff2f7;\n  color: #687484;\n  border-color: #c0ccda;\n}\n.btn-default:hover {\n  background: #cdd6e6;\n  border-color: transparent;\n}\n.btn-login {\n  background: #30b7e6;\n  color: #fff;\n  border-color: #3ba1c3;\n}\n.btn-login:hover {\n  background: #138fb9;\n}\n.btn-success {\n  background: #75b654;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-success:hover {\n  background: #314f22;\n  border-color: transparent;\n}\n.btn-danger {\n  background: #e71e1e;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-danger:hover {\n  background: #620a0a;\n  border-color: transparent;\n}\n.btn-purple-o {\n  border-radius: 30px;\n  background: #c52fda;\n  color: #fff;\n  border: none;\n}\n.btn-purple-o:hover {\n  background: #b027c4;\n}\n.btn-dark-o {\n  border-radius: 30px;\n  background: #333;\n  color: #fff;\n  border: none;\n}\n.btn-dark-o:hover {\n  background: #000;\n}\n.btn-edit-o {\n  border-radius: 30px;\n  background: #62a513;\n  color: #fff;\n  border: none;\n}\n.btn-edit-o:hover {\n  background: #508b0b;\n}\n.btn-redirect-o {\n  border-radius: 30px;\n  background: #ffd200;\n  color: #333;\n  border: none;\n}\n.btn-redirect-o:hover {\n  background: #e1bb0a;\n}\n.btn-ghost-o {\n  border-radius: 30px;\n  background: #fff;\n  color: #333;\n  border: none;\n}\n.btn-ghost-o:hover {\n  background: #f8f8f8;\n}\n.btn:disabled {\n  background: #f9fafc !important;\n  color: #c0ccda !important;\n  border: 1px solid #eff2f7;\n}\n.anchor-link {\n  text-decoration: underline;\n  color: #1ea1e7;\n}\n.anchor-link:hover {\n  text-decoration: none;\n}\n.btn-group .btn + .btn {\n  margin-left: -1px;\n}\n.btn-group .btn:not(:first-child),\n.btn-group .btn:not(:last-child) {\n  border-radius: 0;\n}\n.btn-group .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.btn-group .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.action-btn .btn {\n  padding: 7px 12px;\n  background: #f9fafc;\n  border-color: #c0ccda;\n}\n.action-btn .btn + .btn {\n  margin-left: -1px;\n}\n.action-btn .btn:not(:first-child),\n.action-btn .btn:not(:last-child) {\n  border-radius: 0;\n}\n.action-btn .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.action-btn .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.list-table {\n  background: #eff2f7;\n  border-radius: 2px;\n  border: 1px solid #c0ccda;\n}\n.list-table ul {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.list-table ul li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black .list-table ul li:last-child {\n  border-bottom: none;\n}\n.list-table ul li a,\n.list-table ul li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.form-group .list-table label {\n  padding-bottom: 0;\n  color: #687484;\n}\nul.unstyle {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul.unstyle li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black ul.unstyle li:last-child {\n  border-bottom: none;\n}\nul.unstyle li a,\nul.unstyle li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.group-anchor a,\n.group-anchor a:hover {\n  color: #1ea1e7;\n  text-decoration: underline;\n  position: relative;\n  margin: auto;\n}\n.group-anchor a:not(:first-child) {\n  margin-left: 15px;\n}\n.group-anchor a:not(:first-child)::after {\n  content: \"-\";\n  position: absolute;\n  top: 0;\n  left: -10px;\n}\n.modal {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n}\n.modal .modal-dialog {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #f9fafc;\n  padding: 20px;\n  color: #f9fafc;\n  border-radius: 3px;\n  border: 1px solid #eff2f7;\n  z-index: 99999;\n}\n.modal .modal-header {\n  position: relative;\n  padding: 10px 0 20px;\n}\n.modal .modal-header .modal-title {\n  font-size: 1rem;\n  padding: 0;\n  margin: 0;\n  color: #687484;\n}\n.modal .modal-header .close-modal {\n  position: absolute;\n  top: -10px;\n  right: -10px;\n  width: 30px;\n  height: 30px;\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.modal .modal-header .close-modal:after {\n  content: \"\\F00D\";\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  font-family: \"fontAwesome\";\n  font-size: 1.5rem;\n}\n.modal .modal-body {\n  max-height: 300px;\n  overflow: auto;\n}\n.modal .modal-body .modal-message {\n  font-size: 0.875rem;\n}\n.help-text {\n  font-size: 0.75rem;\n  padding: 5px 0;\n  display: block;\n}\n.help-text-error {\n  color: #e71e1e;\n}\n.checkbox-dropdown .checkbox-container {\n  background: #fff;\n  max-height: 200px;\n  overflow: auto;\n}\n.checkbox-dropdown label {\n  display: block;\n}\n.alert {\n  padding: 5px 10px;\n  border-radius: 3px;\n}\n.alert-success {\n  background: #e7faf0;\n  border: 1px solid #13ce66;\n  color: #13ce66;\n}\n.alert-info {\n  background: #e9f8ff;\n  border: 1px solid #1fb6ff;\n  color: #1fb6ff;\n}\n.alert-error {\n  background: #ffeded;\n  border: 1px solid #ff4949;\n  color: #ff4949;\n}\n.alert-warning {\n  background: #fff5eb;\n  border: 1px solid #f93;\n  color: #f93;\n}\n@-webkit-keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n@keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n.alert-fade-out {\n  -webkit-animation-name: fadeOut;\n  animation-name: fadeOut;\n  -webkit-animation-duration: 2s;\n  animation-duration: 2s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n}\n.table {\n  border-collapse: collapse;\n}\n.table td {\n  padding: 5px;\n  border-bottom: 1px solid #687484;\n}\n.form-box ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.form-box ul li {\n  margin-bottom: 10px;\n}\n.form-box .form-control,\n.form-box .form-control:focus {\n  padding-left: 10px;\n  border: none;\n  outline: none !important;\n  border: 1px solid #c0ccda;\n}\n.hint-text {\n  font-size: 12px;\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 700;\n  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.ttf) format('truetype');\n}\nhtml {\n  min-height: 100%;\n}\nbody {\n  background-color: #fefefe;\n  font-family: Montserrat, sans-serif;\n  color: #3c4858;\n  line-height: 20px;\n  font-size: 14px;\n  margin: 0;\n}\n.header {\n  position: fixed;\n  background: #f9fafc;\n  height: 50px;\n  width: 100%;\n  z-index: 9;\n  box-shadow: -1px 1px 4px #e2e2e2;\n  top: 0;\n}\n.content-section {\n  padding-top: 50px;\n  max-width: 650px;\n  margin: auto;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n/* Standard syntax */\n@keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n.menu-opener {\n  position: absolute;\n  left: 15px;\n  top: 10px;\n  color: #3c4858;\n  z-index: 100;\n}\n.menu-opener.menu-opener-active {\n  color: #f9fafc;\n}\n.side-menu {\n  background: #873895;\n  position: fixed;\n  z-index: 99;\n  width: 225px;\n  height: 100%;\n  top: 0px;\n  box-shadow: 2px 0 10px #666;\n}\n.side-menu.side-menu-open {\n  -webkit-animation: menuOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuOpen 0.5s;\n  left: 0px;\n}\n.side-menu.side-menu-hide {\n  -webkit-animation: menuHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuHide 0.5s;\n  left: -110%;\n}\n.side-menu ul {\n  width: 100%;\n  list-style: none;\n  padding: 0;\n  margin-top: 2rem;\n}\n.side-menu ul li {\n  width: calc(100% - 2rem);\n  border-bottom: 1px solid #f8f8f8;\n  padding: 0.5rem 1rem;\n}\n.side-menu ul li a {\n  display: block;\n  color: #f9fafc;\n  padding: 8px 0;\n  text-decoration: none;\n}\n.side-menu ul li.divider {\n  border-bottom: 1px solid #eff2f7;\n  margin: 10px 0;\n}\n.form-group {\n  position: relative;\n  margin: 0 auto 20px;\n}\n.form-group label {\n  margin-bottom: 0;\n  color: #687484;\n  font-size: 0.75rem;\n  line-height: 11px;\n  letter-spacing: 1px;\n  padding-bottom: 10px;\n  display: block;\n}\n.form-group input[type=text],\n.form-group input[type=password],\n.form-group input[type=file] {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.form-group select {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n  width: 100%;\n}\n.profile-img {\n  margin: auto;\n  text-align: center;\n  border-radius: 50%;\n  height: 120px;\n  width: 120px;\n  position: relative;\n}\n.profile-img img {\n  width: 120px;\n  height: 120px;\n  margin: auto;\n  border-radius: 50%;\n}\n.photo-edit,\n.photo-camera {\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  background: #3c4858;\n  position: absolute;\n  bottom: 0px;\n  right: 0px;\n  overflow: hidden;\n}\n.photo-edit:not(.photo-edit),\n.photo-camera:not(.photo-edit) {\n  left: 0;\n}\n.photo-edit input,\n.photo-camera input {\n  opacity: 0;\n  padding: 10px;\n}\n.photo-edit .fa-camera,\n.photo-camera .fa-camera {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  font-size: 20px;\n  color: #fff;\n}\n.previewComponent {\n  position: relative;\n}\n.previewComponent .banner-img {\n  padding: 10px;\n  border: 1px dashed #c0ccda;\n  width: calc(100% - 22px);\n  margin-bottom: 10px;\n}\n.previewComponent .banner-img img {\n  max-width: 100%;\n}\n.uploadImgBtn,\n.uploadImgBtn:hover {\n  background: #38bc91;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.cancelImgBtn,\n.cancelImgBtn:hover {\n  background: #ff1616;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.text-ellipsis {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.width-150 {\n  width: 150px !important;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n.side-preview-content {\n  position: fixed;\n  width: 75%;\n  height: 100%;\n  z-index: 999;\n  top: 0;\n  background: rgba(0, 0, 0, 0.8);\n  color: #f9fafc;\n}\n.side-preview-content.side-preview-content-open {\n  -webkit-animation: sideContentOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentOpen 0.5s;\n  right: 0px;\n}\n.side-preview-content.side-preview-content-hide {\n  -webkit-animation: sideContentHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentHide 0.5s;\n  right: -100%;\n}\n.side-preview-content .content-container {\n  height: calc(90% - 15px);\n  margin-top: 45px;\n  overflow: auto;\n}\n.side-preview-content .content-container ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.side-preview-content .content-container ul li {\n  padding: 5px 5px 5px 10px;\n  border-bottom: 1px solid #ccc;\n  text-align: left;\n  word-break: break-all;\n}\n.side-preview-content .hide-preview {\n  right: 10px;\n  position: absolute;\n  top: 10px;\n  color: #f9fafc;\n}\n.preview-iframeBox {\n  width: 100%;\n  height: 400px;\n  border: 1px solid #c0ccda;\n}\n.not_found_message {\n  font-size: 16px;\n  margin: 20px;\n  font-weight: 600;\n  color: #ff1616;\n}\n.text-error {\n  color: #e71e1e;\n}\n#takePhotoByCamera {\n  display: none;\n  position: fixed;\n  height: 100%;\n  left: 0;\n  right: 0;\n  top: 0;\n  border: 5px solid #873895;\n  flex-direction: column;\n  z-index: 999;\n  background: rgba(0, 0, 0, 0.8);\n}\n#takePhotoByCamera.cameraOn {\n  display: flex;\n}\n#takePhotoByCamera #capturedImage {\n  position: absolute;\n  display: none;\n  left: -50%;\n  top: 50%;\n  width: 100%;\n  transform: translate(50%, -50%);\n}\n#takePhotoByCamera #capturedImage.imageOn {\n  display: block;\n}\n#takePhotoByCamera .stop_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  right: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera .take_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  left: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera video {\n  width: 100%;\n  height: 100%;\n}\n#takePhotoByCamera video.videoOff {\n  display: none;\n}\n.camerOnButton {\n  width: 40px;\n  height: 40px;\n  background: none;\n  border: none;\n  position: absolute;\n  z-index: 9;\n  left: 0;\n}\n.ReactTags__selected .ReactTags__tag {\n  display: block;\n  padding: 10px;\n  background: #e2e2e2;\n  border: 1px solid #cccc;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.ReactTags__selected .ReactTags__tag a {\n  padding: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  font-size: 2rem;\n}\n", ""]);
+	exports.push([module.id, ".pos-rel {\n  position: relative;\n}\n.pos-fix {\n  position: fixed;\n}\n.pos-abs {\n  position: absolute;\n}\n.dis-block {\n  display: block;\n}\n.dis-inline-block {\n  display: inline-block;\n}\n.dis-inline {\n  display: inline;\n}\n.dis-none {\n  display: none;\n}\n.text-xxlg {\n  font-size: 2.813rem;\n}\n.text-xlg {\n  font-size: 2.125rem;\n}\n.text-lg {\n  font-size: 1.5rem;\n}\n.text-md {\n  font-size: 1.25rem;\n}\n.text-rg {\n  font-size: 1rem;\n}\n.text-sm {\n  font-size: 0.875rem;\n}\n.text-xs {\n  font-size: 0.75rem;\n}\n.text-decoration-underline {\n  text-decoration: underline;\n}\n.text-decoration-none {\n  text-decoration: none;\n}\n.text-black {\n  color: #3c4858;\n}\n.text-silver {\n  color: #687484;\n}\n.text-steel {\n  color: #8492a6;\n}\n.text-slate {\n  color: #c0ccda;\n}\n.text-smoke {\n  color: #eff2f7;\n}\n.text-snow {\n  color: #f9fafc;\n}\n.text-success {\n  color: #75b654;\n}\n.text-error {\n  color: #e71e1e;\n}\n.text-info {\n  color: #1ea1e7;\n}\n.text-center {\n  text-align: center;\n}\n.text-left {\n  text-align: left;\n}\n.text-right {\n  text-align: right;\n}\n.m-t-0 {\n  margin-top: 0px;\n}\n.m-l-0 {\n  margin-left: 0px;\n}\n.m-r-0 {\n  margin-right: 0px;\n}\n.m-b-0 {\n  margin-bottom: 0px;\n}\n.p-t-0 {\n  padding-top: 0px;\n}\n.p-l-0 {\n  padding-left: 0px;\n}\n.p-r-0 {\n  padding-right: 0px;\n}\n.p-b-0 {\n  padding-bottom: 0px;\n}\n.m-t-xxs {\n  margin-top: 5px;\n}\n.m-t-xs {\n  margin-top: 10px;\n}\n.m-t-sm {\n  margin-top: 15px;\n}\n.m-t-rg {\n  margin-top: 20px;\n}\n.m-t-md {\n  margin-top: 25px;\n}\n.m-t-lg {\n  margin-top: 30px;\n}\n.m-t-xlg {\n  margin-top: 35px;\n}\n.m-t-xxlg {\n  margin-top: 40px;\n}\n.m-b-xxs {\n  margin-bottom: 5px;\n}\n.m-b-xs {\n  margin-bottom: 10px;\n}\n.m-b-sm {\n  margin-bottom: 15px;\n}\n.m-b-rg {\n  margin-bottom: 20px;\n}\n.m-b-md {\n  margin-bottom: 25px;\n}\n.m-b-lg {\n  margin-bottom: 30px;\n}\n.m-b-xlg {\n  margin-bottom: 35px;\n}\n.m-b-xxlg {\n  margin-bottom: 40px;\n}\n.m-l-xxs {\n  margin-left: 5px;\n}\n.m-l-xs {\n  margin-left: 10px;\n}\n.m-l-sm {\n  margin-left: 15px;\n}\n.m-l-rg {\n  margin-left: 20px;\n}\n.m-l-md {\n  margin-left: 25px;\n}\n.m-l-lg {\n  margin-left: 30px;\n}\n.m-l-xlg {\n  margin-left: 35px;\n}\n.m-l-xxlg {\n  margin-left: 40px;\n}\n.m-r-xxs {\n  margin-right: 5px;\n}\n.m-r-xs {\n  margin-right: 10px;\n}\n.m-r-sm {\n  margin-right: 15px;\n}\n.m-r-rg {\n  margin-right: 20px;\n}\n.m-r-md {\n  margin-right: 25px;\n}\n.m-r-lg {\n  margin-right: 30px;\n}\n.m-r-xlg {\n  margin-right: 35px;\n}\n.m-r-xxlg {\n  margin-right: 40px;\n}\n.p-t-xxs {\n  padding-top: 5px;\n}\n.p-t-xs {\n  padding-top: 10px;\n}\n.p-t-sm {\n  padding-top: 15px;\n}\n.p-t-rg {\n  padding-top: 20px;\n}\n.p-t-md {\n  padding-top: 25px;\n}\n.p-t-lg {\n  padding-top: 30px;\n}\n.p-t-xlg {\n  padding-top: 35px;\n}\n.p-t-xxlg {\n  padding-top: 40px;\n}\n.p-b-xxs {\n  padding-bottom: 5px;\n}\n.p-b-xs {\n  padding-bottom: 10px;\n}\n.p-b-sm {\n  padding-bottom: 15px;\n}\n.p-b-rg {\n  padding-bottom: 20px;\n}\n.p-b-md {\n  padding-bottom: 25px;\n}\n.p-b-lg {\n  padding-bottom: 30px;\n}\n.p-b-xlg {\n  padding-bottom: 35px;\n}\n.p-b-xxlg {\n  padding-bottom: 40px;\n}\n.p-l-xxs {\n  padding-left: 5px;\n}\n.p-l-xs {\n  padding-left: 10px;\n}\n.p-l-sm {\n  padding-left: 15px;\n}\n.p-l-rg {\n  padding-left: 20px;\n}\n.p-l-md {\n  padding-left: 25px;\n}\n.p-l-lg {\n  padding-left: 30px;\n}\n.p-l-xlg {\n  padding-left: 35px;\n}\n.p-l-xxlg {\n  padding-left: 40px;\n}\n.p-r-xxs {\n  padding-right: 5px;\n}\n.p-r-xs {\n  padding-right: 10px;\n}\n.p-r-sm {\n  padding-right: 15px;\n}\n.p-r-rg {\n  padding-right: 20px;\n}\n.p-r-md {\n  padding-right: 25px;\n}\n.p-r-lg {\n  padding-right: 30px;\n}\n.p-r-xlg {\n  padding-right: 35px;\n}\n.p-r-xxlg {\n  padding-right: 40px;\n}\n.show {\n  display: block !important;\n}\n.hide {\n  display: none !important;\n}\n.width-100 {\n  width: 100% !important;\n}\n.width-100px {\n  width: 100px !important;\n}\n.overflow-hidden {\n  overflow: hidden;\n}\n.overflow-auto {\n  overflow: auto;\n}\n.clearfix {\n  width: 100%;\n  clear: both;\n}\n.panel {\n  padding: 15px;\n}\n.panel .panel-body {\n  padding: 0 15px 30px;\n}\n.panel .panel-row {\n  box-shadow: 0px 0px 3px #c0ccda;\n}\n.panel .panel-row .row-item {\n  position: relative;\n  background: #fff;\n  padding: 0.5rem 0.8rem;\n  border-left: 1px solid #c0ccda;\n  border-right: 1px solid #c0ccda;\n  color: #687484;\n}\n.panel .panel-row .row-item:not(:first-child),\n.panel .panel-row .row-item:not(:last-child) {\n  border-radius: 0;\n  border-top: none;\n  border-bottom: none;\n}\n.panel .panel-row .row-item:first-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item:last-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item .label {\n  display: inline-block;\n}\n.panel .panel-row .row-item .label-value {\n  display: inline-block;\n}\n.panel .panel-row .row-item .counts {\n  margin: 10px 10px 10px 28px;\n  font-size: 42px;\n}\n.panel .panel-row .row-item .goto-link {\n  position: absolute;\n  top: 50%;\n  margin-top: -1em;\n  right: 0px;\n  cursor: pointer;\n}\n.form-control {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.btn {\n  padding: 10px 15px;\n  border: 1px solid;\n  background: none;\n  border-radius: 2px;\n  font-size: 0.875rem;\n  transition: ease-in 0.5s;\n  text-decoration: none;\n  text-align: center;\n  transition: ease-in-out 0.5s;\n}\n.btn-block {\n  width: calc(100% + 2px);\n  display: block;\n  box-sizing: border-box;\n}\n.btn-sm {\n  padding: 5px 10px;\n  box-sizing: border-box;\n}\n.btn-default {\n  background: #eff2f7;\n  color: #687484;\n  border-color: #c0ccda;\n}\n.btn-default:hover {\n  background: #cdd6e6;\n  border-color: transparent;\n}\n.btn-login {\n  background: #30b7e6;\n  color: #fff;\n  border-color: #3ba1c3;\n}\n.btn-login:hover {\n  background: #138fb9;\n}\n.btn-success {\n  background: #75b654;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-success:hover {\n  background: #314f22;\n  border-color: transparent;\n}\n.btn-danger {\n  background: #e71e1e;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-danger:hover {\n  background: #620a0a;\n  border-color: transparent;\n}\n.btn-purple-o {\n  border-radius: 30px;\n  background: #c52fda;\n  color: #fff;\n  border: none;\n}\n.btn-purple-o:hover {\n  background: #b027c4;\n}\n.btn-dark-o {\n  border-radius: 30px;\n  background: #333;\n  color: #fff;\n  border: none;\n}\n.btn-dark-o:hover {\n  background: #000;\n}\n.btn-edit-o {\n  border-radius: 30px;\n  background: #62a513;\n  color: #fff;\n  border: none;\n}\n.btn-edit-o:hover {\n  background: #508b0b;\n}\n.btn-redirect-o {\n  border-radius: 30px;\n  background: #ffd200;\n  color: #333;\n  border: none;\n}\n.btn-redirect-o:hover {\n  background: #e1bb0a;\n}\n.btn-ghost-o {\n  border-radius: 30px;\n  background: #fff;\n  color: #333;\n  border: none;\n}\n.btn-ghost-o:hover {\n  background: #f8f8f8;\n}\n.btn:disabled {\n  background: #f9fafc !important;\n  color: #c0ccda !important;\n  border: 1px solid #eff2f7;\n}\n.anchor-link {\n  text-decoration: underline;\n  color: #1ea1e7;\n}\n.anchor-link:hover {\n  text-decoration: none;\n}\n.btn-group .btn + .btn {\n  margin-left: -1px;\n}\n.btn-group .btn:not(:first-child),\n.btn-group .btn:not(:last-child) {\n  border-radius: 0;\n}\n.btn-group .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.btn-group .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.action-btn .btn {\n  padding: 7px 12px;\n  background: #f9fafc;\n  border-color: #c0ccda;\n}\n.action-btn .btn + .btn {\n  margin-left: -1px;\n}\n.action-btn .btn:not(:first-child),\n.action-btn .btn:not(:last-child) {\n  border-radius: 0;\n}\n.action-btn .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.action-btn .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.list-table {\n  background: #eff2f7;\n  border-radius: 2px;\n  border: 1px solid #c0ccda;\n}\n.list-table ul {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.list-table ul li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black .list-table ul li:last-child {\n  border-bottom: none;\n}\n.list-table ul li a,\n.list-table ul li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.form-group .list-table label {\n  padding-bottom: 0;\n  color: #687484;\n}\nul.unstyle {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul.unstyle li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black ul.unstyle li:last-child {\n  border-bottom: none;\n}\nul.unstyle li a,\nul.unstyle li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.group-anchor a,\n.group-anchor a:hover {\n  color: #1ea1e7;\n  text-decoration: underline;\n  position: relative;\n  margin: auto;\n}\n.group-anchor a:not(:first-child) {\n  margin-left: 15px;\n}\n.group-anchor a:not(:first-child)::after {\n  content: \"-\";\n  position: absolute;\n  top: 0;\n  left: -10px;\n}\n.modal {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n}\n.modal .modal-dialog {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #f9fafc;\n  padding: 20px;\n  color: #f9fafc;\n  border-radius: 3px;\n  border: 1px solid #eff2f7;\n  z-index: 99999;\n}\n.modal .modal-header {\n  position: relative;\n  padding: 10px 0 20px;\n}\n.modal .modal-header .modal-title {\n  font-size: 1rem;\n  padding: 0;\n  margin: 0;\n  color: #687484;\n}\n.modal .modal-header .close-modal {\n  position: absolute;\n  top: -10px;\n  right: -10px;\n  width: 30px;\n  height: 30px;\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.modal .modal-header .close-modal:after {\n  content: \"\\F00D\";\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  font-family: \"fontAwesome\";\n  font-size: 1.5rem;\n}\n.modal .modal-body {\n  max-height: 300px;\n  overflow: auto;\n}\n.modal .modal-body .modal-message {\n  font-size: 0.875rem;\n}\n.help-text {\n  font-size: 0.75rem;\n  padding: 5px 0;\n  display: block;\n}\n.help-text-error {\n  color: #e71e1e;\n}\n.checkbox-dropdown .checkbox-container {\n  background: #fff;\n  max-height: 200px;\n  overflow: auto;\n}\n.checkbox-dropdown label {\n  display: block;\n}\n.alert {\n  padding: 5px 10px;\n  border-radius: 3px;\n}\n.alert-success {\n  background: #e7faf0;\n  border: 1px solid #13ce66;\n  color: #13ce66;\n}\n.alert-info {\n  background: #e9f8ff;\n  border: 1px solid #1fb6ff;\n  color: #1fb6ff;\n}\n.alert-error {\n  background: #ffeded;\n  border: 1px solid #ff4949;\n  color: #ff4949;\n}\n.alert-warning {\n  background: #fff5eb;\n  border: 1px solid #f93;\n  color: #f93;\n}\n@-webkit-keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n@keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n.alert-fade-out {\n  -webkit-animation-name: fadeOut;\n  animation-name: fadeOut;\n  -webkit-animation-duration: 2s;\n  animation-duration: 2s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n}\n.table {\n  border-collapse: collapse;\n}\n.table td {\n  padding: 5px;\n  border-bottom: 1px solid #687484;\n}\n.form-box ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.form-box ul li {\n  margin-bottom: 10px;\n}\n.form-box .form-control,\n.form-box .form-control:focus {\n  padding-left: 10px;\n  border: none;\n  outline: none !important;\n  border: 1px solid #c0ccda;\n}\n.hint-text {\n  font-size: 12px;\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 700;\n  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.ttf) format('truetype');\n}\nhtml {\n  min-height: 100%;\n}\nbody {\n  background-color: #fefefe;\n  font-family: Montserrat, sans-serif;\n  color: #3c4858;\n  line-height: 20px;\n  font-size: 14px;\n  margin: 0;\n}\n.header {\n  position: fixed;\n  background: #f9fafc;\n  height: 50px;\n  width: 100%;\n  z-index: 9;\n  box-shadow: -1px 1px 4px #e2e2e2;\n  top: 0;\n}\n.content-section {\n  padding-top: 50px;\n  max-width: 650px;\n  margin: auto;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n/* Standard syntax */\n@keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n.menu-opener {\n  position: absolute;\n  left: 15px;\n  top: 10px;\n  color: #3c4858;\n  z-index: 100;\n}\n.menu-opener.menu-opener-active {\n  color: #f9fafc;\n}\n.side-menu {\n  background: #873895;\n  position: fixed;\n  z-index: 99;\n  width: 225px;\n  height: 100%;\n  top: 0px;\n  box-shadow: 2px 0 10px #666;\n}\n.side-menu.side-menu-open {\n  -webkit-animation: menuOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuOpen 0.5s;\n  left: 0px;\n}\n.side-menu.side-menu-hide {\n  -webkit-animation: menuHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuHide 0.5s;\n  left: -110%;\n}\n.side-menu ul {\n  width: 100%;\n  list-style: none;\n  padding: 0;\n  margin-top: 2rem;\n}\n.side-menu ul li {\n  width: calc(100% - 2rem);\n  border-bottom: 1px solid #f8f8f8;\n  padding: 0.5rem 1rem;\n}\n.side-menu ul li a {\n  display: block;\n  color: #f9fafc;\n  padding: 8px 0;\n  text-decoration: none;\n}\n.side-menu ul li.divider {\n  border-bottom: 1px solid #eff2f7;\n  margin: 10px 0;\n}\n.form-group {\n  position: relative;\n  margin: 0 auto 20px;\n}\n.form-group label {\n  margin-bottom: 0;\n  color: #687484;\n  font-size: 0.75rem;\n  line-height: 11px;\n  letter-spacing: 1px;\n  padding-bottom: 10px;\n  display: block;\n}\n.form-group input[type=text],\n.form-group input[type=password],\n.form-group input[type=file] {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.form-group select {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n  width: 100%;\n}\n.profile-img {\n  margin: auto;\n  text-align: center;\n  border-radius: 50%;\n  height: 120px;\n  width: 120px;\n  position: relative;\n}\n.profile-img img {\n  width: 120px;\n  height: 120px;\n  margin: auto;\n  border-radius: 50%;\n}\n.photo-edit,\n.photo-camera {\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  background: #3c4858;\n  position: absolute;\n  bottom: 0px;\n  right: 0px;\n  overflow: hidden;\n}\n.photo-edit:not(.photo-edit),\n.photo-camera:not(.photo-edit) {\n  left: 0;\n}\n.photo-edit input,\n.photo-camera input {\n  opacity: 0;\n  padding: 10px;\n}\n.photo-edit .fa-camera,\n.photo-camera .fa-camera {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  font-size: 20px;\n  color: #fff;\n}\n.previewComponent {\n  position: relative;\n}\n.previewComponent .banner-img {\n  padding: 10px;\n  border: 1px dashed #c0ccda;\n  width: calc(100% - 22px);\n  margin-bottom: 10px;\n}\n.previewComponent .banner-img img {\n  max-width: 100%;\n}\n.uploadImgBtn,\n.uploadImgBtn:hover {\n  background: #38bc91;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.cancelImgBtn,\n.cancelImgBtn:hover {\n  background: #ff1616;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.text-ellipsis {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.width-150 {\n  width: 150px !important;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n.side-preview-content {\n  position: fixed;\n  width: 75%;\n  height: 100%;\n  z-index: 999;\n  top: 0;\n  background: rgba(0, 0, 0, 0.8);\n  color: #f9fafc;\n}\n.side-preview-content.side-preview-content-open {\n  -webkit-animation: sideContentOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentOpen 0.5s;\n  right: 0px;\n}\n.side-preview-content.side-preview-content-hide {\n  -webkit-animation: sideContentHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentHide 0.5s;\n  right: -100%;\n}\n.side-preview-content .content-container {\n  height: calc(90% - 15px);\n  margin-top: 45px;\n  overflow: auto;\n}\n.side-preview-content .content-container ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.side-preview-content .content-container ul li {\n  padding: 5px 5px 5px 10px;\n  border-bottom: 1px solid #ccc;\n  text-align: left;\n  word-break: break-all;\n}\n.side-preview-content .hide-preview {\n  right: 10px;\n  position: absolute;\n  top: 10px;\n  color: #f9fafc;\n}\n.preview-iframeBox {\n  width: 100%;\n  height: 400px;\n  border: 1px solid #c0ccda;\n}\n.not_found_message {\n  font-size: 16px;\n  margin: 20px;\n  font-weight: 600;\n  color: #ff1616;\n}\n.text-error {\n  color: #e71e1e;\n}\n#takePhotoByCamera {\n  display: none;\n  position: fixed;\n  height: 100%;\n  left: 0;\n  right: 0;\n  top: 0;\n  border: 5px solid #873895;\n  flex-direction: column;\n  z-index: 999;\n  background: rgba(0, 0, 0, 0.8);\n}\n#takePhotoByCamera.cameraOn {\n  display: flex;\n}\n#takePhotoByCamera #capturedImage {\n  position: absolute;\n  display: none;\n  left: -50%;\n  top: 50%;\n  width: 100%;\n  transform: translate(50%, -50%);\n}\n#takePhotoByCamera #capturedImage.imageOn {\n  display: block;\n}\n#takePhotoByCamera .stop_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  right: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera .take_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  left: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera video {\n  width: 100%;\n  height: 100%;\n}\n#takePhotoByCamera video.videoOff {\n  display: none;\n}\n.camerOnButton {\n  width: 40px;\n  height: 40px;\n  background: none;\n  border: none;\n  position: absolute;\n  z-index: 9;\n  left: 0;\n}\n.ReactTags__selected .ReactTags__tag {\n  display: block;\n  padding: 10px;\n  background: #e2e2e2;\n  border: 1px solid #cccc;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.ReactTags__selected .ReactTags__tag a {\n  padding: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  font-size: 2rem;\n}\n.users_list {\n  display: flex;\n  align-items: center;\n  border: 1px solid #e2e2e2;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  padding: 1rem;\n}\n.users_list .user_img {\n  width: 4.5rem;\n  height: 4.5rem;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: 1rem;\n  border: 2px solid #e2e2e2;\n}\n.users_list .user_img img {\n  max-width: 100%;\n}\n.users_list .user_info p {\n  margin: 0;\n  margin-bottom: 0.5rem;\n}\n.users_list .user_info .name {\n  font-size: 1rem;\n  font-weight: 700;\n}\n", ""]);
 
 	// exports
 

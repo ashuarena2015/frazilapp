@@ -4,12 +4,12 @@ import { seeChecklists, getProjects, dataReset, editChecklists } from '../action
 
 function mapStateToProps(state) {
 	return {
-    profileInfo: state.userProfile.profileInfo,
-    loginInfo: state.loginInfo,
+		profileInfo: state.userProfile.profileInfo,
+		loginInfo: state.loginInfo,
 		frazilProjects: state.projects.frazilProjects,
 		fetching: state.projects.fetching,
-    projectChecklists: state.projects.projectChecklists,
-    saveDataSuccessFully: state.projects.saveDataSuccessFully
+		projectChecklists: state.projects.projectChecklists,
+		saveDataSuccessFully: state.projects.saveDataSuccessFully
 	};
 }
 
@@ -20,14 +20,14 @@ function mapDispatchToProps(dispatch) {
 		},
 		seeChecklists: (payload) => {
 			dispatch(seeChecklists(payload));
-    },
-    editChecklists: (payload) => {
+		},
+		editChecklists: (payload) => {
 			dispatch(editChecklists(payload));
 		},
 		dataReset: () => {
 			dispatch(dataReset());
 		}
-  }
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(EditChecklists);

@@ -391,3 +391,152 @@ body {
 		}
 	}
 }
+
+.users_list {
+	display: flex;
+	align-items: center;
+	border: 1px solid #e2e2e2;
+	border-radius: 3px;
+	margin-bottom: 0.5rem;
+	padding: 1rem;
+	.user_img {
+		width: 4.5rem;
+		height: 4.5rem;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-right: 1rem;
+		border: 2px solid #e2e2e2;
+		img {
+			width: 100%;
+		}
+	}
+	.user_info {
+		p {
+			margin: 0;
+			margin-bottom: 0.5rem;
+		}
+		.name {
+			font-size: 1rem;
+			font-weight: 700;
+		}
+	}
+}
+
+.assign_to_user {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-radius: 3px;
+	margin-bottom: 0.5rem;
+	padding: 1rem;
+	.user_img {
+		width: 10rem;
+		height: 10rem;
+		border-radius: 50%;
+		overflow: hidden;
+		margin-right: 1rem;
+		border: 2px solid #e2e2e2;
+		margin-bottom: 2rem;
+		img {
+			width: 100%;
+		}
+	}
+	.user_info {
+		p {
+			margin: 0;
+			margin-bottom: 0.5rem;
+		}
+		.name {
+			font-size: 1.25rem;
+			font-weight: 700;
+			text-align: center;
+		}
+	}
+}
+
+@baseline: 0.5rem;
+
+@keyframes loader-spin {
+    0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+}
+.loader_wrapper {
+    display: inline-flex;
+    height: 2rem;
+    align-items: center;
+    .loader {
+        min-height: inherit !important;
+    }
+}
+.loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+		height: 1.5rem;
+		&-fixed {
+			position: fixed;
+    	z-index: 999;
+    	height: 100%;
+    	width: 100%;
+    	background: rgba(0,0,0,0.5);
+    	top: 0;
+    	left: 0
+		}
+    &.loader_left {
+        margin-right: @baseline;
+    }
+    &.loader_right {
+        margin-left: @baseline;
+    }
+}
+.loader_large {
+    min-height: (@baseline * 50);
+}
+.loader__icon {
+    animation: loader-spin 1.3s cubic-bezier(0.46, 0.35, 0.39, 0.85) infinite;
+
+    &_large {
+			svg {
+        height: (@baseline * 6);
+				width: (@baseline * 6);
+			}
+    }
+
+    &_small {
+			svg {
+        height: (@baseline * 4);
+				width: (@baseline * 4);
+			}
+    }
+
+    &_extra-small {
+			svg {
+        height: (@baseline * 2);
+				width: (@baseline * 2)
+			}
+    }
+}
+
+.project_inspection_checklists {
+	label {
+		border: 1px solid #e2e2e2;
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+		margin-bottom: 0.5rem;
+		position: relative;
+		input[type="checkbox"] {
+			position: absolute;
+			width: 100%;
+			left: 0;
+			height: 100%;
+			top: 0;
+			opacity: 0;
+		}
+	}
+}
+

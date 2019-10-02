@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
-import SeeChecklists from './SeeChecklists';
-import { seeChecklists, getProjects, dataReset } from '../actions/addchecklists';
+import ProjectInspection from './ProjectInspection';
+import { seeChecklists, dataReset } from '../actions/addchecklists';
 
 function mapStateToProps(state) {
 	return {
@@ -14,9 +14,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
 	return {
-		getProjects: () => {
-			dispatch(getProjects());
-		},
 		seeChecklists: (payload) => {
 			dispatch(seeChecklists(payload));
 		},
@@ -26,4 +23,4 @@ function mapDispatchToProps(dispatch) {
 	};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SeeChecklists);
+export default connect(mapStateToProps, mapDispatchToProps)(ProjectInspection);

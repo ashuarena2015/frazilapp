@@ -21,8 +21,8 @@ function profileRequest() {
 
 function profileSuccess(response) {
 	return {
-    type: ActionTypes.PROFILE_SUCCESS,
-    response
+		type: ActionTypes.PROFILE_SUCCESS,
+		response
 	};
 }
 
@@ -35,71 +35,93 @@ function profileFailed() {
 export function getProfileInfo(userData) {
 	return (dispatch) => {
 		dispatch(profileRequest());
-    return axios.post('/profile.php', {
-      email: userData.loginEmail,
-      user_id: userData.loginId,
-    })
-    .then((res) => {
-        dispatch(profileSuccess(res.data));
-    }).catch(() => {
-      dispatch(profileFailed(true));
-    });
+		return axios.post('/profile.php', {
+			email: userData.loginEmail,
+			user_id: userData.loginId,
+		})
+			.then((res) => {
+				dispatch(profileSuccess(res.data));
+			}).catch(() => {
+				dispatch(profileFailed(true));
+			});
+	};
+}
+
+function selectedProfileSuccess(response) {
+	return {
+		type: ActionTypes.SELECTED_USER_PROFILE,
+		response
+	};
+}
+
+export function getSelectedProfileInfo(userData) {
+	return (dispatch) => {
+		dispatch(profileRequest());
+		return axios.post('/profile.php', {
+			email: userData.loginEmail,
+			user_id: userData.loginId,
+		})
+			.then((res) => {
+				dispatch(selectedProfileSuccess(res.data));
+			}).catch(() => {
+				dispatch(profileFailed(true));
+			});
 	};
 }
 
 function editProfileOTPRequest() {
-  return {
-    type: ActionTypes.EDIT_PROFILE_OTP_REQUEST
-  }
+	return {
+		type: ActionTypes.EDIT_PROFILE_OTP_REQUEST
+	};
 }
 
 function editProfileOTPSuccess(response) {
-  return {
-    type: ActionTypes.EDIT_PROFILE_OTP_SUCCESS,
-    response
-  }
+	return {
+		type: ActionTypes.EDIT_PROFILE_OTP_SUCCESS,
+		response
+	};
 }
 
 function editProfileOTPFailed() {
-  return {
-    type: ActionTypes.EDIT_PROFILE_OTP_FAILED
-  }
+	return {
+		type: ActionTypes.EDIT_PROFILE_OTP_FAILED
+	};
 }
 
 export function sendOTP(userData) {
 	return (dispatch) => {
 		dispatch(editProfileOTPRequest());
-    return axios.post('/send-otp-mobile-verify.php', {
-      userId: userData.userId,
-      mobile: userData.mobile,
-    })
-    .then((res) => {
-        dispatch(editProfileOTPSuccess(res.data));
-    }).catch(() => {
-      dispatch(editProfileOTPFailed(true));
-    });
+		return axios.post('/send-otp-mobile-verify.php', {
+			userId: userData.userId,
+			mobile: userData.mobile,
+		})
+			.then((res) => {
+				dispatch(editProfileOTPSuccess(res.data));
+			}).catch(() => {
+				dispatch(editProfileOTPFailed(true));
+			});
 	};
 }
 
-function verifyOTPSuccess(response){
-  return {
-    type: ActionTypes.VERIFY_OTP_SUCCESS,
-    response
-  }
+function verifyOTPSuccess(response) {
+	return {
+		type: ActionTypes.VERIFY_OTP_SUCCESS,
+		response
+	};
 }
 
 export function verifyOTP(userData) {
 	return (dispatch) => {
 		dispatch(fetchingStart());
-    return axios.post('/update-mobile.php', {
-      userId: userData.userId,
-      mobile: userData.mobile,
-      otp: userData.otp
-    })
-    .then((res) => {
-        dispatch(verifyOTPSuccess(res.data));
-    }).catch(() => {
-      dispatch(fetchingStop(true));
-    });
+		return axios.post('/update-mobile.php', {
+			userId: userData.userId,
+			mobile: userData.mobile,
+			otp: userData.otp
+		})
+			.then((res) => {
+				dispatch(verifyOTPSuccess(res.data));
+			}).catch(() => {
+				dispatch(fetchingStop(true));
+			});
 	};
 }
