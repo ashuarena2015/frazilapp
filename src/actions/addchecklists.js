@@ -204,3 +204,25 @@ export function assignProject(payload) {
 			});
 	};
 }
+
+export function importCSVChecklist(payload) {
+	console.log('payload', payload);
+	return (dispatch) => {
+		dispatch(fetchStart());
+		return axios.post('/import-checklists.php', {
+			checklistFile: payload.checklistFile,
+			user_id: payload.user_id,
+			project_id: payload.projectSelected
+		})
+			.then((res) => {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+				}
+			}).catch(() => {
+				dispatch(fetchFailed(true));
+			});
+	};
+}

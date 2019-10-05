@@ -1261,3 +1261,17 @@ body {
   top: 0;
   opacity: 0;
 }
+.project_inspection_checklists .text-slate {
+  color: #c0ccda !important;
+}
+.project_photos_uploads {
+  display: flex;
+  flex-wrap: wrap;
+}
+.project_photos_uploads img {
+  width: 80px;
+  height: auto;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+  border: 3px solid #e2e2e2;
+}

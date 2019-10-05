@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import AddChecklists from './AddChecklists';
-import { getProjects, addChecklists, dataReset } from '../actions/addchecklists';
+import { getProjects, addChecklists, dataReset, importCSVChecklist } from '../actions/addchecklists';
 
 function mapStateToProps(state) {
 	return {
@@ -22,6 +22,9 @@ function mapDispatchToProps(dispatch) {
 		},
 		dataReset: () => {
 			dispatch(dataReset());
+		},
+		importCSVChecklist: (payload) => {
+			dispatch(importCSVChecklist(payload));
 		}
 	};
 }

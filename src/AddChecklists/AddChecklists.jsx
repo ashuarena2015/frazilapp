@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { WithContext as ReactTags } from 'react-tag-input';
 import { Link } from 'react-router-dom';
+import CSVReader from 'react-csv-reader';
 import history from '../history';
 import Loader from '../Loader';
 
@@ -20,10 +21,13 @@ export default class AddChecklists extends Component {
 			suggestions: [],
 			projectSelected: '',
 			projectSelectedEmpty: false,
+			checklistFile: '',
+			openCSVform: false
 		};
 		this.handleDelete = this.handleDelete.bind(this);
 		this.handleAddition = this.handleAddition.bind(this);
 		this.handleDrag = this.handleDrag.bind(this);
+		this.getCSVData = this.getCSVData.bind(this);
 	}
 
 	componentDidMount() {
@@ -42,6 +46,40 @@ export default class AddChecklists extends Component {
 		this.setState({
 			[name]: value
 		});
+	}
+
+	getCSVData(data) {
+		this.setState({
+			checklistFile: data
+		});
+	}
+
+	checklistInputFieldsAdd() {
+		const { tags, projectSelected } = this.state;
+		const { addChecklists, profileInfo: { id } = {} } = this.props;
+		const payload = {
+			tags,
+			projectSelected,
+			user_id: id
+		};
+		if (projectSelected && tags.length) {
+			addChecklists(payload);
+			this.setState({ projectSelectedEmpty: false });
+		} else {
+			this.setState({ projectSelectedEmpty: true });
+		}
+	}
+
+	importCSVOption() {
+		this.setState(prevState => ({
+			openCSVform: !prevState.openCSVform
+		}));
+	}
+
+	importCSVOptionClose() {
+		this.setState(prevState => ({
+			openCSVform: !prevState.openCSVform
+		}));
 	}
 
 	handleDelete(i) {
@@ -66,16 +104,16 @@ export default class AddChecklists extends Component {
 		this.setState({ tags: newTags });
 	}
 
-	checklistInputFieldsAdd() {
-		const { tags, projectSelected } = this.state;
-		const { addChecklists, profileInfo: { id } = {} } = this.props;
+	importCSVChecklist() {
+		const { projectSelected, checklistFile } = this.state;
+		const { profileInfo: { id } = {}, importCSVChecklist } = this.props;
 		const payload = {
-			tags,
 			projectSelected,
-			user_id: id
+			user_id: id,
+			checklistFile
 		};
-		if (projectSelected && tags.length) {
-			addChecklists(payload);
+		if (projectSelected) {
+			importCSVChecklist(payload);
 			this.setState({ projectSelectedEmpty: false });
 		} else {
 			this.setState({ projectSelectedEmpty: true });
@@ -83,7 +121,7 @@ export default class AddChecklists extends Component {
 	}
 
 	render() {
-		const { projects, tags, suggestions, projectSelectedEmpty } = this.state;
+		const { projects, tags, suggestions, projectSelectedEmpty, openCSVform } = this.state;
 		const allProjects = [];
 		projects && projects.map((project) => {
 			return allProjects.push(<option value={project.id}>{project.name}</option>);
@@ -127,22 +165,40 @@ export default class AddChecklists extends Component {
 									</div>
 								)}
 							</div>
-							<div className="form-group m-b-rg">
-								<label>Enter Checklists</label>
-								<div id="all_checklists" className="checklist_input_section">
-									<ReactTags
-										tags={tags}
-										suggestions={suggestions}
-										handleDelete={this.handleDelete}
-										handleAddition={this.handleAddition}
-										handleDrag={this.handleDrag}
-										delimiters={delimiters}
-									/>
+							{ !openCSVform && (
+								<React.Fragment>
+									<div className="form-group m-b-rg">
+										<label>Enter Checklists</label>
+										<div id="all_checklists" className="checklist_input_section">
+											<ReactTags
+												tags={tags}
+												suggestions={suggestions}
+												handleDelete={this.handleDelete}
+												handleAddition={this.handleAddition}
+												handleDrag={this.handleDrag}
+												delimiters={delimiters}
+											/>
+										</div>
+									</div>
+									<div className="form-group m-b-rg">
+										<button type="button" className="btn btn-purple-o" onClick={() => this.checklistInputFieldsAdd()}>Submit</button>
+										<button style={{ marginLeft: '0.5rem' }} type="button" className="btn btn-edit-o" onClick={() => this.importCSVOption()}>Import CSV</button>
+									</div>
+								</React.Fragment>
+							)}
+							{ openCSVform && (
+								<div className="form-group m-b-rg">
+									<div style={{ marginBottom: '1rem' }}>
+										<CSVReader
+											cssClass="react-csv-input"
+											label="Select CSV"
+											onFileLoaded={this.getCSVData}
+										/>
+									</div>
+									<button type="button" className="btn btn-purple-o" onClick={() => this.importCSVChecklist()}>Import Checklists</button>
+									<button style={{ marginLeft: '0.5rem' }} type="button" className="btn btn-dark-o" onClick={() => this.importCSVOptionClose()}>Cancel</button>
 								</div>
-							</div>
-							<div className="form-group m-b-rg">
-								<button type="button" className="btn btn-purple-o" onClick={() => this.checklistInputFieldsAdd()}>Submit</button>
-							</div>
+							)}
 						</div>
 					</div>
 				</div>

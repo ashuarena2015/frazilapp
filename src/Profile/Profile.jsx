@@ -64,23 +64,6 @@ export default class Profile extends Component {
 		});
 	}
 
-	_handleImageChange(e) {
-		e.preventDefault();
-		const reader = new FileReader();
-		const file = e.target.files[0];
-
-		reader.onloadend = () => {
-			this.setState({
-				imagePreviewUrl: reader.result,
-				uploadImgBtn: true,
-				cancelImg: true,
-				uploadImgMsg: false
-			});
-		};
-
-		reader.readAsDataURL(file);
-	}
-
 	_handleSubmit(e) {
 		e.preventDefault();
 		const profileImage = this.state.imagePreviewUrl;
@@ -165,7 +148,6 @@ export default class Profile extends Component {
 									{imagePreview}
 									<div className="photo-edit">
 										<span className="fa fa-camera" />
-										{/* <input className="fileInput" type="file" onChange={(e)=>this._handleImageChange(e)} /> */}
 										<input type="file" onChange={this.onChangeCrop} />
 									</div>
 								</div>
