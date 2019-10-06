@@ -121,7 +121,7 @@ export default class Profile extends Component {
 
 		return (
 			<div className="profile__section">
-				<div id="takePhotoByCamera" className={isCapture && 'cameraOn'}>
+				<div id="takePhotoByCamera" className={isCapture ? 'cameraOn' : ''}>
 					<Cropper
 						style={{ height: '100%', width: '100%' }}
 						aspectRatio={1 / 1}
@@ -154,7 +154,7 @@ export default class Profile extends Component {
 								<div className="previewComponent text-center">
 									<form onSubmit={e => this._handleSubmit(e)}>
 										{uploadImgMsg && <p className="show">Profile picture upload successfully!</p>}
-										<div className="btn-group" style={{ 'margin-top': '5px' }}>
+										<div className="btn-group" style={{ marginTop: '5px' }}>
 											<button className={this.state.uploadImgBtn ? 'btn btn-sm btn-success' : 'hide'} type="submit" onClick="">Upload</button>
 											<button type="button" onClick={this.cancelImgUpload} className={this.state.cancelImg ? 'btn btn-sm btn-danger' : 'hide'}>Cancel</button>
 										</div>

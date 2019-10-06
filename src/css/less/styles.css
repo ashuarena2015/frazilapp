@@ -1275,3 +1275,14 @@ body {
   margin-bottom: 1rem;
   border: 3px solid #e2e2e2;
 }
+.all_checklists {
+  max-height: 230px;
+  overflow: auto;
+}
+.all_checklists .checklist {
+  padding: 0.5rem;
+  border: 1px solid #e2e2e2;
+  display: block;
+  margin-bottom: 0.5rem;
+  background: #eff2f7;
+}

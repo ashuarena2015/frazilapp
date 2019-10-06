@@ -42,7 +42,7 @@ export default class SeeChecklists extends Component {
 
 		const allChecklists = [];
 		projectChecklists && projectChecklists.map((item) => {
-			return allChecklists.push(<li key={item.id}>{item.checklist}</li>);
+			return allChecklists.push(<span className="checklist" key={item.id}>{item.checklist}</span>);
 		});
 
 		if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
@@ -75,10 +75,10 @@ export default class SeeChecklists extends Component {
 								{ fetching
 									? (
 										<div style={{ display: 'flex', justifyContent: 'center' }}><span className="fa fa-spin fa-spinner fa-2x" /></div>
-									) : allChecklists }
+									) : (<div className="all_checklists">{allChecklists}</div>) }
 							</div>
-						</div>
-					</div>
+        </div>
+       </div>
 				</div>
 			</React.Fragment>
 		);

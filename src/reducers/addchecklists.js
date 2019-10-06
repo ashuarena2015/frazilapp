@@ -45,7 +45,14 @@ const projects = (state = initialState, action) => {
 		return {
 			...state,
 			fetching: false,
-			saveDataSuccessFully: 1
+			saveDataSuccessFully: 1,
+			saveDataFailed: false
+		};
+	case ActionTypes.SAVE_FAILED:
+		return {
+			...state,
+			fetching: false,
+			saveDataFailed: true
 		};
 	case ActionTypes.PROJECT_CHECKLISTS:
 		return {

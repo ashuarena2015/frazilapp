@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader';
+import history from '../history';
 
 export default class AssignProject extends Component {
 	constructor(props) {
@@ -41,11 +42,17 @@ export default class AssignProject extends Component {
 	}
 
 	render() {
-		const { saveDataSuccessFully, fetching, frazilProjects, selectedUserProfile, selectedUserProfile: { name, profile_img } = {} } = this.props;
+		const { saveDataSuccessFully, fetching, frazilProjects, selectedUserProfile,
+			selectedUserProfile: { name, profile_img } = {},
+			loginInfo: { loginEmail, logoutSuccess } = {} } = this.props;
 		const allProjects = [];
 		frazilProjects.length && frazilProjects.map((project) => {
 			return allProjects.push(<option value={project.id}>{project.name}</option>);
 		});
+
+		if (loginEmail === '' && logoutSuccess) {
+			history.push('/');
+		}
 
 		return (
 			<div className="panel">

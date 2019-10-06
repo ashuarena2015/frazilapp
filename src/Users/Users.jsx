@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader';
+import history from '../history';
 
 export default class Users extends Component {
 	componentDidMount() {
@@ -8,7 +9,11 @@ export default class Users extends Component {
 	}
 
 	render() {
-		const { allUsers, fetching } = this.props.loginInfo;
+		const { allUsers, fetching, loginEmail, logoutSuccess } = this.props.loginInfo;
+
+		if (loginEmail === '' && logoutSuccess) {
+			history.push('/');
+		}
 
 		return (
 			<div className="panel">

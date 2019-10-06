@@ -67,7 +67,6 @@ export function getMyAssignedProjects(id) {
 			user_id: id
 		})
 			.then((res) => {
-				console.log(res);
 				dispatch(fetchMyAssignedProjectSuccess(res.data));
 			}).catch(() => {
 				dispatch(fetchProjectFailed(true));
@@ -79,6 +78,12 @@ export function saveSuccessfully(response) {
 	return {
 		type: ActionTypes.SAVE_SUCCESSFULLY,
 		response
+	};
+}
+
+export function saveFailed() {
+	return {
+		type: ActionTypes.SAVE_FAILED
 	};
 }
 
@@ -206,7 +211,6 @@ export function assignProject(payload) {
 }
 
 export function importCSVChecklist(payload) {
-	console.log('payload', payload);
 	return (dispatch) => {
 		dispatch(fetchStart());
 		return axios.post('/import-checklists.php', {
@@ -220,6 +224,31 @@ export function importCSVChecklist(payload) {
 					dispatch(saveSuccessfully(res.data.success));
 				} else {
 					dispatch(fetchFailed(true));
+				}
+			}).catch(() => {
+				dispatch(fetchFailed(true));
+			});
+	};
+}
+
+export function submitReport(payload) {
+	return (dispatch) => {
+		dispatch(fetchStart());
+		return axios.post('/submit-report.php', {
+			remarks: payload.remarks,
+			project_photos: payload.project_photos,
+			checklistResult: payload.checklistResult,
+			project_id: payload.project_id,
+			user_id: payload.user_id,
+			assigned_by: payload.assigned_by
+		})
+			.then((res) => {
+				if (res.data.success === 1) {
+					dispatch(fetchStop());
+					dispatch(saveSuccessfully(res.data.success));
+				} else {
+					dispatch(fetchFailed(true));
+					dispatch(saveFailed());
 				}
 			}).catch(() => {
 				dispatch(fetchFailed(true));

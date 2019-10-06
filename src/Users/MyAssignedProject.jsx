@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Loader from '../Loader';
+import history from '../history';
 
 export default class MyAssignedProject extends Component {
 	componentDidMount() {
@@ -17,8 +18,10 @@ export default class MyAssignedProject extends Component {
 	}
 
 	render() {
-		const { fetching, myAssignedProject } = this.props;
-		console.log('myAssignedProject', myAssignedProject);
+		const { fetching, myAssignedProject, loginInfo: { loginEmail, logoutSuccess } = {} } = this.props;
+		if (loginEmail === '' && logoutSuccess) {
+			history.push('/');
+		}
 		return (
 			<div className="panel">
 				{ fetching && (
@@ -38,7 +41,7 @@ export default class MyAssignedProject extends Component {
 									<p className="name">{project.name}</p>
 									<p>Assigned date: <b>{ project.assigned_date }</b> </p>
 									<p>
-										<Link to={`/project-inspection/${project.id}/${project.name}`} className="btn btn-sm btn-purple-o">Start Inspection</Link>
+										<Link to={`/project-inspection/${project.id}/${project.name}/${project.assigned_by}`} className="btn btn-sm btn-purple-o">Start Inspection</Link>
 										<Link style={{ marginLeft: '0.5rem' }} to={`/assign-project/${project.id}/`} className="btn btn-sm btn-dark-o">Deny</Link>
 									</p>
 								</div>
