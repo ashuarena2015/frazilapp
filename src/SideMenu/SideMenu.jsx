@@ -17,7 +17,7 @@ class SideMenu extends Component {
 	}
 
 	render() {
-		const { loginEmail, role, logoutSuccess } = this.props.loginInfo;
+		const { loginEmail, role } = this.props.loginInfo;
 
 		return (
 			<div className="header">

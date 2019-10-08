@@ -40,6 +40,25 @@ export function getLoginInfo(userData) {
 	};
 }
 
+export function getLoginByCookies(loginEmail) {
+	return (dispatch) => {
+		dispatch(loginRequest());
+		return axios.post('/login.php', {
+			email: loginEmail,
+			loginByCookie: 1,
+		})
+			.then((res) => {
+				if (res.data[0].email) {
+					dispatch(loginSuccess(res.data));
+				} else {
+					dispatch(loginFailed(true));
+				}
+			}).catch(() => {
+				dispatch(loginFailed(true));
+			});
+	};
+}
+
 function logoutSuccess() {
 	return {
 		type: ActionTypes.LOGOUT_SUCCESS,

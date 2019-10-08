@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import SideMenu from './SideMenu';
-import { logout } from '../actions/login'; 
+import { logout } from '../actions/login';
 
 function mapStateToProps(state) {
 	return {
@@ -11,9 +11,10 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		logout: () => {
+			localStorage.removeItem('loginEmail');
 			dispatch(logout());
-    }
-  }
+		}
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SideMenu);

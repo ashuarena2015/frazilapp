@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import Login from './Login';
-import { getLoginInfo } from '../actions/login';
+import { getLoginInfo, getLoginByCookies } from '../actions/login';
 
 function mapStateToProps(state) {
 	return {
@@ -12,8 +12,11 @@ function mapDispatchToProps(dispatch) {
 	return {
 		getLoginInfo: (payload) => {
 			dispatch(getLoginInfo(payload));
-    }
-  }
+		},
+		getLoginByCookies: (loginByCookie) => {
+			dispatch(getLoginByCookies(loginByCookie));
+		}
+	};
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

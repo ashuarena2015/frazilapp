@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "bb8df6fde72a160e66c7"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "56e5ca2e5a385a5e8ab6"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -47120,6 +47120,7 @@
 					loginId: loginId
 				};
 				this.props.getProfileInfo(profileData);
+				localStorage.setItem('loginEmail', loginEmail);
 			}
 		}, {
 			key: 'onChangeCrop',
@@ -53576,6 +53577,9 @@
 		return {
 			getLoginInfo: function getLoginInfo(payload) {
 				dispatch((0, _login.getLoginInfo)(payload));
+			},
+			getLoginByCookies: function getLoginByCookies(loginByCookie) {
+				dispatch((0, _login.getLoginByCookies)(loginByCookie));
 			}
 		};
 	}
@@ -53662,7 +53666,8 @@
 				loginEmail: '',
 				loginPassword: '',
 				showSignupForm: false,
-				showForgotPasswordForm: false
+				showForgotPasswordForm: false,
+				loginCookieExist: localStorage.getItem('loginEmail')
 			};
 			_this.handleSubmit = _this.handleSubmit.bind(_this);
 			_this.getLoginInfo = _this.getLoginInfo.bind(_this);
@@ -53670,6 +53675,15 @@
 		}
 
 		_createClass(Login, [{
+			key: 'componentDidMount',
+			value: function componentDidMount() {
+				var loginCookieExist = this.state.loginCookieExist;
+
+				if (loginCookieExist) {
+					this.props.getLoginByCookies(loginCookieExist);
+				}
+			}
+		}, {
 			key: 'componentDidUpdate',
 			value: function componentDidUpdate(prevProps) {
 				if (prevProps.loginInfo.loginEmail !== this.props.loginInfo.loginEmail) {
@@ -53703,10 +53717,11 @@
 			value: function render() {
 				var _state2 = this.state,
 				    showSignupForm = _state2.showSignupForm,
-				    showForgotPasswordForm = _state2.showForgotPasswordForm;
+				    showForgotPasswordForm = _state2.showForgotPasswordForm,
+				    loginCookieExist = _state2.loginCookieExist;
 				var fetching = this.props.loginInfo.fetching;
 
-				return _react3.default.createElement(
+				return !loginCookieExist && _react3.default.createElement(
 					_react3.default.Fragment,
 					null,
 					_react3.default.createElement(
@@ -53898,6 +53913,7 @@
 		value: true
 	});
 	exports.getLoginInfo = getLoginInfo;
+	exports.getLoginByCookies = getLoginByCookies;
 	exports.logout = logout;
 	exports.allUsers = allUsers;
 
@@ -53940,6 +53956,24 @@
 			return _axios2.default.post('/login.php', {
 				email: userData.loginEmail,
 				password: userData.loginPassword
+			}).then(function (res) {
+				if (res.data[0].email) {
+					dispatch(loginSuccess(res.data));
+				} else {
+					dispatch(loginFailed(true));
+				}
+			}).catch(function () {
+				dispatch(loginFailed(true));
+			});
+		};
+	}
+
+	function getLoginByCookies(loginEmail) {
+		return function (dispatch) {
+			dispatch(loginRequest());
+			return _axios2.default.post('/login.php', {
+				email: loginEmail,
+				loginByCookie: 1
 			}).then(function (res) {
 				if (res.data[0].email) {
 					dispatch(loginSuccess(res.data));
@@ -54365,6 +54399,7 @@
 	function mapDispatchToProps(dispatch) {
 		return {
 			logout: function logout() {
+				localStorage.removeItem('loginEmail');
 				dispatch((0, _login.logout)());
 			}
 		};
@@ -54463,8 +54498,7 @@
 			value: function render() {
 				var _props$loginInfo = this.props.loginInfo,
 				    loginEmail = _props$loginInfo.loginEmail,
-				    role = _props$loginInfo.role,
-				    logoutSuccess = _props$loginInfo.logoutSuccess;
+				    role = _props$loginInfo.role;
 
 
 				return _react3.default.createElement(
@@ -54658,7 +54692,7 @@
 
 		_createClass(About, [{
 			key: "render",
-			value: function render(props) {
+			value: function render() {
 				return _react3.default.createElement(
 					"div",
 					{ className: "container m-t-50" },
@@ -54671,12 +54705,17 @@
 							_react3.default.createElement(
 								"h3",
 								null,
-								"About Frazil Water PVT. LTD."
+								"About Company"
 							),
 							_react3.default.createElement(
 								"p",
 								null,
-								"We are Manufacturer, Exporter, Service provider & Importer of Water & Waste Water Treatment Plant. In addition we also render repair and maintenance services of the preferred plants, to ensure its functional life."
+								"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed consequat purus sit amet nisi pretium auctor. Aliquam ornare nisl augue, at placerat odio sollicitudin sed. Cras egestas lorem libero, id cursus nisi sollicitudin ac. Cras a blandit augue. Mauris aliquet, lorem ac consectetur rutrum, felis leo posuere metus, sit amet dignissim quam augue sit amet metus. Morbi sagittis, ante ut fermentum suscipit, lectus ligula aliquet lorem, at varius massa lectus non metus. Suspendisse tristique aliquam justo, ut lobortis quam porta mollis. Pellentesque nec nulla eget eros blandit euismod. Nam luctus aliquam est id gravida. Vivamus sollicitudin commodo odio, in vulputate ante feugiat in. Nulla ex ipsum, suscipit id luctus et, suscipit non odio. Duis eu convallis massa, et elementum lectus."
+							),
+							_react3.default.createElement(
+								"p",
+								null,
+								"Phasellus et venenatis tellus, eget congue sapien. In eu porta ipsum. Donec id rutrum sem, eget fringilla erat. Suspendisse potenti. Vestibulum felis lectus, blandit et ligula in, elementum dignissim felis. Cras non congue libero, et sagittis sem. Mauris viverra purus et nisi varius elementum. Fusce eu turpis varius, dignissim purus et, lobortis ante. Sed quis lorem est. Morbi lacus tellus, eleifend sodales neque a, aliquet cursus turpis. Ut et sollicitudin ante. Donec nunc augue, porttitor ullamcorper gravida vel, bibendum sed elit. Praesent ultricies metus dignissim ante malesuada dignissim. "
 							)
 						)
 					)

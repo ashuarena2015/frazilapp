@@ -27,6 +27,7 @@ export default class Profile extends Component {
 			loginId
 		};
 		this.props.getProfileInfo(profileData);
+		localStorage.setItem('loginEmail', loginEmail);
 	}
 
 	onChangeCrop(e) {
