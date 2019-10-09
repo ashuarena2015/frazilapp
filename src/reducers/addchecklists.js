@@ -71,6 +71,11 @@ const projects = (state = initialState, action) => {
 			myAssignedProject: action.response,
 			fetching: false
 		};
+	case ActionTypes.FETCH_SUBMIT_REPORTS:
+		return {
+			...state,
+			mySubmitReports: action.response
+		}
 	default:
 		return state;
 	}

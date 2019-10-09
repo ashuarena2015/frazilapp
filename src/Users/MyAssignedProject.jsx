@@ -5,8 +5,9 @@ import history from '../history';
 
 export default class MyAssignedProject extends Component {
 	componentDidMount() {
-		const { dataReset, getMyAssignedProjects, profileInfo: { id } = {} } = this.props;
+		const { dataReset, getMyAssignedProjects, profileInfo: { id } = {}, getMySubmitReports } = this.props;
 		getMyAssignedProjects(id);
+		getMySubmitReports(id);
 		dataReset();
 	}
 
@@ -41,8 +42,12 @@ export default class MyAssignedProject extends Component {
 									<p className="name">{project.name}</p>
 									<p>Assigned date: <b>{ project.assigned_date }</b> </p>
 									<p>
-										<Link to={`/project-inspection/${project.id}/${project.name}/${project.assigned_by}`} className="btn btn-sm btn-purple-o">Start Inspection</Link>
-										<Link style={{ marginLeft: '0.5rem' }} to={`/assign-project/${project.id}/`} className="btn btn-sm btn-dark-o">Deny</Link>
+										{project.completed_date === '0000-00-00' ? (
+											<React.Fragment>
+												<Link to={`/project-inspection/${project.id}/${project.name}/${project.assigned_by}/${project['0']}`} className="btn btn-sm btn-purple-o">Start Inspection</Link>
+												<Link style={{ marginLeft: '0.5rem' }} to={`/assign-project/${project.id}/`} className="btn btn-sm btn-dark-o">Deny</Link>
+											</React.Fragment>
+										) : (<b>Project report has submitted on {project.completed_date}</b>)}
 									</p>
 								</div>
 							</div>

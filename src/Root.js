@@ -99,7 +99,7 @@ const Root = () => {
 				/>
 				<Route
 					exact
-					path="/project-inspection/:id/:project_name/:assigned_by"
+					path="/project-inspection/:id/:project_name/:assigned_by/:assigned_project_id"
 					component={
 						ProjectInspection
 					}

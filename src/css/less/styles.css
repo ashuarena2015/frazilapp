@@ -473,7 +473,7 @@
   border-radius: 30px;
   background: #fff;
   color: #333;
-  border: none;
+  border: 1px solid #eff2f7;
 }
 .btn-ghost-o:hover {
   background: #f8f8f8;
@@ -1141,6 +1141,10 @@ body {
   border-radius: 3px;
   margin-bottom: 0.5rem;
   padding: 1rem;
+}
+.users_list.disabled {
+  opacity: 0.25;
+  cursor: not-allowed;
 }
 .users_list .user_img {
   width: 4.5rem;

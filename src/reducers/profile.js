@@ -1,7 +1,11 @@
 import ActionTypes from '../constants/ActionTypes';
 
 const initialState = {
-	fetching: false
+	fetching: false,
+	verifyOtpResponse: '',
+	saveDataSuccessFully: '',
+	submittedProject: [],
+	assignedProject: []
 };
 
 const userProfile = (state = initialState, action) => {
@@ -15,7 +19,8 @@ const userProfile = (state = initialState, action) => {
 		return {
 			...state,
 			fetching: false,
-			profileInfo: action.response[0]
+			profileInfo: action.response[0],
+			saveDataSuccessFully: ''
 		};
 	case ActionTypes.PROFILE_FAILED:
 		return {
@@ -53,6 +58,23 @@ const userProfile = (state = initialState, action) => {
 			...state,
 			selectedUserProfile: action.response[0]
 		};
+	case ActionTypes.SAVE_SUCCESSFULLY:
+		return {
+			...state,
+			fetching: false,
+			saveDataSuccessFully: 1,
+			saveDataFailed: false
+		};
+	case ActionTypes.SUBMITTED_ASSIGNED_PROJECT:
+		return {
+			...state,
+			submittedProject: action.response
+		};
+	case ActionTypes.MY_ASSIGNED_PROJECT:
+		return {
+			...state,
+			assignedProject: action.response
+		}
 	default:
 		return state;
 	}

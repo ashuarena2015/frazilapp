@@ -74,6 +74,27 @@ export function getMyAssignedProjects(id) {
 	};
 }
 
+export function fetchMySubmitProjectReport(response) {
+	return {
+		type: ActionTypes.FETCH_SUBMIT_REPORTS,
+		response
+	}
+}
+
+export function getMySubmitReports(id) {
+	return (dispatch) => {
+		dispatch(fetchProjectRequest());
+		return axios.post('/get-submit-reports.php', {
+			user_id: id
+		})
+			.then((res) => {
+				dispatch(fetchMySubmitProjectReport(res.data));
+			}).catch(() => {
+				dispatch(fetchProjectFailed(true));
+			});
+	};
+}
+
 export function saveSuccessfully(response) {
 	return {
 		type: ActionTypes.SAVE_SUCCESSFULLY,
@@ -240,7 +261,8 @@ export function submitReport(payload) {
 			checklistResult: payload.checklistResult,
 			project_id: payload.project_id,
 			user_id: payload.user_id,
-			assigned_by: payload.assigned_by
+			assigned_by: payload.assigned_by,
+			assigned_project_id: payload.assigned_project_id
 		})
 			.then((res) => {
 				if (res.data.success === 1) {

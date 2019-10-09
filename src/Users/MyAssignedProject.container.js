@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import MyAssignedProject from './MyAssignedProject';
-import { getMyAssignedProjects, dataReset } from '../actions/addchecklists';
+import { getMyAssignedProjects, dataReset, getMySubmitReports } from '../actions/addchecklists';
 
 function mapStateToProps(state) {
 	return {
@@ -19,6 +19,9 @@ function mapDispatchToProps(dispatch) {
 		},
 		dataReset: () => {
 			dispatch(dataReset());
+		},
+		getMySubmitReports: (id) => {
+			dispatch(getMySubmitReports(id));
 		}
 	};
 }

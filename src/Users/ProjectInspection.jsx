@@ -32,6 +32,7 @@ export default class ProjectInspection extends Component {
 			projectSelected: this.props.match.params.id,
 			projectSelectedName: this.props.match.params.project_name,
 			assigned_by: this.props.match.params.assigned_by,
+			assigned_project_id: this.props.match.params.assigned_project_id,
 			checklistResult: [],
 			listResult: [],
 			isCapture: false,
@@ -105,14 +106,14 @@ export default class ProjectInspection extends Component {
 		this.setState({
 			isCapture: false
 		}, () => {
-			this.setState({
+			this.setState(prevState => ({
 				imagePreviewUrl: [
 					{
 						imageCorpperPath: this.cropper.getCroppedCanvas().toDataURL()
 					},
-					...this.state.imagePreviewUrl
+					...prevState.imagePreviewUrl
 				]
-			});
+			}));
 		});
 	}
 
@@ -125,7 +126,8 @@ export default class ProjectInspection extends Component {
 				checklistResult: _.sortBy(this.state.listResult, ['id']),
 				project_id: parseInt(this.state.projectSelected),
 				user_id: parseInt(this.state.user_id),
-				assigned_by: parseInt(this.state.assigned_by)
+				assigned_by: parseInt(this.state.assigned_by),
+				assigned_project_id: parseInt(this.state.assigned_project_id)
 			};
 			this.props.submitReport(payload);
 		}
@@ -236,7 +238,7 @@ export default class ProjectInspection extends Component {
 								</React.Fragment>
 							)}
 						</div>
-       </div>
+					</div>
 				</div>
 			</React.Fragment>
 		);

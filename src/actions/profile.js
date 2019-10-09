@@ -32,6 +32,13 @@ function profileFailed() {
 	};
 }
 
+function saveSuccessfully(response) {
+	return {
+		type: ActionTypes.SAVE_SUCCESSFULLY,
+		response
+	};
+}
+
 export function getProfileInfo(userData) {
 	return (dispatch) => {
 		dispatch(profileRequest());
@@ -41,6 +48,24 @@ export function getProfileInfo(userData) {
 		})
 			.then((res) => {
 				dispatch(profileSuccess(res.data));
+			}).catch(() => {
+				dispatch(profileFailed(true));
+			});
+	};
+}
+
+export function updateProfile(userData) {
+	return (dispatch) => {
+		dispatch(profileRequest());
+		const { id, name, address } = userData;
+		return axios.post('/update-profile.php', {
+			id,
+			name,
+			address,
+		})
+			.then((res) => {
+				dispatch(profileSuccess(res.data));
+				dispatch(saveSuccessfully(1));
 			}).catch(() => {
 				dispatch(profileFailed(true));
 			});
@@ -120,6 +145,52 @@ export function verifyOTP(userData) {
 		})
 			.then((res) => {
 				dispatch(verifyOTPSuccess(res.data));
+			}).catch(() => {
+				dispatch(fetchingStop(true));
+			});
+	};
+}
+
+export function submittedProject(response) {
+	return {
+		type: ActionTypes.SUBMITTED_ASSIGNED_PROJECT,
+		response
+	};
+}
+
+export function getSubmittedProject(payload) {
+	return (dispatch) => {
+		dispatch(fetchingStart());
+		return axios.post('/get_my_submitted_project.php', {
+			userId: payload.loginId,
+			email: payload.loginEmail,
+			role: payload.role
+		})
+			.then((res) => {
+				dispatch(submittedProject(res.data));
+			}).catch(() => {
+				dispatch(fetchingStop(true));
+			});
+	};
+}
+
+export function assignedProject(response) {
+	return {
+		type: ActionTypes.MY_ASSIGNED_PROJECT,
+		response
+	};
+}
+
+export function getAssignedProject(payload) {
+	return (dispatch) => {
+		dispatch(fetchingStart());
+		return axios.post('/get_assigned_project.php', {
+			userId: payload.loginId,
+			email: payload.loginEmail,
+			role: payload.role
+		})
+			.then((res) => {
+				dispatch(assignedProject(res.data));
 			}).catch(() => {
 				dispatch(fetchingStop(true));
 			});

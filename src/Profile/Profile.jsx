@@ -21,12 +21,14 @@ export default class Profile extends Component {
 	}
 
 	componentDidMount() {
-		const { loginEmail, loginId } = this.props.loginInfo;
+		const { loginEmail, loginId, role } = this.props.loginInfo;
 		const profileData = {
 			loginEmail,
-			loginId
+			loginId,
+			role
 		};
 		this.props.getProfileInfo(profileData);
+		this.props.getSubmittedProject(profileData);
 		localStorage.setItem('loginEmail', loginEmail);
 	}
 
@@ -102,7 +104,8 @@ export default class Profile extends Component {
 	}
 
 	render() {
-		const { name, email, mobile, profile_img, user_id } = this.props.profileInfo || {};
+		const { name, email, mobile, profile_img, id, role } = this.props.profileInfo || {};
+		const { submittedProject, assignedProject } = this.props;
 
 		const { uploadImgMsg, isCapture } = this.state;
 
@@ -178,21 +181,21 @@ export default class Profile extends Component {
 								</div>
 
 								<div className="text-center m-b-lg">
-									<Link to={`/edit-profile/${user_id}/`} className="btn btn-purple-o">Edit profile</Link>
+									<Link to={`/edit-profile/${id}/`} className="btn btn-purple-o">Edit profile</Link>
 								</div>
 
 							</div>
 
 							<div className="panel_section">
 		    			<div className="panel-row panel-row-group m-t-rg m-b-rg">
+									<div onClick="" className="row-item" style={{ background: '#3065a4', color: '#fff', border: 'none' }}>
+										<span className="label-value">Assigned ({role === 0 ? 'to me' : 'by me'}) Project</span>
+										<div className="counts">{assignedProject ? assignedProject.length : 0}</div>
+										<span className="fa fa-stack fa-arrow-right goto-link" />
+									</div>
 			    			<div onClick="" className="row-item" style={{ background: '#66a430', color: '#fff', border: 'none' }}>
 			    				<span className="label-value">Report Submitted</span>
-			    				<div className="counts">4</div>
-			    				<span className="fa fa-stack fa-arrow-right goto-link" />
-		    				</div>
-		    				<div onClick="" className="row-item" style={{ background: '#3065a4', color: '#fff', border: 'none' }}>
-			    				<span className="label-value">Site Visited</span>
-			    				<div className="counts">5</div>
+			    				<div className="counts">{submittedProject ? submittedProject.length : 0}</div>
 			    				<span className="fa fa-stack fa-arrow-right goto-link" />
 		    				</div>
 		    			</div>

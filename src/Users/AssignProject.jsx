@@ -78,7 +78,7 @@ export default class AssignProject extends Component {
 					)}
 					{ saveDataSuccessFully && (
 						<div style={{ marginBottom: '2rem' }}>
-							<p className="text-success">Checklists addedd successfully!</p>
+							<p className="text-success">Assigned project successfully!</p>
 						</div>
 					)}
 					<div className="form-group m-b-rg">
