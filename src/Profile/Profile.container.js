@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
 import Profile from './Profile';
-import { getProfileInfo, getSubmittedProject, assignedProject } from '../actions/profile';
+import { getProfileInfo, getSubmittedProject, getAssignedProject } from '../actions/profile';
 
 function mapStateToProps(state) {
 	return {
 		loginInfo: state.loginInfo,
 		profileInfo: state.userProfile.profileInfo,
 		submittedAssignedProject: state.userProfile.submittedAssignedProject,
-		assignedProject: state.userProfile.assignedProject
+		assignedProjectCount: state.userProfile.assignedProjectCount
 	};
 }
 
@@ -19,8 +19,8 @@ function mapDispatchToProps(dispatch) {
 		getSubmittedProject: (payload) => {
 			dispatch(getSubmittedProject(payload));
 		},
-		assignedProject: (payload) => {
-			dispatch(assignedProject(payload));
+		getAssignedProject: (payload) => {
+			dispatch(getAssignedProject(payload));
 		}
 	};
 }

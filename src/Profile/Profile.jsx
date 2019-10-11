@@ -29,6 +29,7 @@ export default class Profile extends Component {
 		};
 		this.props.getProfileInfo(profileData);
 		this.props.getSubmittedProject(profileData);
+		this.props.getAssignedProject(profileData);
 		localStorage.setItem('loginEmail', loginEmail);
 	}
 
@@ -105,7 +106,7 @@ export default class Profile extends Component {
 
 	render() {
 		const { name, email, mobile, profile_img, id, role } = this.props.profileInfo || {};
-		const { submittedProject, assignedProject } = this.props;
+		const { submittedProject, assignedProjectCount } = this.props;
 
 		const { uploadImgMsg, isCapture } = this.state;
 
@@ -122,6 +123,8 @@ export default class Profile extends Component {
 		if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
 			history.push('/');
 		}
+
+		console.log('assignedProjectCount', assignedProjectCount);
 
 		return (
 			<div className="profile__section">
@@ -190,7 +193,7 @@ export default class Profile extends Component {
 		    			<div className="panel-row panel-row-group m-t-rg m-b-rg">
 									<div onClick="" className="row-item" style={{ background: '#3065a4', color: '#fff', border: 'none' }}>
 										<span className="label-value">Assigned ({role === 0 ? 'to me' : 'by me'}) Project</span>
-										<div className="counts">{assignedProject ? assignedProject.length : 0}</div>
+										<div className="counts">{assignedProjectCount ? assignedProjectCount.length : 0}</div>
 										<span className="fa fa-stack fa-arrow-right goto-link" />
 									</div>
 			    			<div onClick="" className="row-item" style={{ background: '#66a430', color: '#fff', border: 'none' }}>

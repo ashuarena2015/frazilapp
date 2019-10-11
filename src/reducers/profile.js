@@ -73,7 +73,7 @@ const userProfile = (state = initialState, action) => {
 	case ActionTypes.MY_ASSIGNED_PROJECT:
 		return {
 			...state,
-			assignedProject: action.response
+			assignedProjectCount: action.response
 		}
 	default:
 		return state;

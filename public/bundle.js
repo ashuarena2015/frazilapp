@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "137fe6913c6556ccb7ff"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "2dea52267c89fc3d540a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -43654,7 +43654,7 @@
 				});
 			case _ActionTypes2.default.MY_ASSIGNED_PROJECT:
 				return _extends({}, state, {
-					assignedProject: action.response
+					assignedProjectCount: action.response
 				});
 			default:
 				return state;
@@ -47027,7 +47027,7 @@
 			loginInfo: state.loginInfo,
 			profileInfo: state.userProfile.profileInfo,
 			submittedAssignedProject: state.userProfile.submittedAssignedProject,
-			assignedProject: state.userProfile.assignedProject
+			assignedProjectCount: state.userProfile.assignedProjectCount
 		};
 	}
 
@@ -47039,8 +47039,8 @@
 			getSubmittedProject: function getSubmittedProject(payload) {
 				dispatch((0, _profile.getSubmittedProject)(payload));
 			},
-			assignedProject: function assignedProject(payload) {
-				dispatch((0, _profile.assignedProject)(payload));
+			getAssignedProject: function getAssignedProject(payload) {
+				dispatch((0, _profile.getAssignedProject)(payload));
 			}
 		};
 	}
@@ -47158,6 +47158,7 @@
 				};
 				this.props.getProfileInfo(profileData);
 				this.props.getSubmittedProject(profileData);
+				this.props.getAssignedProject(profileData);
 				localStorage.setItem('loginEmail', loginEmail);
 			}
 		}, {
@@ -47263,7 +47264,7 @@
 
 				var _props = this.props,
 				    submittedProject = _props.submittedProject,
-				    assignedProject = _props.assignedProject;
+				    assignedProjectCount = _props.assignedProjectCount;
 				var _state = this.state,
 				    uploadImgMsg = _state.uploadImgMsg,
 				    isCapture = _state.isCapture;
@@ -47283,6 +47284,8 @@
 				if (this.props.loginInfo.loginEmail === '' && this.props.loginInfo.logoutSuccess) {
 					_history2.default.push('/');
 				}
+
+				console.log('assignedProjectCount', assignedProjectCount);
 
 				return _react3.default.createElement(
 					'div',
@@ -47429,7 +47432,7 @@
 											_react3.default.createElement(
 												'div',
 												{ className: 'counts' },
-												assignedProject ? assignedProject.length : 0
+												assignedProjectCount ? assignedProjectCount.length : 0
 											),
 											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
 										),
