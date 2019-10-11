@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "56e5ca2e5a385a5e8ab6"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "137fe6913c6556ccb7ff"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -43563,7 +43563,11 @@
 		GET_ALL_USERS: 'GET_ALL_USERS',
 
 		// My Assigned Project
-		MY_ASSIGNED_PROJECTS: 'MY_ASSIGNED_PROJECTS'
+		MY_ASSIGNED_PROJECTS: 'MY_ASSIGNED_PROJECTS',
+
+		FETCH_SUBMIT_REPORTS: 'FETCH_SUBMIT_REPORTS',
+		SUBMITTED_ASSIGNED_PROJECT: 'SUBMITTED_ASSIGNED_PROJECT',
+		MY_ASSIGNED_PROJECT: 'MY_ASSIGNED_PROJECT'
 
 	};
 
@@ -43586,7 +43590,11 @@
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	var initialState = {
-		fetching: false
+		fetching: false,
+		verifyOtpResponse: '',
+		saveDataSuccessFully: '',
+		submittedProject: [],
+		assignedProject: []
 	};
 
 	var userProfile = function userProfile() {
@@ -43601,7 +43609,8 @@
 			case _ActionTypes2.default.PROFILE_SUCCESS:
 				return _extends({}, state, {
 					fetching: false,
-					profileInfo: action.response[0]
+					profileInfo: action.response[0],
+					saveDataSuccessFully: ''
 				});
 			case _ActionTypes2.default.PROFILE_FAILED:
 				return _extends({}, state, {
@@ -43632,6 +43641,20 @@
 			case _ActionTypes2.default.SELECTED_USER_PROFILE:
 				return _extends({}, state, {
 					selectedUserProfile: action.response[0]
+				});
+			case _ActionTypes2.default.SAVE_SUCCESSFULLY:
+				return _extends({}, state, {
+					fetching: false,
+					saveDataSuccessFully: 1,
+					saveDataFailed: false
+				});
+			case _ActionTypes2.default.SUBMITTED_ASSIGNED_PROJECT:
+				return _extends({}, state, {
+					submittedProject: action.response
+				});
+			case _ActionTypes2.default.MY_ASSIGNED_PROJECT:
+				return _extends({}, state, {
+					assignedProject: action.response
 				});
 			default:
 				return state;
@@ -43720,6 +43743,10 @@
 				return _extends({}, state, {
 					myAssignedProject: action.response,
 					fetching: false
+				});
+			case _ActionTypes2.default.FETCH_SUBMIT_REPORTS:
+				return _extends({}, state, {
+					mySubmitReports: action.response
 				});
 			default:
 				return state;
@@ -43867,7 +43894,7 @@
 				}),
 				_react2.default.createElement(_reactRouterDom.Route, {
 					exact: true,
-					path: '/project-inspection/:id/:project_name/:assigned_by',
+					path: '/project-inspection/:id/:project_name/:assigned_by/:assigned_project_id',
 					component: _ProjectInspection2.default
 				})
 			)
@@ -46998,7 +47025,9 @@
 	function mapStateToProps(state) {
 		return {
 			loginInfo: state.loginInfo,
-			profileInfo: state.userProfile.profileInfo
+			profileInfo: state.userProfile.profileInfo,
+			submittedAssignedProject: state.userProfile.submittedAssignedProject,
+			assignedProject: state.userProfile.assignedProject
 		};
 	}
 
@@ -47006,6 +47035,12 @@
 		return {
 			getProfileInfo: function getProfileInfo(payload) {
 				dispatch((0, _profile.getProfileInfo)(payload));
+			},
+			getSubmittedProject: function getSubmittedProject(payload) {
+				dispatch((0, _profile.getSubmittedProject)(payload));
+			},
+			assignedProject: function assignedProject(payload) {
+				dispatch((0, _profile.assignedProject)(payload));
 			}
 		};
 	}
@@ -47113,13 +47148,16 @@
 			value: function componentDidMount() {
 				var _props$loginInfo = this.props.loginInfo,
 				    loginEmail = _props$loginInfo.loginEmail,
-				    loginId = _props$loginInfo.loginId;
+				    loginId = _props$loginInfo.loginId,
+				    role = _props$loginInfo.role;
 
 				var profileData = {
 					loginEmail: loginEmail,
-					loginId: loginId
+					loginId: loginId,
+					role: role
 				};
 				this.props.getProfileInfo(profileData);
+				this.props.getSubmittedProject(profileData);
 				localStorage.setItem('loginEmail', loginEmail);
 			}
 		}, {
@@ -47220,8 +47258,12 @@
 				    email = _ref.email,
 				    mobile = _ref.mobile,
 				    profile_img = _ref.profile_img,
-				    user_id = _ref.user_id;
+				    id = _ref.id,
+				    role = _ref.role;
 
+				var _props = this.props,
+				    submittedProject = _props.submittedProject,
+				    assignedProject = _props.assignedProject;
 				var _state = this.state,
 				    uploadImgMsg = _state.uploadImgMsg,
 				    isCapture = _state.isCapture;
@@ -47363,7 +47405,7 @@
 										{ className: 'text-center m-b-lg' },
 										_react3.default.createElement(
 											_reactRouterDom.Link,
-											{ to: '/edit-profile/' + user_id + '/', className: 'btn btn-purple-o' },
+											{ to: '/edit-profile/' + id + '/', className: 'btn btn-purple-o' },
 											'Edit profile'
 										)
 									)
@@ -47376,6 +47418,23 @@
 										{ className: 'panel-row panel-row-group m-t-rg m-b-rg' },
 										_react3.default.createElement(
 											'div',
+											{ onClick: '', className: 'row-item', style: { background: '#3065a4', color: '#fff', border: 'none' } },
+											_react3.default.createElement(
+												'span',
+												{ className: 'label-value' },
+												'Assigned (',
+												role === 0 ? 'to me' : 'by me',
+												') Project'
+											),
+											_react3.default.createElement(
+												'div',
+												{ className: 'counts' },
+												assignedProject ? assignedProject.length : 0
+											),
+											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
+										),
+										_react3.default.createElement(
+											'div',
 											{ onClick: '', className: 'row-item', style: { background: '#66a430', color: '#fff', border: 'none' } },
 											_react3.default.createElement(
 												'span',
@@ -47385,22 +47444,7 @@
 											_react3.default.createElement(
 												'div',
 												{ className: 'counts' },
-												'4'
-											),
-											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
-										),
-										_react3.default.createElement(
-											'div',
-											{ onClick: '', className: 'row-item', style: { background: '#3065a4', color: '#fff', border: 'none' } },
-											_react3.default.createElement(
-												'span',
-												{ className: 'label-value' },
-												'Site Visited'
-											),
-											_react3.default.createElement(
-												'div',
-												{ className: 'counts' },
-												'5'
+												submittedProject ? submittedProject.length : 0
 											),
 											_react3.default.createElement('span', { className: 'fa fa-stack fa-arrow-right goto-link' })
 										)
@@ -51781,9 +51825,14 @@
 		value: true
 	});
 	exports.getProfileInfo = getProfileInfo;
+	exports.updateProfile = updateProfile;
 	exports.getSelectedProfileInfo = getSelectedProfileInfo;
 	exports.sendOTP = sendOTP;
 	exports.verifyOTP = verifyOTP;
+	exports.submittedProject = submittedProject;
+	exports.getSubmittedProject = getSubmittedProject;
+	exports.assignedProject = assignedProject;
+	exports.getAssignedProject = getAssignedProject;
 
 	var _ActionTypes = __webpack_require__(221);
 
@@ -51826,6 +51875,13 @@
 		};
 	}
 
+	function saveSuccessfully(response) {
+		return {
+			type: _ActionTypes2.default.SAVE_SUCCESSFULLY,
+			response: response
+		};
+	}
+
 	function getProfileInfo(userData) {
 		return function (dispatch) {
 			dispatch(profileRequest());
@@ -51834,6 +51890,26 @@
 				user_id: userData.loginId
 			}).then(function (res) {
 				dispatch(profileSuccess(res.data));
+			}).catch(function () {
+				dispatch(profileFailed(true));
+			});
+		};
+	}
+
+	function updateProfile(userData) {
+		return function (dispatch) {
+			dispatch(profileRequest());
+			var id = userData.id,
+			    name = userData.name,
+			    address = userData.address;
+
+			return _axios2.default.post('/update-profile.php', {
+				id: id,
+				name: name,
+				address: address
+			}).then(function (res) {
+				dispatch(profileSuccess(res.data));
+				dispatch(saveSuccessfully(1));
 			}).catch(function () {
 				dispatch(profileFailed(true));
 			});
@@ -51910,6 +51986,50 @@
 				otp: userData.otp
 			}).then(function (res) {
 				dispatch(verifyOTPSuccess(res.data));
+			}).catch(function () {
+				dispatch(fetchingStop(true));
+			});
+		};
+	}
+
+	function submittedProject(response) {
+		return {
+			type: _ActionTypes2.default.SUBMITTED_ASSIGNED_PROJECT,
+			response: response
+		};
+	}
+
+	function getSubmittedProject(payload) {
+		return function (dispatch) {
+			dispatch(fetchingStart());
+			return _axios2.default.post('/get_my_submitted_project.php', {
+				userId: payload.loginId,
+				email: payload.loginEmail,
+				role: payload.role
+			}).then(function (res) {
+				dispatch(submittedProject(res.data));
+			}).catch(function () {
+				dispatch(fetchingStop(true));
+			});
+		};
+	}
+
+	function assignedProject(response) {
+		return {
+			type: _ActionTypes2.default.MY_ASSIGNED_PROJECT,
+			response: response
+		};
+	}
+
+	function getAssignedProject(payload) {
+		return function (dispatch) {
+			dispatch(fetchingStart());
+			return _axios2.default.post('/get_assigned_project.php', {
+				userId: payload.loginId,
+				email: payload.loginEmail,
+				role: payload.role
+			}).then(function (res) {
+				dispatch(assignedProject(res.data));
 			}).catch(function () {
 				dispatch(fetchingStop(true));
 			});
@@ -54046,7 +54166,8 @@
 			loginInfo: state.loginInfo,
 			profileInfo: state.userProfile.profileInfo,
 			otpResponse: state.userProfile.otpResponse,
-			verifyOtpResponse: state.userProfile.verifyOtpResponse
+			verifyOtpResponse: state.userProfile.verifyOtpResponse,
+			saveDataSuccessFully: state.userProfile.saveDataSuccessFully
 		};
 	}
 
@@ -54057,6 +54178,9 @@
 			},
 			verifyOTP: function verifyOTP(userData) {
 				dispatch((0, _profile.verifyOTP)(userData));
+			},
+			updateProfile: function updateProfile(payload) {
+				dispatch((0, _profile.updateProfile)(payload));
 			}
 		};
 	}
@@ -54070,7 +54194,7 @@
 	/* WEBPACK VAR INJECTION */(function(module) {'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
-	  value: true
+		value: true
 	});
 
 	var _index = __webpack_require__(2);
@@ -54093,6 +54217,12 @@
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
+	var _reactRouterDom = __webpack_require__(225);
+
+	var _history = __webpack_require__(247);
+
+	var _history2 = _interopRequireDefault(_history);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -54104,267 +54234,313 @@
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var _components = {
-	  EditProfile: {
-	    displayName: 'EditProfile'
-	  }
+		EditProfile: {
+			displayName: 'EditProfile'
+		}
 	};
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
-	  components: _components,
-	  locals: [module],
-	  imports: [_react3.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
+		components: _components,
+		locals: [module],
+		imports: [_react3.default]
 	});
 
 	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-	  filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
-	  components: _components,
-	  locals: [],
-	  imports: [_react3.default, _index2.default]
+		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
+		components: _components,
+		locals: [],
+		imports: [_react3.default, _index2.default]
 	});
 
 	function _wrapComponent(id) {
-	  return function (Component) {
-	    return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
-	  };
+		return function (Component) {
+			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+		};
 	}
 
-	// import { Link } from 'react-router-dom';
-
 	var EditProfile = _wrapComponent('EditProfile')(function (_Component) {
-	  _inherits(EditProfile, _Component);
+		_inherits(EditProfile, _Component);
 
-	  function EditProfile(props) {
-	    _classCallCheck(this, EditProfile);
+		function EditProfile(props) {
+			_classCallCheck(this, EditProfile);
 
-	    var _this = _possibleConstructorReturn(this, (EditProfile.__proto__ || Object.getPrototypeOf(EditProfile)).call(this, props));
+			var _this = _possibleConstructorReturn(this, (EditProfile.__proto__ || Object.getPrototypeOf(EditProfile)).call(this, props));
 
-	    _this.state = _extends({}, _this.props.profileInfo, _this.props.otpResponse, {
-	      existingMobile: ''
-	    });
-	    _this.onChange = _this.onChange.bind(_this);
-	    _this.updateProfile = _this.updateProfile.bind(_this);
-	    _this.sendOTP = _this.sendOTP.bind(_this);
-	    _this.verifyOTP = _this.verifyOTP.bind(_this);
-	    return _this;
-	  }
+			_this.state = _extends({}, _this.props.profileInfo, _this.props.otpResponse, {
+				existingMobile: props.profileInfo.mobile
+			});
+			_this.onChange = _this.onChange.bind(_this);
+			_this.updateProfile = _this.updateProfile.bind(_this);
+			_this.sendOTP = _this.sendOTP.bind(_this);
+			_this.verifyOTP = _this.verifyOTP.bind(_this);
+			return _this;
+		}
 
-	  _createClass(EditProfile, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate(prevProps) {
-	      if (this.props.otpResponse !== prevProps.otpResponse) {
-	        this.setState({
-	          otpStatus: this.props.otpResponse.status
-	        });
-	      }
-	      if (this.props.verifyOtpResponse !== prevProps.verifyOtpResponse) {
-	        this.setState({
-	          verifyOtpStatus: this.props.verifyOtpResponse.status
-	        });
-	      }
-	    }
-	  }, {
-	    key: 'onChange',
-	    value: function onChange(e) {
-	      this.setState(_defineProperty({}, e.target.name, e.target.value));
-	    }
-	  }, {
-	    key: 'updateProfile',
-	    value: function updateProfile() {
-	      console.log('update profile');
-	    }
-	  }, {
-	    key: 'sendOTP',
-	    value: function sendOTP() {
-	      this.setState({
-	        existingMobile: this.state.mobile
-	      });
-	      var userData = {
-	        userId: this.state.user_id,
-	        mobile: this.state.mobile
-	      };
-	      this.props.sendOTP(userData);
-	    }
-	  }, {
-	    key: 'verifyOTP',
-	    value: function verifyOTP() {
-	      var userData = {
-	        userId: this.state.user_id,
-	        otp: this.state.otp,
-	        mobile: this.state.mobile
-	      };
-	      this.props.verifyOTP(userData);
-	    }
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      var _state = this.state,
-	          email = _state.email,
-	          name = _state.name,
-	          mobile = _state.mobile,
-	          otpStatus = _state.otpStatus,
-	          otp = _state.otp,
-	          verifyOtpStatus = _state.verifyOtpStatus,
-	          existingMobile = _state.existingMobile;
+		_createClass(EditProfile, [{
+			key: 'componentDidUpdate',
+			value: function componentDidUpdate(prevProps) {
+				if (this.props.otpResponse !== prevProps.otpResponse) {
+					this.setState({
+						otpStatus: this.props.otpResponse.status
+					});
+				}
+				if (this.props.verifyOtpResponse !== prevProps.verifyOtpResponse) {
+					this.setState({
+						verifyOtpStatus: this.props.verifyOtpResponse.status
+					});
+				}
+			}
+		}, {
+			key: 'onChange',
+			value: function onChange(e) {
+				this.setState(_defineProperty({}, e.target.name, e.target.value));
+			}
+		}, {
+			key: 'updateProfile',
+			value: function updateProfile() {
+				var updateProfile = this.props.updateProfile;
+				var _state = this.state,
+				    name = _state.name,
+				    address = _state.address,
+				    id = _state.id;
 
-	      console.log('existingMobile', existingMobile);
-	      return _react3.default.createElement(
-	        'div',
-	        { className: 'profile__section' },
-	        _react3.default.createElement(
-	          'div',
-	          { className: 'container vertical-center-box' },
-	          _react3.default.createElement(
-	            'div',
-	            { className: 'panel panel-default transparent-bg-box profile-page' },
-	            _react3.default.createElement(
-	              'div',
-	              { className: 'panel-body' },
-	              !name && _react3.default.createElement(
-	                'div',
-	                { className: 'text-center' },
-	                _react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-3x m-t-rg' })
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'panel_section', style: { padding: '1rem', borderBottom: '1px solid #e2e2e2', marginBottom: '2rem' } },
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'form-box m-b-lg' },
-	                  _react3.default.createElement(
-	                    'ul',
-	                    null,
-	                    _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'span',
-	                        { className: 'label' },
-	                        'Full name'
-	                      ),
-	                      _react3.default.createElement('input', { name: 'name', className: 'form-control', onChange: this.onChange, value: name })
-	                    ),
-	                    _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'span',
-	                        { className: 'label' },
-	                        'Email (Can\'t change)'
-	                      ),
-	                      _react3.default.createElement('input', { name: 'email', readonly: true, className: 'form-control', value: email })
-	                    ),
-	                    this.props.profileInfo.mobile === this.state.mobile && _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'div',
-	                        { className: 'text-center m-b-lg' },
-	                        _react3.default.createElement(
-	                          'button',
-	                          { type: 'button', className: 'btn btn-purple-o', onClick: this.updateProfile },
-	                          'Update profile'
-	                        )
-	                      )
-	                    )
-	                  )
-	                )
-	              ),
-	              _react3.default.createElement(
-	                'div',
-	                { className: 'panel_section' },
-	                _react3.default.createElement(
-	                  'div',
-	                  { className: 'form-box m-b-lg' },
-	                  _react3.default.createElement(
-	                    'ul',
-	                    null,
-	                    otpStatus !== 'success' && _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'span',
-	                        { className: 'label' },
-	                        'Mobile'
-	                      ),
-	                      _react3.default.createElement('input', { name: 'mobile', className: 'form-control', onChange: this.onChange, value: mobile }),
-	                      mobile.length > 10 ? _react3.default.createElement(
-	                        'small',
-	                        { className: 'text-error' },
-	                        'Wrong mobile number'
-	                      ) : ''
-	                    ),
-	                    this.props.profileInfo.mobile !== this.state.mobile && this.state.mobile.length === 10 && _react3.default.createElement(
-	                      'li',
-	                      { className: 'text-center' },
-	                      _react3.default.createElement(
-	                        'button',
-	                        { className: 'btn btn-purple-o', onClick: this.sendOTP },
-	                        'Send OTP'
-	                      ),
-	                      _react3.default.createElement(
-	                        'button',
-	                        { className: 'btn btn-ghost-o', style: { marginLeft: '0.5rem' }, onClick: this.cancelOTP },
-	                        'Cancel'
-	                      )
-	                    ),
-	                    verifyOtpStatus === 1 && _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'div',
-	                        { className: 'text-success' },
-	                        'Mobile number has been updated.'
-	                      )
-	                    ),
-	                    verifyOtpStatus === 0 && _react3.default.createElement(
-	                      'li',
-	                      null,
-	                      _react3.default.createElement(
-	                        'div',
-	                        { className: 'text-error' },
-	                        'Mobile number has been not updated successfully.'
-	                      )
-	                    ),
-	                    otpStatus === 'success' && _react3.default.createElement(
-	                      _react3.default.Fragment,
-	                      null,
-	                      _react3.default.createElement(
-	                        'li',
-	                        null,
-	                        _react3.default.createElement(
-	                          'span',
-	                          { className: 'label' },
-	                          'OTP'
-	                        ),
-	                        _react3.default.createElement('input', { name: 'otp', className: 'form-control', onChange: this.onChange, value: otp })
-	                      ),
-	                      _react3.default.createElement(
-	                        'li',
-	                        null,
-	                        _react3.default.createElement(
-	                          'button',
-	                          { className: 'btn btn-purple-o', onClick: this.verifyOTP },
-	                          'Verify OTP'
-	                        ),
-	                        _react3.default.createElement(
-	                          'button',
-	                          { className: 'btn', onClick: this.cancelOTP },
-	                          'Cancel'
-	                        )
-	                      )
-	                    )
-	                  )
-	                )
-	              )
-	            )
-	          )
-	        )
-	      );
-	    }
-	  }]);
+				var payload = {
+					id: id,
+					name: name,
+					address: address
+				};
+				updateProfile(payload);
+			}
+		}, {
+			key: 'sendOTP',
+			value: function sendOTP() {
+				var mobile = this.state.mobile;
+				var id = this.props.profileInfo.id;
 
-	  return EditProfile;
+				var userData = {
+					userId: id,
+					mobile: mobile
+				};
+				this.props.sendOTP(userData);
+			}
+		}, {
+			key: 'verifyOTP',
+			value: function verifyOTP() {
+				var _state2 = this.state,
+				    mobile = _state2.mobile,
+				    otp = _state2.otp;
+				var id = this.props.profileInfo.id;
+
+				var userData = {
+					userId: id,
+					otp: otp,
+					mobile: mobile
+				};
+				this.props.verifyOTP(userData);
+			}
+		}, {
+			key: 'render',
+			value: function render() {
+				var _state3 = this.state,
+				    email = _state3.email,
+				    name = _state3.name,
+				    mobile = _state3.mobile,
+				    otpStatus = _state3.otpStatus,
+				    otp = _state3.otp,
+				    verifyOtpStatus = _state3.verifyOtpStatus,
+				    address = _state3.address,
+				    existingMobile = _state3.existingMobile;
+
+				if (this.props.saveDataSuccessFully === 1) {
+					_history2.default.push('/profile');
+				}
+
+				return _react3.default.createElement(
+					'div',
+					{ className: 'profile__section' },
+					_react3.default.createElement(
+						'div',
+						{ className: 'container vertical-center-box' },
+						_react3.default.createElement(
+							'div',
+							{ className: 'panel panel-default transparent-bg-box profile-page' },
+							_react3.default.createElement(
+								'div',
+								{ className: 'panel-body' },
+								!name && _react3.default.createElement(
+									'div',
+									{ className: 'text-center' },
+									_react3.default.createElement('span', { className: 'fa fa-spin fa-spinner fa-3x m-t-rg' })
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'panel_section', style: { padding: '1rem', borderBottom: '1px solid #e2e2e2', marginBottom: '2rem' } },
+									_react3.default.createElement(
+										'div',
+										{ className: 'form-box m-b-lg' },
+										_react3.default.createElement(
+											'ul',
+											null,
+											_react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'span',
+													{ className: 'label' },
+													'Full name'
+												),
+												_react3.default.createElement('input', { name: 'name', className: 'form-control', onChange: this.onChange, value: name })
+											),
+											_react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'span',
+													{ className: 'label' },
+													'Email (Can\'t change)'
+												),
+												_react3.default.createElement('input', { name: 'email', readOnly: true, className: 'form-control', value: email })
+											),
+											_react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'span',
+													{ className: 'label' },
+													'Address'
+												),
+												_react3.default.createElement(
+													'textarea',
+													{ name: 'address', onChange: this.onChange, className: 'form-control' },
+													address
+												)
+											),
+											existingMobile === mobile && _react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'div',
+													{ className: 'text-center m-b-lg' },
+													_react3.default.createElement(
+														'button',
+														{ type: 'button', className: 'btn btn-purple-o', onClick: this.updateProfile },
+														'Update profile'
+													),
+													_react3.default.createElement(
+														_reactRouterDom.Link,
+														{ to: '/profile', style: { marginLeft: '0.5rem' }, className: 'btn btn-redirect-o' },
+														'Back to profile'
+													)
+												)
+											)
+										)
+									)
+								),
+								_react3.default.createElement(
+									'div',
+									{ className: 'panel_section', style: { padding: '1rem' } },
+									_react3.default.createElement(
+										'div',
+										{ className: 'form-box m-b-lg' },
+										_react3.default.createElement(
+											'ul',
+											null,
+											otpStatus !== 'success' && _react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'span',
+													{ className: 'label' },
+													'Mobile'
+												),
+												_react3.default.createElement('input', { name: 'mobile', className: 'form-control', onChange: this.onChange, value: mobile }),
+												mobile.length > 10 ? _react3.default.createElement(
+													'small',
+													{ className: 'text-error' },
+													'Wrong mobile number'
+												) : ''
+											),
+											existingMobile !== this.state.mobile && this.state.mobile.length === 10 && otpStatus !== 'success' && verifyOtpStatus !== 1 && _react3.default.createElement(
+												'li',
+												{ className: 'text-center' },
+												_react3.default.createElement(
+													'button',
+													{ type: 'button', className: 'btn btn-purple-o', onClick: this.sendOTP },
+													'Send OTP'
+												),
+												_react3.default.createElement(
+													'button',
+													{ type: 'button', className: 'btn btn-ghost-o', style: { marginLeft: '0.5rem' }, onClick: this.cancelOTP },
+													'Cancel'
+												)
+											),
+											verifyOtpStatus === 1 && _react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'div',
+													{ className: 'text-success' },
+													'Mobile number has been updated.'
+												)
+											),
+											verifyOtpStatus === 0 && _react3.default.createElement(
+												'li',
+												null,
+												_react3.default.createElement(
+													'div',
+													{ className: 'text-error' },
+													'Mobile number has been not updated successfully.'
+												)
+											),
+											otpStatus === 'success' && _react3.default.createElement(
+												_react3.default.Fragment,
+												null,
+												_react3.default.createElement(
+													'li',
+													null,
+													_react3.default.createElement(
+														'span',
+														{ className: 'label' },
+														'OTP'
+													),
+													_react3.default.createElement('input', { name: 'otp', className: 'form-control', onChange: this.onChange, value: otp })
+												),
+												_react3.default.createElement(
+													'li',
+													null,
+													_react3.default.createElement(
+														'button',
+														{ type: 'button', className: 'btn btn-purple-o', onClick: this.verifyOTP },
+														'Verify OTP'
+													),
+													_react3.default.createElement(
+														'button',
+														{ type: 'button', className: 'btn btn-ghost-o', style: { marginLeft: '0.5rem' }, onClick: this.cancelOTP },
+														'Cancel'
+													)
+												),
+												_react3.default.createElement(
+													'li',
+													null,
+													_react3.default.createElement(
+														'button',
+														{ type: 'button', className: 'btn btn-edit-o', onClick: this.sendOTP },
+														'Resend OTP'
+													)
+												)
+											)
+										)
+									)
+								)
+							)
+						)
+					)
+				);
+			}
+		}]);
+
+		return EditProfile;
 	}(_react2.Component));
 
 	exports.default = EditProfile;
@@ -54489,8 +54665,10 @@
 		_createClass(SideMenu, [{
 			key: 'openSideMenu',
 			value: function openSideMenu() {
-				this.setState({
-					sideMenuOpen: !this.state.sideMenuOpen
+				this.setState(function (prevState) {
+					return {
+						sideMenuOpen: !prevState.sideMenuOpen
+					};
 				});
 			}
 		}, {
@@ -54516,36 +54694,18 @@
 							'div',
 							{ className: !this.state.sideMenuOpen ? 'side-menu side-menu-hide' : 'side-menu side-menu-open' },
 							_react3.default.createElement(
-								'ul',
+								'div',
 								{ onClick: this.openSideMenu },
 								_react3.default.createElement(
-									'li',
-									null,
-									_react3.default.createElement(
-										_reactRouterDom.Link,
-										{ to: '/profile' },
-										'My Profile'
-									)
-								),
-								_react3.default.createElement(
-									'li',
-									null,
-									_react3.default.createElement(
-										_reactRouterDom.Link,
-										{ to: '/about' },
-										'About Us'
-									)
-								),
-								role === 1 && _react3.default.createElement(
-									_react3.default.Fragment,
+									'ul',
 									null,
 									_react3.default.createElement(
 										'li',
 										null,
 										_react3.default.createElement(
 											_reactRouterDom.Link,
-											{ to: '/add-checklists' },
-											'Add Checklist'
+											{ to: '/profile' },
+											'My Profile'
 										)
 									),
 									_react3.default.createElement(
@@ -54553,57 +54713,79 @@
 										null,
 										_react3.default.createElement(
 											_reactRouterDom.Link,
-											{ to: '/add-project' },
-											'Add Project'
+											{ to: '/about' },
+											'About Us'
 										)
 									),
-									_react3.default.createElement(
-										'li',
+									role === 1 && _react3.default.createElement(
+										_react3.default.Fragment,
 										null,
 										_react3.default.createElement(
-											_reactRouterDom.Link,
-											{ to: '/see-checklists' },
-											'See Checklists'
+											'li',
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/add-checklists' },
+												'Add Checklist'
+											)
+										),
+										_react3.default.createElement(
+											'li',
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/add-project' },
+												'Add Project'
+											)
+										),
+										_react3.default.createElement(
+											'li',
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/see-checklists' },
+												'See Checklists'
+											)
+										),
+										_react3.default.createElement(
+											'li',
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/users' },
+												'Users'
+											)
 										)
 									),
-									_react3.default.createElement(
+									role === 0 && _react3.default.createElement(
+										_react3.default.Fragment,
+										null,
+										_react3.default.createElement(
+											'li',
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/my-assigned-projects' },
+												'Assigned Projects'
+											)
+										)
+									),
+									loginEmail ? _react3.default.createElement(
 										'li',
 										null,
 										_react3.default.createElement(
 											_reactRouterDom.Link,
-											{ to: '/users' },
-											'Users'
+											{ onClick: this.props.logout },
+											'Logout'
 										)
-									)
-								),
-								role === 0 && _react3.default.createElement(
-									_react3.default.Fragment,
-									null,
-									_react3.default.createElement(
+									) : _react3.default.createElement(
 										'li',
 										null,
 										_react3.default.createElement(
 											_reactRouterDom.Link,
-											{ to: '/my-assigned-projects' },
-											'Assigned Projects'
+											{ to: '/' },
+											'Login'
 										)
-									)
-								),
-								loginEmail ? _react3.default.createElement(
-									'li',
-									null,
-									_react3.default.createElement(
-										_reactRouterDom.Link,
-										{ onClick: this.props.logout },
-										'Logout'
-									)
-								) : _react3.default.createElement(
-									'li',
-									null,
-									_react3.default.createElement(
-										_reactRouterDom.Link,
-										{ to: '/' },
-										'Login'
 									)
 								)
 							)
@@ -85728,6 +85910,8 @@
 	});
 	exports.getProjects = getProjects;
 	exports.getMyAssignedProjects = getMyAssignedProjects;
+	exports.fetchMySubmitProjectReport = fetchMySubmitProjectReport;
+	exports.getMySubmitReports = getMySubmitReports;
 	exports.saveSuccessfully = saveSuccessfully;
 	exports.saveFailed = saveFailed;
 	exports.addChecklists = addChecklists;
@@ -85815,6 +85999,26 @@
 				user_id: id
 			}).then(function (res) {
 				dispatch(fetchMyAssignedProjectSuccess(res.data));
+			}).catch(function () {
+				dispatch(fetchProjectFailed(true));
+			});
+		};
+	}
+
+	function fetchMySubmitProjectReport(response) {
+		return {
+			type: _ActionTypes2.default.FETCH_SUBMIT_REPORTS,
+			response: response
+		};
+	}
+
+	function getMySubmitReports(id) {
+		return function (dispatch) {
+			dispatch(fetchProjectRequest());
+			return _axios2.default.post('/get-submit-reports.php', {
+				user_id: id
+			}).then(function (res) {
+				dispatch(fetchMySubmitProjectReport(res.data));
 			}).catch(function () {
 				dispatch(fetchProjectFailed(true));
 			});
@@ -85981,7 +86185,8 @@
 				checklistResult: payload.checklistResult,
 				project_id: payload.project_id,
 				user_id: payload.user_id,
-				assigned_by: payload.assigned_by
+				assigned_by: payload.assigned_by,
+				assigned_project_id: payload.assigned_project_id
 			}).then(function (res) {
 				if (res.data.success === 1) {
 					dispatch(fetchStop());
@@ -87389,7 +87594,7 @@
 							_react3.default.createElement(
 								'p',
 								{ className: 'text-success' },
-								'Checklists addedd successfully!'
+								'Assigned project successfully!'
 							)
 						),
 						_react3.default.createElement(
@@ -87477,6 +87682,9 @@
 			},
 			dataReset: function dataReset() {
 				dispatch((0, _addchecklists.dataReset)());
+			},
+			getMySubmitReports: function getMySubmitReports(id) {
+				dispatch((0, _addchecklists.getMySubmitReports)(id));
 			}
 		};
 	}
@@ -87574,9 +87782,11 @@
 				    getMyAssignedProjects = _props.getMyAssignedProjects,
 				    _props$profileInfo = _props.profileInfo;
 				_props$profileInfo = _props$profileInfo === undefined ? {} : _props$profileInfo;
-				var id = _props$profileInfo.id;
+				var id = _props$profileInfo.id,
+				    getMySubmitReports = _props.getMySubmitReports;
 
 				getMyAssignedProjects(id);
+				getMySubmitReports(id);
 				dataReset();
 			}
 		}, {
@@ -87646,15 +87856,24 @@
 									_react3.default.createElement(
 										'p',
 										null,
-										_react3.default.createElement(
-											_reactRouterDom.Link,
-											{ to: '/project-inspection/' + project.id + '/' + project.name + '/' + project.assigned_by, className: 'btn btn-sm btn-purple-o' },
-											'Start Inspection'
-										),
-										_react3.default.createElement(
-											_reactRouterDom.Link,
-											{ style: { marginLeft: '0.5rem' }, to: '/assign-project/' + project.id + '/', className: 'btn btn-sm btn-dark-o' },
-											'Deny'
+										project.completed_date === '0000-00-00' ? _react3.default.createElement(
+											_react3.default.Fragment,
+											null,
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ to: '/project-inspection/' + project.id + '/' + project.name + '/' + project.assigned_by + '/' + project['0'], className: 'btn btn-sm btn-purple-o' },
+												'Start Inspection'
+											),
+											_react3.default.createElement(
+												_reactRouterDom.Link,
+												{ style: { marginLeft: '0.5rem' }, to: '/assign-project/' + project.id + '/', className: 'btn btn-sm btn-dark-o' },
+												'Deny'
+											)
+										) : _react3.default.createElement(
+											'b',
+											null,
+											'Project report has submitted on ',
+											project.completed_date
 										)
 									)
 								)
@@ -87845,6 +88064,7 @@
 				projectSelected: _this.props.match.params.id,
 				projectSelectedName: _this.props.match.params.project_name,
 				assigned_by: _this.props.match.params.assigned_by,
+				assigned_project_id: _this.props.match.params.assigned_project_id,
 				checklistResult: [],
 				listResult: [],
 				isCapture: false,
@@ -87942,10 +88162,12 @@
 				this.setState({
 					isCapture: false
 				}, function () {
-					_this4.setState({
-						imagePreviewUrl: [{
-							imageCorpperPath: _this4.cropper.getCroppedCanvas().toDataURL()
-						}].concat(_toConsumableArray(_this4.state.imagePreviewUrl))
+					_this4.setState(function (prevState) {
+						return {
+							imagePreviewUrl: [{
+								imageCorpperPath: _this4.cropper.getCroppedCanvas().toDataURL()
+							}].concat(_toConsumableArray(prevState.imagePreviewUrl))
+						};
 					});
 				});
 			}
@@ -87960,7 +88182,8 @@
 						checklistResult: _.sortBy(this.state.listResult, ['id']),
 						project_id: parseInt(this.state.projectSelected),
 						user_id: parseInt(this.state.user_id),
-						assigned_by: parseInt(this.state.assigned_by)
+						assigned_by: parseInt(this.state.assigned_by),
+						assigned_project_id: parseInt(this.state.assigned_project_id)
 					};
 					this.props.submitReport(payload);
 				}
@@ -105344,7 +105567,7 @@
 
 
 	// module
-	exports.push([module.id, ".pos-rel {\n  position: relative;\n}\n.pos-fix {\n  position: fixed;\n}\n.pos-abs {\n  position: absolute;\n}\n.dis-block {\n  display: block;\n}\n.dis-inline-block {\n  display: inline-block;\n}\n.dis-inline {\n  display: inline;\n}\n.dis-none {\n  display: none;\n}\n.text-xxlg {\n  font-size: 2.813rem;\n}\n.text-xlg {\n  font-size: 2.125rem;\n}\n.text-lg {\n  font-size: 1.5rem;\n}\n.text-md {\n  font-size: 1.25rem;\n}\n.text-rg {\n  font-size: 1rem;\n}\n.text-sm {\n  font-size: 0.875rem;\n}\n.text-xs {\n  font-size: 0.75rem;\n}\n.text-decoration-underline {\n  text-decoration: underline;\n}\n.text-decoration-none {\n  text-decoration: none;\n}\n.text-black {\n  color: #3c4858;\n}\n.text-silver {\n  color: #687484;\n}\n.text-steel {\n  color: #8492a6;\n}\n.text-slate {\n  color: #c0ccda;\n}\n.text-smoke {\n  color: #eff2f7;\n}\n.text-snow {\n  color: #f9fafc;\n}\n.text-success {\n  color: #75b654;\n}\n.text-error {\n  color: #e71e1e;\n}\n.text-info {\n  color: #1ea1e7;\n}\n.text-center {\n  text-align: center;\n}\n.text-left {\n  text-align: left;\n}\n.text-right {\n  text-align: right;\n}\n.m-t-0 {\n  margin-top: 0px;\n}\n.m-l-0 {\n  margin-left: 0px;\n}\n.m-r-0 {\n  margin-right: 0px;\n}\n.m-b-0 {\n  margin-bottom: 0px;\n}\n.p-t-0 {\n  padding-top: 0px;\n}\n.p-l-0 {\n  padding-left: 0px;\n}\n.p-r-0 {\n  padding-right: 0px;\n}\n.p-b-0 {\n  padding-bottom: 0px;\n}\n.m-t-xxs {\n  margin-top: 5px;\n}\n.m-t-xs {\n  margin-top: 10px;\n}\n.m-t-sm {\n  margin-top: 15px;\n}\n.m-t-rg {\n  margin-top: 20px;\n}\n.m-t-md {\n  margin-top: 25px;\n}\n.m-t-lg {\n  margin-top: 30px;\n}\n.m-t-xlg {\n  margin-top: 35px;\n}\n.m-t-xxlg {\n  margin-top: 40px;\n}\n.m-b-xxs {\n  margin-bottom: 5px;\n}\n.m-b-xs {\n  margin-bottom: 10px;\n}\n.m-b-sm {\n  margin-bottom: 15px;\n}\n.m-b-rg {\n  margin-bottom: 20px;\n}\n.m-b-md {\n  margin-bottom: 25px;\n}\n.m-b-lg {\n  margin-bottom: 30px;\n}\n.m-b-xlg {\n  margin-bottom: 35px;\n}\n.m-b-xxlg {\n  margin-bottom: 40px;\n}\n.m-l-xxs {\n  margin-left: 5px;\n}\n.m-l-xs {\n  margin-left: 10px;\n}\n.m-l-sm {\n  margin-left: 15px;\n}\n.m-l-rg {\n  margin-left: 20px;\n}\n.m-l-md {\n  margin-left: 25px;\n}\n.m-l-lg {\n  margin-left: 30px;\n}\n.m-l-xlg {\n  margin-left: 35px;\n}\n.m-l-xxlg {\n  margin-left: 40px;\n}\n.m-r-xxs {\n  margin-right: 5px;\n}\n.m-r-xs {\n  margin-right: 10px;\n}\n.m-r-sm {\n  margin-right: 15px;\n}\n.m-r-rg {\n  margin-right: 20px;\n}\n.m-r-md {\n  margin-right: 25px;\n}\n.m-r-lg {\n  margin-right: 30px;\n}\n.m-r-xlg {\n  margin-right: 35px;\n}\n.m-r-xxlg {\n  margin-right: 40px;\n}\n.p-t-xxs {\n  padding-top: 5px;\n}\n.p-t-xs {\n  padding-top: 10px;\n}\n.p-t-sm {\n  padding-top: 15px;\n}\n.p-t-rg {\n  padding-top: 20px;\n}\n.p-t-md {\n  padding-top: 25px;\n}\n.p-t-lg {\n  padding-top: 30px;\n}\n.p-t-xlg {\n  padding-top: 35px;\n}\n.p-t-xxlg {\n  padding-top: 40px;\n}\n.p-b-xxs {\n  padding-bottom: 5px;\n}\n.p-b-xs {\n  padding-bottom: 10px;\n}\n.p-b-sm {\n  padding-bottom: 15px;\n}\n.p-b-rg {\n  padding-bottom: 20px;\n}\n.p-b-md {\n  padding-bottom: 25px;\n}\n.p-b-lg {\n  padding-bottom: 30px;\n}\n.p-b-xlg {\n  padding-bottom: 35px;\n}\n.p-b-xxlg {\n  padding-bottom: 40px;\n}\n.p-l-xxs {\n  padding-left: 5px;\n}\n.p-l-xs {\n  padding-left: 10px;\n}\n.p-l-sm {\n  padding-left: 15px;\n}\n.p-l-rg {\n  padding-left: 20px;\n}\n.p-l-md {\n  padding-left: 25px;\n}\n.p-l-lg {\n  padding-left: 30px;\n}\n.p-l-xlg {\n  padding-left: 35px;\n}\n.p-l-xxlg {\n  padding-left: 40px;\n}\n.p-r-xxs {\n  padding-right: 5px;\n}\n.p-r-xs {\n  padding-right: 10px;\n}\n.p-r-sm {\n  padding-right: 15px;\n}\n.p-r-rg {\n  padding-right: 20px;\n}\n.p-r-md {\n  padding-right: 25px;\n}\n.p-r-lg {\n  padding-right: 30px;\n}\n.p-r-xlg {\n  padding-right: 35px;\n}\n.p-r-xxlg {\n  padding-right: 40px;\n}\n.show {\n  display: block !important;\n}\n.hide {\n  display: none !important;\n}\n.width-100 {\n  width: 100% !important;\n}\n.width-100px {\n  width: 100px !important;\n}\n.overflow-hidden {\n  overflow: hidden;\n}\n.overflow-auto {\n  overflow: auto;\n}\n.clearfix {\n  width: 100%;\n  clear: both;\n}\n.panel {\n  padding: 15px;\n}\n.panel .panel-body {\n  padding: 0 15px 30px;\n}\n.panel .panel-row {\n  box-shadow: 0px 0px 3px #c0ccda;\n}\n.panel .panel-row .row-item {\n  position: relative;\n  background: #fff;\n  padding: 0.5rem 0.8rem;\n  border-left: 1px solid #c0ccda;\n  border-right: 1px solid #c0ccda;\n  color: #687484;\n}\n.panel .panel-row .row-item:not(:first-child),\n.panel .panel-row .row-item:not(:last-child) {\n  border-radius: 0;\n  border-top: none;\n  border-bottom: none;\n}\n.panel .panel-row .row-item:first-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item:last-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item .label {\n  display: inline-block;\n}\n.panel .panel-row .row-item .label-value {\n  display: inline-block;\n}\n.panel .panel-row .row-item .counts {\n  margin: 10px 10px 10px 28px;\n  font-size: 42px;\n}\n.panel .panel-row .row-item .goto-link {\n  position: absolute;\n  top: 50%;\n  margin-top: -1em;\n  right: 0px;\n  cursor: pointer;\n}\n.form-control {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.btn {\n  padding: 10px 15px;\n  border: 1px solid;\n  background: none;\n  border-radius: 2px;\n  font-size: 0.875rem;\n  transition: ease-in 0.5s;\n  text-decoration: none;\n  text-align: center;\n  transition: ease-in-out 0.5s;\n}\n.btn-block {\n  width: calc(100% + 2px);\n  display: block;\n  box-sizing: border-box;\n}\n.btn-sm {\n  padding: 5px 10px;\n  box-sizing: border-box;\n}\n.btn-default {\n  background: #eff2f7;\n  color: #687484;\n  border-color: #c0ccda;\n}\n.btn-default:hover {\n  background: #cdd6e6;\n  border-color: transparent;\n}\n.btn-login {\n  background: #30b7e6;\n  color: #fff;\n  border-color: #3ba1c3;\n}\n.btn-login:hover {\n  background: #138fb9;\n}\n.btn-success {\n  background: #75b654;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-success:hover {\n  background: #314f22;\n  border-color: transparent;\n}\n.btn-danger {\n  background: #e71e1e;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-danger:hover {\n  background: #620a0a;\n  border-color: transparent;\n}\n.btn-purple-o {\n  border-radius: 30px;\n  background: #c52fda;\n  color: #fff;\n  border: none;\n}\n.btn-purple-o:hover {\n  background: #b027c4;\n}\n.btn-dark-o {\n  border-radius: 30px;\n  background: #333;\n  color: #fff;\n  border: none;\n}\n.btn-dark-o:hover {\n  background: #000;\n}\n.btn-edit-o {\n  border-radius: 30px;\n  background: #62a513;\n  color: #fff;\n  border: none;\n}\n.btn-edit-o:hover {\n  background: #508b0b;\n}\n.btn-redirect-o {\n  border-radius: 30px;\n  background: #ffd200;\n  color: #333;\n  border: none;\n}\n.btn-redirect-o:hover {\n  background: #e1bb0a;\n}\n.btn-ghost-o {\n  border-radius: 30px;\n  background: #fff;\n  color: #333;\n  border: none;\n}\n.btn-ghost-o:hover {\n  background: #f8f8f8;\n}\n.btn:disabled {\n  background: #f9fafc !important;\n  color: #c0ccda !important;\n  border: 1px solid #eff2f7;\n}\n.anchor-link {\n  text-decoration: underline;\n  color: #1ea1e7;\n}\n.anchor-link:hover {\n  text-decoration: none;\n}\n.btn-group .btn + .btn {\n  margin-left: -1px;\n}\n.btn-group .btn:not(:first-child),\n.btn-group .btn:not(:last-child) {\n  border-radius: 0;\n}\n.btn-group .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.btn-group .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.action-btn .btn {\n  padding: 7px 12px;\n  background: #f9fafc;\n  border-color: #c0ccda;\n}\n.action-btn .btn + .btn {\n  margin-left: -1px;\n}\n.action-btn .btn:not(:first-child),\n.action-btn .btn:not(:last-child) {\n  border-radius: 0;\n}\n.action-btn .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.action-btn .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.list-table {\n  background: #eff2f7;\n  border-radius: 2px;\n  border: 1px solid #c0ccda;\n}\n.list-table ul {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.list-table ul li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black .list-table ul li:last-child {\n  border-bottom: none;\n}\n.list-table ul li a,\n.list-table ul li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.form-group .list-table label {\n  padding-bottom: 0;\n  color: #687484;\n}\nul.unstyle {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul.unstyle li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black ul.unstyle li:last-child {\n  border-bottom: none;\n}\nul.unstyle li a,\nul.unstyle li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.group-anchor a,\n.group-anchor a:hover {\n  color: #1ea1e7;\n  text-decoration: underline;\n  position: relative;\n  margin: auto;\n}\n.group-anchor a:not(:first-child) {\n  margin-left: 15px;\n}\n.group-anchor a:not(:first-child)::after {\n  content: \"-\";\n  position: absolute;\n  top: 0;\n  left: -10px;\n}\n.modal {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n}\n.modal .modal-dialog {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #f9fafc;\n  padding: 20px;\n  color: #f9fafc;\n  border-radius: 3px;\n  border: 1px solid #eff2f7;\n  z-index: 99999;\n}\n.modal .modal-header {\n  position: relative;\n  padding: 10px 0 20px;\n}\n.modal .modal-header .modal-title {\n  font-size: 1rem;\n  padding: 0;\n  margin: 0;\n  color: #687484;\n}\n.modal .modal-header .close-modal {\n  position: absolute;\n  top: -10px;\n  right: -10px;\n  width: 30px;\n  height: 30px;\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.modal .modal-header .close-modal:after {\n  content: \"\\F00D\";\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  font-family: \"fontAwesome\";\n  font-size: 1.5rem;\n}\n.modal .modal-body {\n  max-height: 300px;\n  overflow: auto;\n}\n.modal .modal-body .modal-message {\n  font-size: 0.875rem;\n}\n.help-text {\n  font-size: 0.75rem;\n  padding: 5px 0;\n  display: block;\n}\n.help-text-error {\n  color: #e71e1e;\n}\n.checkbox-dropdown .checkbox-container {\n  background: #fff;\n  max-height: 200px;\n  overflow: auto;\n}\n.checkbox-dropdown label {\n  display: block;\n}\n.alert {\n  padding: 5px 10px;\n  border-radius: 3px;\n}\n.alert-success {\n  background: #e7faf0;\n  border: 1px solid #13ce66;\n  color: #13ce66;\n}\n.alert-info {\n  background: #e9f8ff;\n  border: 1px solid #1fb6ff;\n  color: #1fb6ff;\n}\n.alert-error {\n  background: #ffeded;\n  border: 1px solid #ff4949;\n  color: #ff4949;\n}\n.alert-warning {\n  background: #fff5eb;\n  border: 1px solid #f93;\n  color: #f93;\n}\n@-webkit-keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n@keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n.alert-fade-out {\n  -webkit-animation-name: fadeOut;\n  animation-name: fadeOut;\n  -webkit-animation-duration: 2s;\n  animation-duration: 2s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n}\n.table {\n  border-collapse: collapse;\n}\n.table td {\n  padding: 5px;\n  border-bottom: 1px solid #687484;\n}\n.form-box ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.form-box ul li {\n  margin-bottom: 10px;\n}\n.form-box .form-control,\n.form-box .form-control:focus {\n  padding-left: 10px;\n  border: none;\n  outline: none !important;\n  border: 1px solid #c0ccda;\n}\n.hint-text {\n  font-size: 12px;\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 700;\n  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.ttf) format('truetype');\n}\nhtml {\n  min-height: 100%;\n}\nbody {\n  background-color: #fefefe;\n  font-family: Montserrat, sans-serif;\n  color: #3c4858;\n  line-height: 20px;\n  font-size: 14px;\n  margin: 0;\n}\n.header {\n  position: fixed;\n  background: #f9fafc;\n  height: 50px;\n  width: 100%;\n  z-index: 9;\n  box-shadow: -1px 1px 4px #e2e2e2;\n  top: 0;\n}\n.content-section {\n  padding-top: 50px;\n  max-width: 650px;\n  margin: auto;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n/* Standard syntax */\n@keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n.menu-opener {\n  position: absolute;\n  left: 15px;\n  top: 10px;\n  color: #3c4858;\n  z-index: 100;\n}\n.menu-opener.menu-opener-active {\n  color: #f9fafc;\n}\n.side-menu {\n  background: #873895;\n  position: fixed;\n  z-index: 99;\n  width: 225px;\n  height: 100%;\n  top: 0px;\n  box-shadow: 2px 0 10px #666;\n}\n.side-menu.side-menu-open {\n  -webkit-animation: menuOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuOpen 0.5s;\n  left: 0px;\n}\n.side-menu.side-menu-hide {\n  -webkit-animation: menuHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuHide 0.5s;\n  left: -110%;\n}\n.side-menu ul {\n  width: 100%;\n  list-style: none;\n  padding: 0;\n  margin-top: 2rem;\n}\n.side-menu ul li {\n  width: calc(100% - 2rem);\n  border-bottom: 1px solid #f8f8f8;\n  padding: 0.5rem 1rem;\n}\n.side-menu ul li a {\n  display: block;\n  color: #f9fafc;\n  padding: 8px 0;\n  text-decoration: none;\n}\n.side-menu ul li.divider {\n  border-bottom: 1px solid #eff2f7;\n  margin: 10px 0;\n}\n.form-group {\n  position: relative;\n  margin: 0 auto 20px;\n}\n.form-group label {\n  margin-bottom: 0;\n  color: #687484;\n  font-size: 0.75rem;\n  line-height: 11px;\n  letter-spacing: 1px;\n  padding-bottom: 10px;\n  display: block;\n}\n.form-group input[type=text],\n.form-group input[type=password],\n.form-group input[type=file] {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.form-group select {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n  width: 100%;\n}\n.profile-img {\n  margin: auto;\n  text-align: center;\n  border-radius: 50%;\n  height: 120px;\n  width: 120px;\n  position: relative;\n}\n.profile-img img {\n  width: 120px;\n  height: 120px;\n  margin: auto;\n  border-radius: 50%;\n}\n.photo-edit,\n.photo-camera {\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  background: #3c4858;\n  position: absolute;\n  bottom: 0px;\n  right: 0px;\n  overflow: hidden;\n}\n.photo-edit:not(.photo-edit),\n.photo-camera:not(.photo-edit) {\n  left: 0;\n}\n.photo-edit input,\n.photo-camera input {\n  opacity: 0;\n  padding: 10px;\n}\n.photo-edit .fa-camera,\n.photo-camera .fa-camera {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  font-size: 20px;\n  color: #fff;\n}\n.previewComponent {\n  position: relative;\n}\n.previewComponent .banner-img {\n  padding: 10px;\n  border: 1px dashed #c0ccda;\n  width: calc(100% - 22px);\n  margin-bottom: 10px;\n}\n.previewComponent .banner-img img {\n  max-width: 100%;\n}\n.uploadImgBtn,\n.uploadImgBtn:hover {\n  background: #38bc91;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.cancelImgBtn,\n.cancelImgBtn:hover {\n  background: #ff1616;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.text-ellipsis {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.width-150 {\n  width: 150px !important;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n.side-preview-content {\n  position: fixed;\n  width: 75%;\n  height: 100%;\n  z-index: 999;\n  top: 0;\n  background: rgba(0, 0, 0, 0.8);\n  color: #f9fafc;\n}\n.side-preview-content.side-preview-content-open {\n  -webkit-animation: sideContentOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentOpen 0.5s;\n  right: 0px;\n}\n.side-preview-content.side-preview-content-hide {\n  -webkit-animation: sideContentHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentHide 0.5s;\n  right: -100%;\n}\n.side-preview-content .content-container {\n  height: calc(90% - 15px);\n  margin-top: 45px;\n  overflow: auto;\n}\n.side-preview-content .content-container ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.side-preview-content .content-container ul li {\n  padding: 5px 5px 5px 10px;\n  border-bottom: 1px solid #ccc;\n  text-align: left;\n  word-break: break-all;\n}\n.side-preview-content .hide-preview {\n  right: 10px;\n  position: absolute;\n  top: 10px;\n  color: #f9fafc;\n}\n.preview-iframeBox {\n  width: 100%;\n  height: 400px;\n  border: 1px solid #c0ccda;\n}\n.not_found_message {\n  font-size: 16px;\n  margin: 20px;\n  font-weight: 600;\n  color: #ff1616;\n}\n.text-error {\n  color: #e71e1e;\n}\n#takePhotoByCamera {\n  display: none;\n  position: fixed;\n  height: 100%;\n  left: 0;\n  right: 0;\n  top: 0;\n  border: 5px solid #873895;\n  flex-direction: column;\n  z-index: 999;\n  background: rgba(0, 0, 0, 0.8);\n}\n#takePhotoByCamera.cameraOn {\n  display: flex;\n}\n#takePhotoByCamera #capturedImage {\n  position: absolute;\n  display: none;\n  left: -50%;\n  top: 50%;\n  width: 100%;\n  transform: translate(50%, -50%);\n}\n#takePhotoByCamera #capturedImage.imageOn {\n  display: block;\n}\n#takePhotoByCamera .stop_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  right: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera .take_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  left: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera video {\n  width: 100%;\n  height: 100%;\n}\n#takePhotoByCamera video.videoOff {\n  display: none;\n}\n.camerOnButton {\n  width: 40px;\n  height: 40px;\n  background: none;\n  border: none;\n  position: absolute;\n  z-index: 9;\n  left: 0;\n}\n.ReactTags__selected .ReactTags__tag {\n  display: block;\n  padding: 10px;\n  background: #e2e2e2;\n  border: 1px solid #cccc;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.ReactTags__selected .ReactTags__tag a {\n  padding: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  font-size: 2rem;\n}\n.users_list {\n  display: flex;\n  align-items: center;\n  border: 1px solid #e2e2e2;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  padding: 1rem;\n}\n.users_list .user_img {\n  width: 4.5rem;\n  height: 4.5rem;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: 1rem;\n  border: 2px solid #e2e2e2;\n}\n.users_list .user_img img {\n  width: 100%;\n}\n.users_list .user_info p {\n  margin: 0;\n  margin-bottom: 0.5rem;\n}\n.users_list .user_info .name {\n  font-size: 1rem;\n  font-weight: 700;\n}\n.assign_to_user {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  padding: 1rem;\n}\n.assign_to_user .user_img {\n  width: 10rem;\n  height: 10rem;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: 1rem;\n  border: 2px solid #e2e2e2;\n  margin-bottom: 2rem;\n}\n.assign_to_user .user_img img {\n  width: 100%;\n}\n.assign_to_user .user_info p {\n  margin: 0;\n  margin-bottom: 0.5rem;\n}\n.assign_to_user .user_info .name {\n  font-size: 1.25rem;\n  font-weight: 700;\n  text-align: center;\n}\n@keyframes loader-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.loader_wrapper {\n  display: inline-flex;\n  height: 2rem;\n  align-items: center;\n}\n.loader_wrapper .loader {\n  min-height: inherit !important;\n}\n.loader {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 1.5rem;\n}\n.loader-fixed {\n  position: fixed;\n  z-index: 999;\n  height: 100%;\n  width: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  top: 0;\n  left: 0;\n}\n.loader.loader_left {\n  margin-right: 0.5rem;\n}\n.loader.loader_right {\n  margin-left: 0.5rem;\n}\n.loader_large {\n  min-height: 25rem;\n}\n.loader__icon {\n  animation: loader-spin 1.3s cubic-bezier(0.46, 0.35, 0.39, 0.85) infinite;\n}\n.loader__icon_large svg {\n  height: 3rem;\n  width: 3rem;\n}\n.loader__icon_small svg {\n  height: 2rem;\n  width: 2rem;\n}\n.loader__icon_extra-small svg {\n  height: 1rem;\n  width: 1rem;\n}\n.project_inspection_checklists label {\n  border: 1px solid #e2e2e2;\n  display: flex;\n  align-items: center;\n  padding: 1rem;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.project_inspection_checklists label input[type=\"checkbox\"] {\n  position: absolute;\n  width: 100%;\n  left: 0;\n  height: 100%;\n  top: 0;\n  opacity: 0;\n}\n.project_inspection_checklists .text-slate {\n  color: #c0ccda !important;\n}\n.project_photos_uploads {\n  display: flex;\n  flex-wrap: wrap;\n}\n.project_photos_uploads img {\n  width: 80px;\n  height: auto;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n  border: 3px solid #e2e2e2;\n}\n.all_checklists {\n  max-height: 230px;\n  overflow: auto;\n}\n.all_checklists .checklist {\n  padding: 0.5rem;\n  border: 1px solid #e2e2e2;\n  display: block;\n  margin-bottom: 0.5rem;\n  background: #eff2f7;\n}\n", ""]);
+	exports.push([module.id, ".pos-rel {\n  position: relative;\n}\n.pos-fix {\n  position: fixed;\n}\n.pos-abs {\n  position: absolute;\n}\n.dis-block {\n  display: block;\n}\n.dis-inline-block {\n  display: inline-block;\n}\n.dis-inline {\n  display: inline;\n}\n.dis-none {\n  display: none;\n}\n.text-xxlg {\n  font-size: 2.813rem;\n}\n.text-xlg {\n  font-size: 2.125rem;\n}\n.text-lg {\n  font-size: 1.5rem;\n}\n.text-md {\n  font-size: 1.25rem;\n}\n.text-rg {\n  font-size: 1rem;\n}\n.text-sm {\n  font-size: 0.875rem;\n}\n.text-xs {\n  font-size: 0.75rem;\n}\n.text-decoration-underline {\n  text-decoration: underline;\n}\n.text-decoration-none {\n  text-decoration: none;\n}\n.text-black {\n  color: #3c4858;\n}\n.text-silver {\n  color: #687484;\n}\n.text-steel {\n  color: #8492a6;\n}\n.text-slate {\n  color: #c0ccda;\n}\n.text-smoke {\n  color: #eff2f7;\n}\n.text-snow {\n  color: #f9fafc;\n}\n.text-success {\n  color: #75b654;\n}\n.text-error {\n  color: #e71e1e;\n}\n.text-info {\n  color: #1ea1e7;\n}\n.text-center {\n  text-align: center;\n}\n.text-left {\n  text-align: left;\n}\n.text-right {\n  text-align: right;\n}\n.m-t-0 {\n  margin-top: 0px;\n}\n.m-l-0 {\n  margin-left: 0px;\n}\n.m-r-0 {\n  margin-right: 0px;\n}\n.m-b-0 {\n  margin-bottom: 0px;\n}\n.p-t-0 {\n  padding-top: 0px;\n}\n.p-l-0 {\n  padding-left: 0px;\n}\n.p-r-0 {\n  padding-right: 0px;\n}\n.p-b-0 {\n  padding-bottom: 0px;\n}\n.m-t-xxs {\n  margin-top: 5px;\n}\n.m-t-xs {\n  margin-top: 10px;\n}\n.m-t-sm {\n  margin-top: 15px;\n}\n.m-t-rg {\n  margin-top: 20px;\n}\n.m-t-md {\n  margin-top: 25px;\n}\n.m-t-lg {\n  margin-top: 30px;\n}\n.m-t-xlg {\n  margin-top: 35px;\n}\n.m-t-xxlg {\n  margin-top: 40px;\n}\n.m-b-xxs {\n  margin-bottom: 5px;\n}\n.m-b-xs {\n  margin-bottom: 10px;\n}\n.m-b-sm {\n  margin-bottom: 15px;\n}\n.m-b-rg {\n  margin-bottom: 20px;\n}\n.m-b-md {\n  margin-bottom: 25px;\n}\n.m-b-lg {\n  margin-bottom: 30px;\n}\n.m-b-xlg {\n  margin-bottom: 35px;\n}\n.m-b-xxlg {\n  margin-bottom: 40px;\n}\n.m-l-xxs {\n  margin-left: 5px;\n}\n.m-l-xs {\n  margin-left: 10px;\n}\n.m-l-sm {\n  margin-left: 15px;\n}\n.m-l-rg {\n  margin-left: 20px;\n}\n.m-l-md {\n  margin-left: 25px;\n}\n.m-l-lg {\n  margin-left: 30px;\n}\n.m-l-xlg {\n  margin-left: 35px;\n}\n.m-l-xxlg {\n  margin-left: 40px;\n}\n.m-r-xxs {\n  margin-right: 5px;\n}\n.m-r-xs {\n  margin-right: 10px;\n}\n.m-r-sm {\n  margin-right: 15px;\n}\n.m-r-rg {\n  margin-right: 20px;\n}\n.m-r-md {\n  margin-right: 25px;\n}\n.m-r-lg {\n  margin-right: 30px;\n}\n.m-r-xlg {\n  margin-right: 35px;\n}\n.m-r-xxlg {\n  margin-right: 40px;\n}\n.p-t-xxs {\n  padding-top: 5px;\n}\n.p-t-xs {\n  padding-top: 10px;\n}\n.p-t-sm {\n  padding-top: 15px;\n}\n.p-t-rg {\n  padding-top: 20px;\n}\n.p-t-md {\n  padding-top: 25px;\n}\n.p-t-lg {\n  padding-top: 30px;\n}\n.p-t-xlg {\n  padding-top: 35px;\n}\n.p-t-xxlg {\n  padding-top: 40px;\n}\n.p-b-xxs {\n  padding-bottom: 5px;\n}\n.p-b-xs {\n  padding-bottom: 10px;\n}\n.p-b-sm {\n  padding-bottom: 15px;\n}\n.p-b-rg {\n  padding-bottom: 20px;\n}\n.p-b-md {\n  padding-bottom: 25px;\n}\n.p-b-lg {\n  padding-bottom: 30px;\n}\n.p-b-xlg {\n  padding-bottom: 35px;\n}\n.p-b-xxlg {\n  padding-bottom: 40px;\n}\n.p-l-xxs {\n  padding-left: 5px;\n}\n.p-l-xs {\n  padding-left: 10px;\n}\n.p-l-sm {\n  padding-left: 15px;\n}\n.p-l-rg {\n  padding-left: 20px;\n}\n.p-l-md {\n  padding-left: 25px;\n}\n.p-l-lg {\n  padding-left: 30px;\n}\n.p-l-xlg {\n  padding-left: 35px;\n}\n.p-l-xxlg {\n  padding-left: 40px;\n}\n.p-r-xxs {\n  padding-right: 5px;\n}\n.p-r-xs {\n  padding-right: 10px;\n}\n.p-r-sm {\n  padding-right: 15px;\n}\n.p-r-rg {\n  padding-right: 20px;\n}\n.p-r-md {\n  padding-right: 25px;\n}\n.p-r-lg {\n  padding-right: 30px;\n}\n.p-r-xlg {\n  padding-right: 35px;\n}\n.p-r-xxlg {\n  padding-right: 40px;\n}\n.show {\n  display: block !important;\n}\n.hide {\n  display: none !important;\n}\n.width-100 {\n  width: 100% !important;\n}\n.width-100px {\n  width: 100px !important;\n}\n.overflow-hidden {\n  overflow: hidden;\n}\n.overflow-auto {\n  overflow: auto;\n}\n.clearfix {\n  width: 100%;\n  clear: both;\n}\n.panel {\n  padding: 15px;\n}\n.panel .panel-body {\n  padding: 0 15px 30px;\n}\n.panel .panel-row {\n  box-shadow: 0px 0px 3px #c0ccda;\n}\n.panel .panel-row .row-item {\n  position: relative;\n  background: #fff;\n  padding: 0.5rem 0.8rem;\n  border-left: 1px solid #c0ccda;\n  border-right: 1px solid #c0ccda;\n  color: #687484;\n}\n.panel .panel-row .row-item:not(:first-child),\n.panel .panel-row .row-item:not(:last-child) {\n  border-radius: 0;\n  border-top: none;\n  border-bottom: none;\n}\n.panel .panel-row .row-item:first-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item:last-child {\n  border-bottom: 1px solid #c0ccda;\n  border-top: 1px solid #c0ccda;\n}\n.panel .panel-row .row-item .label {\n  display: inline-block;\n}\n.panel .panel-row .row-item .label-value {\n  display: inline-block;\n}\n.panel .panel-row .row-item .counts {\n  margin: 10px 10px 10px 28px;\n  font-size: 42px;\n}\n.panel .panel-row .row-item .goto-link {\n  position: absolute;\n  top: 50%;\n  margin-top: -1em;\n  right: 0px;\n  cursor: pointer;\n}\n.form-control {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.btn {\n  padding: 10px 15px;\n  border: 1px solid;\n  background: none;\n  border-radius: 2px;\n  font-size: 0.875rem;\n  transition: ease-in 0.5s;\n  text-decoration: none;\n  text-align: center;\n  transition: ease-in-out 0.5s;\n}\n.btn-block {\n  width: calc(100% + 2px);\n  display: block;\n  box-sizing: border-box;\n}\n.btn-sm {\n  padding: 5px 10px;\n  box-sizing: border-box;\n}\n.btn-default {\n  background: #eff2f7;\n  color: #687484;\n  border-color: #c0ccda;\n}\n.btn-default:hover {\n  background: #cdd6e6;\n  border-color: transparent;\n}\n.btn-login {\n  background: #30b7e6;\n  color: #fff;\n  border-color: #3ba1c3;\n}\n.btn-login:hover {\n  background: #138fb9;\n}\n.btn-success {\n  background: #75b654;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-success:hover {\n  background: #314f22;\n  border-color: transparent;\n}\n.btn-danger {\n  background: #e71e1e;\n  color: #f9fafc;\n  border-color: transparent;\n}\n.btn-danger:hover {\n  background: #620a0a;\n  border-color: transparent;\n}\n.btn-purple-o {\n  border-radius: 30px;\n  background: #c52fda;\n  color: #fff;\n  border: none;\n}\n.btn-purple-o:hover {\n  background: #b027c4;\n}\n.btn-dark-o {\n  border-radius: 30px;\n  background: #333;\n  color: #fff;\n  border: none;\n}\n.btn-dark-o:hover {\n  background: #000;\n}\n.btn-edit-o {\n  border-radius: 30px;\n  background: #62a513;\n  color: #fff;\n  border: none;\n}\n.btn-edit-o:hover {\n  background: #508b0b;\n}\n.btn-redirect-o {\n  border-radius: 30px;\n  background: #ffd200;\n  color: #333;\n  border: none;\n}\n.btn-redirect-o:hover {\n  background: #e1bb0a;\n}\n.btn-ghost-o {\n  border-radius: 30px;\n  background: #fff;\n  color: #333;\n  border: 1px solid #eff2f7;\n}\n.btn-ghost-o:hover {\n  background: #f8f8f8;\n}\n.btn:disabled {\n  background: #f9fafc !important;\n  color: #c0ccda !important;\n  border: 1px solid #eff2f7;\n}\n.anchor-link {\n  text-decoration: underline;\n  color: #1ea1e7;\n}\n.anchor-link:hover {\n  text-decoration: none;\n}\n.btn-group .btn + .btn {\n  margin-left: -1px;\n}\n.btn-group .btn:not(:first-child),\n.btn-group .btn:not(:last-child) {\n  border-radius: 0;\n}\n.btn-group .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.btn-group .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.action-btn .btn {\n  padding: 7px 12px;\n  background: #f9fafc;\n  border-color: #c0ccda;\n}\n.action-btn .btn + .btn {\n  margin-left: -1px;\n}\n.action-btn .btn:not(:first-child),\n.action-btn .btn:not(:last-child) {\n  border-radius: 0;\n}\n.action-btn .btn:last-child {\n  border-radius: 0 2px 2px 0;\n}\n.action-btn .btn:first-child {\n  border-radius: 2px 0 0 2px;\n}\n.list-table {\n  background: #eff2f7;\n  border-radius: 2px;\n  border: 1px solid #c0ccda;\n}\n.list-table ul {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\n.list-table ul li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black .list-table ul li:last-child {\n  border-bottom: none;\n}\n.list-table ul li a,\n.list-table ul li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.form-group .list-table label {\n  padding-bottom: 0;\n  color: #687484;\n}\nul.unstyle {\n  margin: 0;\n  padding: 0;\n  list-style: none;\n}\nul.unstyle li {\n  border-bottom: 1px solid #c0ccda;\n  padding: 10px 5px;\n}\n.text-black ul.unstyle li:last-child {\n  border-bottom: none;\n}\nul.unstyle li a,\nul.unstyle li a:hover {\n  text-decoration: none;\n  color: #687484;\n}\n.group-anchor a,\n.group-anchor a:hover {\n  color: #1ea1e7;\n  text-decoration: underline;\n  position: relative;\n  margin: auto;\n}\n.group-anchor a:not(:first-child) {\n  margin-left: 15px;\n}\n.group-anchor a:not(:first-child)::after {\n  content: \"-\";\n  position: absolute;\n  top: 0;\n  left: -10px;\n}\n.modal {\n  position: fixed;\n  left: 0;\n  right: 0;\n  top: 0;\n  bottom: 0;\n  width: 100%;\n  height: 100%;\n  background: rgba(0, 0, 0, 0.5);\n}\n.modal .modal-dialog {\n  position: fixed;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  background: #f9fafc;\n  padding: 20px;\n  color: #f9fafc;\n  border-radius: 3px;\n  border: 1px solid #eff2f7;\n  z-index: 99999;\n}\n.modal .modal-header {\n  position: relative;\n  padding: 10px 0 20px;\n}\n.modal .modal-header .modal-title {\n  font-size: 1rem;\n  padding: 0;\n  margin: 0;\n  color: #687484;\n}\n.modal .modal-header .close-modal {\n  position: absolute;\n  top: -10px;\n  right: -10px;\n  width: 30px;\n  height: 30px;\n  border: none;\n  background: none;\n  cursor: pointer;\n}\n.modal .modal-header .close-modal:after {\n  content: \"\\F00D\";\n  position: absolute;\n  top: 5px;\n  right: 5px;\n  font-family: \"fontAwesome\";\n  font-size: 1.5rem;\n}\n.modal .modal-body {\n  max-height: 300px;\n  overflow: auto;\n}\n.modal .modal-body .modal-message {\n  font-size: 0.875rem;\n}\n.help-text {\n  font-size: 0.75rem;\n  padding: 5px 0;\n  display: block;\n}\n.help-text-error {\n  color: #e71e1e;\n}\n.checkbox-dropdown .checkbox-container {\n  background: #fff;\n  max-height: 200px;\n  overflow: auto;\n}\n.checkbox-dropdown label {\n  display: block;\n}\n.alert {\n  padding: 5px 10px;\n  border-radius: 3px;\n}\n.alert-success {\n  background: #e7faf0;\n  border: 1px solid #13ce66;\n  color: #13ce66;\n}\n.alert-info {\n  background: #e9f8ff;\n  border: 1px solid #1fb6ff;\n  color: #1fb6ff;\n}\n.alert-error {\n  background: #ffeded;\n  border: 1px solid #ff4949;\n  color: #ff4949;\n}\n.alert-warning {\n  background: #fff5eb;\n  border: 1px solid #f93;\n  color: #f93;\n}\n@-webkit-keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n@keyframes fadeOut {\n  0% {\n    opacity: 1;\n  }\n  100% {\n    opacity: 0;\n    height: 0;\n  }\n}\n.alert-fade-out {\n  -webkit-animation-name: fadeOut;\n  animation-name: fadeOut;\n  -webkit-animation-duration: 2s;\n  animation-duration: 2s;\n  -webkit-animation-fill-mode: both;\n  animation-fill-mode: both;\n}\n.table {\n  border-collapse: collapse;\n}\n.table td {\n  padding: 5px;\n  border-bottom: 1px solid #687484;\n}\n.form-box ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.form-box ul li {\n  margin-bottom: 10px;\n}\n.form-box .form-control,\n.form-box .form-control:focus {\n  padding-left: 10px;\n  border: none;\n  outline: none !important;\n  border: 1px solid #c0ccda;\n}\n.hint-text {\n  font-size: 12px;\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 400;\n  src: local('Montserrat Regular'), local('Montserrat-Regular'), url(http://fonts.gstatic.com/s/montserrat/v14/JTUSjIg1_i6t8kCHKm459Wlhzg.ttf) format('truetype');\n}\n@font-face {\n  font-family: 'Montserrat';\n  font-style: normal;\n  font-weight: 700;\n  src: local('Montserrat Bold'), local('Montserrat-Bold'), url(http://fonts.gstatic.com/s/montserrat/v14/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.ttf) format('truetype');\n}\nhtml {\n  min-height: 100%;\n}\nbody {\n  background-color: #fefefe;\n  font-family: Montserrat, sans-serif;\n  color: #3c4858;\n  line-height: 20px;\n  font-size: 14px;\n  margin: 0;\n}\n.header {\n  position: fixed;\n  background: #f9fafc;\n  height: 50px;\n  width: 100%;\n  z-index: 9;\n  box-shadow: -1px 1px 4px #e2e2e2;\n  top: 0;\n}\n.content-section {\n  padding-top: 50px;\n  max-width: 650px;\n  margin: auto;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes menuOpen {\n  from {\n    left: -110%;\n  }\n  to {\n    left: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n/* Standard syntax */\n@keyframes menuHide {\n  from {\n    left: 0px;\n  }\n  to {\n    left: -110%;\n  }\n}\n.menu-opener {\n  position: absolute;\n  left: 15px;\n  top: 10px;\n  color: #3c4858;\n  z-index: 100;\n}\n.menu-opener.menu-opener-active {\n  color: #f9fafc;\n}\n.side-menu {\n  background: #873895;\n  position: fixed;\n  z-index: 99;\n  width: 225px;\n  height: 100%;\n  top: 0px;\n  box-shadow: 2px 0 10px #666;\n}\n.side-menu.side-menu-open {\n  -webkit-animation: menuOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuOpen 0.5s;\n  left: 0px;\n}\n.side-menu.side-menu-hide {\n  -webkit-animation: menuHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: menuHide 0.5s;\n  left: -110%;\n}\n.side-menu ul {\n  width: 100%;\n  list-style: none;\n  padding: 0;\n  margin-top: 2rem;\n}\n.side-menu ul li {\n  width: calc(100% - 2rem);\n  border-bottom: 1px solid #f8f8f8;\n  padding: 0.5rem 1rem;\n}\n.side-menu ul li a {\n  display: block;\n  color: #f9fafc;\n  padding: 8px 0;\n  text-decoration: none;\n}\n.side-menu ul li.divider {\n  border-bottom: 1px solid #eff2f7;\n  margin: 10px 0;\n}\n.form-group {\n  position: relative;\n  margin: 0 auto 20px;\n}\n.form-group label {\n  margin-bottom: 0;\n  color: #687484;\n  font-size: 0.75rem;\n  line-height: 11px;\n  letter-spacing: 1px;\n  padding-bottom: 10px;\n  display: block;\n}\n.form-group input[type=text],\n.form-group input[type=password],\n.form-group input[type=file] {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n}\n.form-group select {\n  padding: 10px;\n  border: 1px solid #c0ccda;\n  color: #687484;\n  font-size: 0.875rem;\n  border-radius: 2px;\n  display: block;\n  background: #fff;\n  width: calc(100% - 20px);\n  width: 100%;\n}\n.profile-img {\n  margin: auto;\n  text-align: center;\n  border-radius: 50%;\n  height: 120px;\n  width: 120px;\n  position: relative;\n}\n.profile-img img {\n  width: 120px;\n  height: 120px;\n  margin: auto;\n  border-radius: 50%;\n}\n.photo-edit,\n.photo-camera {\n  border-radius: 50%;\n  width: 40px;\n  height: 40px;\n  background: #3c4858;\n  position: absolute;\n  bottom: 0px;\n  right: 0px;\n  overflow: hidden;\n}\n.photo-edit:not(.photo-edit),\n.photo-camera:not(.photo-edit) {\n  left: 0;\n}\n.photo-edit input,\n.photo-camera input {\n  opacity: 0;\n  padding: 10px;\n}\n.photo-edit .fa-camera,\n.photo-camera .fa-camera {\n  position: absolute;\n  top: 10px;\n  left: 10px;\n  font-size: 20px;\n  color: #fff;\n}\n.previewComponent {\n  position: relative;\n}\n.previewComponent .banner-img {\n  padding: 10px;\n  border: 1px dashed #c0ccda;\n  width: calc(100% - 22px);\n  margin-bottom: 10px;\n}\n.previewComponent .banner-img img {\n  max-width: 100%;\n}\n.uploadImgBtn,\n.uploadImgBtn:hover {\n  background: #38bc91;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.cancelImgBtn,\n.cancelImgBtn:hover {\n  background: #ff1616;\n  border: none;\n  color: #fff;\n  margin: auto;\n  display: inline-block !important;\n  padding: 5px 15px;\n  text-decoration: none;\n}\n.text-ellipsis {\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  overflow: hidden;\n}\n.width-150 {\n  width: 150px !important;\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentOpen {\n  from {\n    right: -100%;\n  }\n  to {\n    right: 0px;\n  }\n}\n/* Safari 4.0 - 8.0 */\n@-webkit-keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n/* Standard syntax */\n@keyframes sideContentHide {\n  from {\n    right: 0px;\n  }\n  to {\n    right: -100%;\n  }\n}\n.side-preview-content {\n  position: fixed;\n  width: 75%;\n  height: 100%;\n  z-index: 999;\n  top: 0;\n  background: rgba(0, 0, 0, 0.8);\n  color: #f9fafc;\n}\n.side-preview-content.side-preview-content-open {\n  -webkit-animation: sideContentOpen 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentOpen 0.5s;\n  right: 0px;\n}\n.side-preview-content.side-preview-content-hide {\n  -webkit-animation: sideContentHide 0.5s;\n  /* Safari 4.0 - 8.0 */\n  animation: sideContentHide 0.5s;\n  right: -100%;\n}\n.side-preview-content .content-container {\n  height: calc(90% - 15px);\n  margin-top: 45px;\n  overflow: auto;\n}\n.side-preview-content .content-container ul {\n  padding: 0;\n  margin: 0;\n  list-style: none;\n}\n.side-preview-content .content-container ul li {\n  padding: 5px 5px 5px 10px;\n  border-bottom: 1px solid #ccc;\n  text-align: left;\n  word-break: break-all;\n}\n.side-preview-content .hide-preview {\n  right: 10px;\n  position: absolute;\n  top: 10px;\n  color: #f9fafc;\n}\n.preview-iframeBox {\n  width: 100%;\n  height: 400px;\n  border: 1px solid #c0ccda;\n}\n.not_found_message {\n  font-size: 16px;\n  margin: 20px;\n  font-weight: 600;\n  color: #ff1616;\n}\n.text-error {\n  color: #e71e1e;\n}\n#takePhotoByCamera {\n  display: none;\n  position: fixed;\n  height: 100%;\n  left: 0;\n  right: 0;\n  top: 0;\n  border: 5px solid #873895;\n  flex-direction: column;\n  z-index: 999;\n  background: rgba(0, 0, 0, 0.8);\n}\n#takePhotoByCamera.cameraOn {\n  display: flex;\n}\n#takePhotoByCamera #capturedImage {\n  position: absolute;\n  display: none;\n  left: -50%;\n  top: 50%;\n  width: 100%;\n  transform: translate(50%, -50%);\n}\n#takePhotoByCamera #capturedImage.imageOn {\n  display: block;\n}\n#takePhotoByCamera .stop_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  right: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera .take_photo_button {\n  position: absolute;\n  bottom: 2rem;\n  left: 1rem;\n  z-index: 9;\n}\n#takePhotoByCamera video {\n  width: 100%;\n  height: 100%;\n}\n#takePhotoByCamera video.videoOff {\n  display: none;\n}\n.camerOnButton {\n  width: 40px;\n  height: 40px;\n  background: none;\n  border: none;\n  position: absolute;\n  z-index: 9;\n  left: 0;\n}\n.ReactTags__selected .ReactTags__tag {\n  display: block;\n  padding: 10px;\n  background: #e2e2e2;\n  border: 1px solid #cccc;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.ReactTags__selected .ReactTags__tag a {\n  padding: 10px;\n  position: absolute;\n  right: 0;\n  top: 0;\n  font-size: 2rem;\n}\n.users_list {\n  display: flex;\n  align-items: center;\n  border: 1px solid #e2e2e2;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  padding: 1rem;\n}\n.users_list.disabled {\n  opacity: 0.25;\n  cursor: not-allowed;\n}\n.users_list .user_img {\n  width: 4.5rem;\n  height: 4.5rem;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: 1rem;\n  border: 2px solid #e2e2e2;\n}\n.users_list .user_img img {\n  width: 100%;\n}\n.users_list .user_info p {\n  margin: 0;\n  margin-bottom: 0.5rem;\n}\n.users_list .user_info .name {\n  font-size: 1rem;\n  font-weight: 700;\n}\n.assign_to_user {\n  display: flex;\n  flex-direction: column;\n  align-items: center;\n  border-radius: 3px;\n  margin-bottom: 0.5rem;\n  padding: 1rem;\n}\n.assign_to_user .user_img {\n  width: 10rem;\n  height: 10rem;\n  border-radius: 50%;\n  overflow: hidden;\n  margin-right: 1rem;\n  border: 2px solid #e2e2e2;\n  margin-bottom: 2rem;\n}\n.assign_to_user .user_img img {\n  width: 100%;\n}\n.assign_to_user .user_info p {\n  margin: 0;\n  margin-bottom: 0.5rem;\n}\n.assign_to_user .user_info .name {\n  font-size: 1.25rem;\n  font-weight: 700;\n  text-align: center;\n}\n@keyframes loader-spin {\n  0% {\n    transform: rotate(0deg);\n  }\n  100% {\n    transform: rotate(360deg);\n  }\n}\n.loader_wrapper {\n  display: inline-flex;\n  height: 2rem;\n  align-items: center;\n}\n.loader_wrapper .loader {\n  min-height: inherit !important;\n}\n.loader {\n  display: flex;\n  justify-content: center;\n  align-items: center;\n  height: 1.5rem;\n}\n.loader-fixed {\n  position: fixed;\n  z-index: 999;\n  height: 100%;\n  width: 100%;\n  background: rgba(0, 0, 0, 0.5);\n  top: 0;\n  left: 0;\n}\n.loader.loader_left {\n  margin-right: 0.5rem;\n}\n.loader.loader_right {\n  margin-left: 0.5rem;\n}\n.loader_large {\n  min-height: 25rem;\n}\n.loader__icon {\n  animation: loader-spin 1.3s cubic-bezier(0.46, 0.35, 0.39, 0.85) infinite;\n}\n.loader__icon_large svg {\n  height: 3rem;\n  width: 3rem;\n}\n.loader__icon_small svg {\n  height: 2rem;\n  width: 2rem;\n}\n.loader__icon_extra-small svg {\n  height: 1rem;\n  width: 1rem;\n}\n.project_inspection_checklists label {\n  border: 1px solid #e2e2e2;\n  display: flex;\n  align-items: center;\n  padding: 1rem;\n  margin-bottom: 0.5rem;\n  position: relative;\n}\n.project_inspection_checklists label input[type=\"checkbox\"] {\n  position: absolute;\n  width: 100%;\n  left: 0;\n  height: 100%;\n  top: 0;\n  opacity: 0;\n}\n.project_inspection_checklists .text-slate {\n  color: #c0ccda !important;\n}\n.project_photos_uploads {\n  display: flex;\n  flex-wrap: wrap;\n}\n.project_photos_uploads img {\n  width: 80px;\n  height: auto;\n  margin-right: 1rem;\n  margin-bottom: 1rem;\n  border: 3px solid #e2e2e2;\n}\n.all_checklists {\n  max-height: 230px;\n  overflow: auto;\n}\n.all_checklists .checklist {\n  padding: 0.5rem;\n  border: 1px solid #e2e2e2;\n  display: block;\n  margin-bottom: 0.5rem;\n  background: #eff2f7;\n}\n", ""]);
 
 	// exports
 
