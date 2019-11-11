@@ -74,7 +74,7 @@ const userProfile = (state = initialState, action) => {
 		return {
 			...state,
 			assignedProjectCount: action.response
-		}
+		};
 	default:
 		return state;
 	}
