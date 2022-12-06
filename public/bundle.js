@@ -65,7 +65,7 @@
 /******/ 	}
 /******/ 	
 /******/ 	var hotApplyOnUpdate = true;
-/******/ 	var hotCurrentHash = "2dea52267c89fc3d540a"; // eslint-disable-line no-unused-vars
+/******/ 	var hotCurrentHash = "deaa908cecba0336249a"; // eslint-disable-line no-unused-vars
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentParents = []; // eslint-disable-line no-unused-vars
 /******/ 	
@@ -637,15 +637,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/index.js',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/index.js',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/index.js',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/index.js',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -653,7 +653,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -47101,15 +47101,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Profile/Profile.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Profile.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Profile/Profile.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -47117,7 +47117,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -53757,15 +53757,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Login/Login.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Login/Login.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Login/Login.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -53773,7 +53773,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -54242,15 +54242,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Profile/Edit-profile.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Profile/Edit-profile.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Profile/Edit-profile.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -54258,7 +54258,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -54630,15 +54630,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/SideMenu/SideMenu.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/SideMenu/SideMenu.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/SideMenu/SideMenu.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/SideMenu/SideMenu.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -54646,7 +54646,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -54846,15 +54846,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: "/Applications/MAMP/htdocs/frazilapp/src/About.jsx",
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: "/var/www/techashu.in/frazilapp/src/About.jsx",
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: "/Applications/MAMP/htdocs/frazilapp/src/About.jsx",
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: "/var/www/techashu.in/frazilapp/src/About.jsx",
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -54862,7 +54862,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -55025,15 +55025,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/AddChecklists.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/AddChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/AddChecklists.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -55041,7 +55041,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -86301,15 +86301,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddProject/AddProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddProject/AddProject.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddProject/AddProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddProject/AddProject.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -86317,7 +86317,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -86569,15 +86569,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/SeeChecklists.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/SeeChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/SeeChecklists.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -86585,7 +86585,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -86865,15 +86865,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/EditChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/EditChecklists.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/AddChecklists/EditChecklists.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/AddChecklists/EditChecklists.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -86881,7 +86881,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -87225,15 +87225,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/Users.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/Users.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/Users.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/Users.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -87241,7 +87241,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -87443,15 +87443,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/AssignProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/AssignProject.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/AssignProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/AssignProject.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -87459,7 +87459,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -87748,15 +87748,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/MyAssignedProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/MyAssignedProject.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/MyAssignedProject.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/MyAssignedProject.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -87764,7 +87764,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
@@ -88012,15 +88012,15 @@
 		}
 	};
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/ProjectInspection.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2 = (0, _index6.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/ProjectInspection.jsx',
 		components: _components,
 		locals: [module],
 		imports: [_react3.default]
 	});
 
-	var _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
-		filename: '/Applications/MAMP/htdocs/frazilapp/src/Users/ProjectInspection.jsx',
+	var _varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2 = (0, _index4.default)({
+		filename: '/var/www/techashu.in/frazilapp/src/Users/ProjectInspection.jsx',
 		components: _components,
 		locals: [],
 		imports: [_react3.default, _index2.default]
@@ -88028,7 +88028,7 @@
 
 	function _wrapComponent(id) {
 		return function (Component) {
-			return _ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformHmrLibIndexJs2(_ApplicationsMAMPHtdocsFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
+			return _varWwwTechashuInFrazilappNode_modulesReactTransformHmrLibIndexJs2(_varWwwTechashuInFrazilappNode_modulesReactTransformCatchErrorsLibIndexJs2(Component, id), id);
 		};
 	}
 
