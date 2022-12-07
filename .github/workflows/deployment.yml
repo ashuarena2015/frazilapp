@@ -17,7 +17,7 @@ jobs:
         env:
           CI: false
       - name: Copy folder content recursively to vps
-        uses: garygrossgarten/github-action-scp@release
+        uses: actions/github-script@v6
         with:
           local: /home/runner/work/frazilapp/frazilapp/public
           remote: /var/www/techashu.in/frazilapp/public
