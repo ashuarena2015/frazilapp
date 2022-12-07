@@ -4,7 +4,7 @@ on:
     branches:
       - master
 jobs:
-  Explore-GitHub-Actions:
+  Frazil-GitHub-Actions:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -17,7 +17,7 @@ jobs:
         env:
           CI: false
       - name: Copy folder content recursively to vps
-        uses: actions/github-script@v6
+        uses: garygrossgarten/github-action-scp@release
         with:
           local: /home/runner/work/frazilapp/frazilapp/public
           remote: /var/www/techashu.in/frazilapp/public
