@@ -52,7 +52,7 @@ class Login extends Component {
 				<React.Fragment>
 					<div className="panel">
 						<div className="panel-body">
-							<h3>Login by using your email only</h3>
+							<h3>Login</h3>
 							<div className="form-group m-b-rg">
 								<label>Email</label>
 								<input type="text" id="loginEmail" name="loginEmail" value={this.state.loginEmail} onChange={this.handleSubmit} className="form-control" />
