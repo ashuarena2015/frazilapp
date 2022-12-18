@@ -15,7 +15,8 @@ jobs:
         with:
           persist-credentials: false
       - name: Install
-        run: npm install
+        run: |
+          npm ci
       - name: Deploy to GH Page
         uses: JamesIves/github-pages-deploy-action@4.1.1
         with:
